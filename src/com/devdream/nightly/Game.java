@@ -9,7 +9,7 @@ import com.devdream.nightly.levels.TestLevel;
 import com.devdream.nightly.utils.Logger;
 import com.devdream.nightly.utils.PropertiesReader;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -156,7 +156,11 @@ public class Game extends Canvas implements Runnable {
 
         renderer.clear();
 
-        currentLevel.render(renderer, player.x, player.y);
+        // Center x, y positions of the player to the middle of screen
+        int xScroll = player.x - renderer.width / 2;
+        int yScroll = player.y - renderer.height / 2;
+
+        currentLevel.render(renderer, xScroll, yScroll);
         player.render(renderer);
 
         System.arraycopy(renderer.pixels, 0, pixels, 0, pixels.length);

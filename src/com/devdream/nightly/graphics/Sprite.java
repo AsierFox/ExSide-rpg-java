@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Sprite {
 
-    public static final Sprite player = new Sprite(SpriteSheet.player, 30, 50, 0, 0);
+    public static final Sprite player = new Sprite(SpriteSheet.player, 30, 47, 0, 0);
 
     public final int WIDTH;
     public final int HEIGHT;
