@@ -1,8 +1,6 @@
 package com.devdream.nightly;
 
-import com.devdream.nightly.entities.mob.Player;
 import com.devdream.nightly.graphics.Renderer;
-import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.levels.TestLevel;
@@ -36,7 +34,6 @@ public class Game extends Canvas implements Runnable {
     private Renderer renderer;
 
     private BaseLevel currentLevel;
-    private Player player;
 
     private BufferedImage image;
     private int[] pixels;
@@ -59,8 +56,7 @@ public class Game extends Canvas implements Runnable {
 
         renderer = new Renderer(WIDTH, HEIGHT);
 
-        currentLevel = new TestLevel(64, 64);
-        player = new Player(keyboard, Sprite.player_south);
+        currentLevel = new TestLevel(keyboard, 64, 64);
 
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         // A Ruster is a group of pixels to manage them more easily, in this case the BufferedImage
@@ -142,7 +138,7 @@ public class Game extends Canvas implements Runnable {
     private void update() {
         keyboard.update();
 
-        player.update();
+        currentLevel.update();
     }
 
     private void render() {
@@ -156,12 +152,7 @@ public class Game extends Canvas implements Runnable {
 
         renderer.clear();
 
-        // Center x, y positions of the player to the middle of screen
-        int xScroll = player.x - renderer.width / 2;
-        int yScroll = player.y - renderer.height / 2;
-
-        currentLevel.render(renderer, xScroll, yScroll);
-        player.render(renderer);
+        currentLevel.render(renderer);
 
         System.arraycopy(renderer.pixels, 0, pixels, 0, pixels.length);
 
@@ -174,7 +165,7 @@ public class Game extends Canvas implements Runnable {
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
         graphics.setColor(Color.WHITE);
-        graphics.drawString("Player -> x: " + player.x + ", y: " + player.y, 30, 30);
+        graphics.drawString("Player -> x: " + currentLevel.player.x + ", y: " + currentLevel.player.y, 30, 30);
 
         graphics.dispose();
         // Swap buffers

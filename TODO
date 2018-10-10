@@ -1,2 +1,3 @@
 - Make Tile sprites to 64, change dynamic << 4 & >> 4
 - 2D Lighting
+- Rotate & flip the tiles tiles

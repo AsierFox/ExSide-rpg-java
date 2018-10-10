@@ -11,7 +11,6 @@ public class Player extends Mob {
 
     private Keyboard input;
 
-
     public Player(final Keyboard input, final Sprite sprite) {
         super(sprite);
         this.input = input;
@@ -37,13 +36,13 @@ public class Player extends Mob {
         if (input.up) {
             yMove--;
         }
-        if (input.down) {
+        else if (input.down) {
             yMove++;
         }
-        if (input.left) {
+        else if (input.left) {
             xMove--;
         }
-        if (input.right) {
+        else if (input.right) {
             xMove++;
         }
 
