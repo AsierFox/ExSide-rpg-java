@@ -4,7 +4,7 @@ import java.awt.*;
 
 public class Sprite {
 
-    public static final Sprite player = new Sprite(SpriteSheet.player, 30, 47, 0, 0);
+    public static final Sprite player = new Sprite(SpriteSheet.player, 32, 48, 0, 0);
 
     public final int WIDTH;
     public final int HEIGHT;
@@ -36,6 +36,15 @@ public class Sprite {
         pixelsAmount = width * height;
         pixels = new int[pixelsAmount];
 
+        loadColor(color.getRGB());
+    }
+
+    public Sprite(final int color, final int width, final int height) {
+        WIDTH = width;
+        HEIGHT = height;
+        pixelsAmount = width * height;
+        pixels = new int[pixelsAmount];
+
         loadColor(color);
     }
 
@@ -47,9 +56,9 @@ public class Sprite {
         }
     }
 
-    private void loadColor(final Color color) {
+    private void loadColor(final int color) {
         for (int i = 0; i < pixelsAmount; i++) {
-            pixels[i] = color.getRGB();
+            pixels[i] = color;
         }
     }
 

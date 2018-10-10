@@ -4,11 +4,9 @@ import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.graphics.Tile;
 
-import java.awt.*;
-
 public class VoidTile extends Tile {
 
-    public static final Tile tile = new VoidTile(new Sprite(Color.BLACK, 16, 16));
+    public static final Tile tile = new VoidTile(new Sprite(0x271907, 16, 16));
 
     public VoidTile(final Sprite sprite) {
         super(sprite);
