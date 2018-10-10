@@ -101,7 +101,13 @@ public class Renderer {
                     xAbsolute = 0;
                 }
 
-                pixels[xAbsolute + yAbsolute * width] = playerSprite.pixels[x + y * playerSprite.WIDTH];
+                // Suppress sprite sheet background color
+                int pixel = playerSprite.pixels[x + y * playerSprite.WIDTH];
+
+                // TODO Make dynamic suppress sheet color
+                if (pixel != 0x00ff00) {
+                    pixels[xAbsolute + yAbsolute * width] = pixel;
+                }
             }
         }
     }

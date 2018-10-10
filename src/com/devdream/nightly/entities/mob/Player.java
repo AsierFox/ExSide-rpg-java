@@ -49,7 +49,10 @@ public class Player extends Mob {
 
     @Override
     public void render(Renderer renderer) {
-        renderer.renderPlayer(sprite, x, y);
+        // We can duplicate this line to render more things
+        int xCenter = x - sprite.WIDTH / 2;
+        int yCenter = y - sprite.HEIGHT / 2;
+        renderer.renderPlayer(sprite, xCenter, yCenter);
     }
 
 }
