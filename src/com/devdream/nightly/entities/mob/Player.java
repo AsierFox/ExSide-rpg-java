@@ -67,6 +67,7 @@ public class Player extends Mob {
     }
 
     private void setSprite() {
+        // TODO Refactor
         if (direction == Direction.SOUTH) {
             if (state == EntityState.MOVING) {
                 if (animationCounter < (animationSpeed * .25)) {

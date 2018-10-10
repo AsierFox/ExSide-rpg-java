@@ -1,3 +1,32 @@
 - Make Tile sprites to 64, change dynamic << 4 & >> 4
 - 2D Lighting
 - Rotate & flip the tiles tiles
+
+
+Main -> Game
+    addKeyListener(keyboard);
+    setPreferredSize(dimension);
+    new BufferedImage
+    // Get raster pixels
+    pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
+    // Game loop, calculate UPS & FPS
+    // Update with delta control
+    update()
+        // Control inputs, move players...
+    render()
+        createBufferStrategy
+        // Clear pixels
+        renderer.clear();
+        currentLevel.render(renderer);
+            renderer.setOffset(xScroll, yScroll);
+            // Render Tile (Render all Tile Size) using renderer.renderTile()
+            getTile(x, y).render(renderer, x, y);
+            // Copy renderer.pixels to raster pixels
+            System.arraycopy(renderer.pixels, 0, pixels, 0, pixels.length);
+
+            // Send data to the buffer
+            Graphics graphics = bufferStrategy.getDrawGraphics();
+            graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            graphics.dispose();
+            // Swap buffers
+            bufferStrategy.show();

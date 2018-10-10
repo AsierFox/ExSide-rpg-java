@@ -87,8 +87,8 @@ public class Game extends Canvas implements Runnable {
         long timer = System.currentTimeMillis();
 
         final double nanosecondsToSeconds = 1000000000.0 / 60.0;
-        int updatesPerLoop = 0;
-        int framesPerLoop = 0;
+        int UPS = 0;
+        int FPS = 0;
 
         requestFocus();
 
@@ -99,22 +99,22 @@ public class Game extends Canvas implements Runnable {
 
             while (delta > 0) {
                 update();
-                updatesPerLoop++;
+                UPS++;
                 delta--;
             }
 
             render();
-            framesPerLoop++;
+            FPS++;
 
             // Greater than 1 second
             if (System.currentTimeMillis() - timer > 1000) {
                 // Sum 1 second, to execute this every second
                 timer += 1000;
 
-                Logger.logInfo(getClass(), "Updates: " + updatesPerLoop + ", Frames: " + framesPerLoop);
+                Logger.logInfo(getClass(), "Updates x second: " + UPS + ", FPS: " + FPS);
 
-                updatesPerLoop = 0;
-                framesPerLoop = 0;
+                UPS = 0;
+                FPS = 0;
             }
         }
 
@@ -158,9 +158,6 @@ public class Game extends Canvas implements Runnable {
 
         // Send data to the buffer
         Graphics graphics = bufferStrategy.getDrawGraphics();
-
-        graphics.setColor(Color.BLACK);
-        graphics.fillRect(0, 0,getWidth(), getHeight());
 
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
