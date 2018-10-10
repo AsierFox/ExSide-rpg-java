@@ -4,11 +4,13 @@ import com.devdream.nightly.entities.Mob;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.io.Keyboard;
+import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 
 public class Player extends Mob {
 
     private Keyboard input;
+
 
     public Player(final Keyboard input, final Sprite sprite) {
         super(sprite);
@@ -49,11 +51,25 @@ public class Player extends Mob {
 
     @Override
     public void render(Renderer renderer) {
-        // We can duplicate this line to render more things
-        int xCenter = x - sprite.WIDTH / 2;
-        int yCenter = y - sprite.HEIGHT / 2;
+        setSpriteDirection();
 
-        renderer.renderPlayer(sprite, xCenter, yCenter);
+        // We can duplicate this line to render more things
+        renderer.renderPlayer(sprite, x - sprite.WIDTH / 2, y - sprite.HEIGHT / 2);
+    }
+
+    private void setSpriteDirection() {
+        if (direction == Direction.SOUTH) {
+            sprite = Sprite.player_south;
+        }
+        else if (direction == Direction.EAST) {
+            sprite = Sprite.player_east;
+        }
+        else if (direction == Direction.WEST) {
+            sprite = Sprite.player_west;
+        }
+        else if (direction == Direction.NORTH) {
+            sprite = Sprite.player_north;
+        }
     }
 
 }

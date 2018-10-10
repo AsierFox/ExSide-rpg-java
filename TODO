@@ -1,1 +1,2 @@
-- Make Sprites to 64, change >> 8
+- Make Tile sprites to 64, change dynamic << 4 & >> 4
+- 2D Lighting

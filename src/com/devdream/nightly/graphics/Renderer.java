@@ -107,6 +107,8 @@ public class Renderer {
                 // TODO Make dynamic suppress sheet color
                 if (pixel != 0x00ff00) {
                     pixels[xAbsolute + yAbsolute * width] = pixel;
+                    // Flip sprite
+
                 }
             }
         }

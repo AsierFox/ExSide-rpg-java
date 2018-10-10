@@ -60,7 +60,7 @@ public class Game extends Canvas implements Runnable {
         renderer = new Renderer(WIDTH, HEIGHT);
 
         currentLevel = new TestLevel(64, 64);
-        player = new Player(keyboard, Sprite.player);
+        player = new Player(keyboard, Sprite.player_south);
 
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         // A Ruster is a group of pixels to manage them more easily, in this case the BufferedImage

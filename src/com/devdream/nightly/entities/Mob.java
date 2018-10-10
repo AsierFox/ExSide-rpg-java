@@ -11,7 +11,7 @@ import com.devdream.nightly.types.EntityState;
  */
 public abstract class Mob extends Entity {
 
-    public Sprite sprite;
+    protected Sprite sprite;
 
     protected EntityState state;
     protected Direction direction;

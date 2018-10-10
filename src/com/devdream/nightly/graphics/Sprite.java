@@ -4,7 +4,10 @@ import java.awt.*;
 
 public class Sprite {
 
-    public static final Sprite player = new Sprite(SpriteSheet.player, 32, 48, 0, 0);
+    public static final Sprite player_south = new Sprite(SpriteSheet.player, 32, 48, 0, 0);
+    public static final Sprite player_west = new Sprite(SpriteSheet.player, 32, 48, 0, 1);
+    public static final Sprite player_east = new Sprite(SpriteSheet.player, 32, 48, 0, 2);
+    public static final Sprite player_north = new Sprite(SpriteSheet.player, 32, 48, 0, 3);
 
     public final int WIDTH;
     public final int HEIGHT;
