@@ -1,7 +1,6 @@
 package com.devdream.nightly.levels;
 
 import com.devdream.nightly.entities.mob.Player;
-import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.maths.Vector2D;
@@ -21,27 +20,12 @@ public class TestLevel extends BaseLevel {
         playerSpawnPosition = new Vector2D(50, 50);
 
         Random rand = new Random();
-
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
+                // TODO Understand this
                 tiles[x + y * width] = rand.nextInt(4);
             }
         }
-    }
-
-    @Override
-    public void time() {
-        //
-    }
-
-    @Override
-    public void update() {
-        player.update();
-    }
-
-    @Override
-    public void render(final Renderer renderer) {
-        super.render(renderer);
     }
 
 }

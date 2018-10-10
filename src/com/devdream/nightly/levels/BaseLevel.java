@@ -35,9 +35,13 @@ public abstract class BaseLevel {
 
     protected abstract void load(final String path);
 
-    protected abstract void time();
+    protected void time() {
 
-    public abstract void update();
+    }
+
+    public void update() {
+        player.update();
+    }
 
     public void render(final Renderer renderer) {
         // Center x, y positions of the player to the middle of screen
@@ -45,6 +49,7 @@ public abstract class BaseLevel {
         int yScroll = player.y - renderer.height / 2;
 
         renderer.setOffset(xScroll, yScroll);
+
         // TODO Make >> 4 and + 16 dynamic
         // Divide by / 16, the size of our sprites
         int yTopSide = yScroll >> 4;
@@ -55,6 +60,7 @@ public abstract class BaseLevel {
 
         for (int y = yTopSide; y < yBottomSide; y++) {
             for (int x = xLeftSize; x < xRightSide; x++) {
+                // TODO Can refactor this
                 getTile(x, y).render(renderer, x, y);
             }
         }

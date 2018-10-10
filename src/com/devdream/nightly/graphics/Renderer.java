@@ -12,7 +12,6 @@ public class Renderer {
     public int height;
 
     public int[] pixels;
-    public int[] tiles;
 
     private int pixelsAmount;
     private int xOffset;
@@ -24,10 +23,9 @@ public class Renderer {
         this.height = height;
         pixelsAmount = width * height;
         pixels = new int[pixelsAmount];
-        tiles = new int[TILE_SIZE * TILE_SIZE];
     }
 
-    @Deprecated
+    /*@Deprecated
     public void render(final int xOffset, final int yOffset) {
         for (int y = 0; y < height; y++) {
             int yy = y + yOffset;
@@ -56,7 +54,7 @@ public class Renderer {
                 //        (y & GroundTile.tile.sprite.SIZE_MASK) * GroundTile.tile.sprite.SIZE];
             }
         }
-    }
+    }*/
 
     public void renderTile(int xPosition, int yPosition, final Tile tile) {
         // Adjust location of the tiles by the offset, to reverse the map movement position
