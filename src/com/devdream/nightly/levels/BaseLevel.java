@@ -2,7 +2,7 @@ package com.devdream.nightly.levels;
 
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Tile;
-import com.devdream.nightly.graphics.tiles.GrassTile;
+import com.devdream.nightly.graphics.tiles.GroundTile;
 import com.devdream.nightly.graphics.tiles.VoidTile;
 
 public abstract class BaseLevel {
@@ -58,7 +58,9 @@ public abstract class BaseLevel {
             return VoidTile.tile;
         }
         switch (tiles[x + y * width]) {
-            case 0: return GrassTile.tile;
+            case 0: return GroundTile.grass;
+            case 1: return GroundTile.barro;
+            case 3: return GroundTile.sand;
         }
         return VoidTile.tile;
     }

@@ -52,8 +52,8 @@ public class Renderer {
                 //pixels[x + y * width] = tiles[tileIndex];
 
                 // Render Sprite from Sprite Sheet
-                //pixels[xx + yy * width] = GrassTile.tile.sprite.pixels[(x & GrassTile.tile.sprite.SIZE_MASK) +
-                //        (y & GrassTile.tile.sprite.SIZE_MASK) * GrassTile.tile.sprite.SIZE];
+                //pixels[xx + yy * width] = GroundTile.tile.sprite.pixels[(x & GroundTile.tile.sprite.SIZE_MASK) +
+                //        (y & GroundTile.tile.sprite.SIZE_MASK) * GroundTile.tile.sprite.SIZE];
             }
         }
     }

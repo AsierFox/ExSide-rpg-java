@@ -5,9 +5,24 @@ import java.awt.*;
 public class Sprite {
 
     public static final Sprite player_south = new Sprite(SpriteSheet.player, 32, 48, 0, 0);
+    public static final Sprite player_south_1 = new Sprite(SpriteSheet.player, 32, 48, 1, 0);
+    public static final Sprite player_south_2 = new Sprite(SpriteSheet.player, 32, 48, 2, 0);
+    public static final Sprite player_south_3 = new Sprite(SpriteSheet.player, 32, 48, 3, 0);
+
     public static final Sprite player_west = new Sprite(SpriteSheet.player, 32, 48, 0, 1);
+    public static final Sprite player_west_1 = new Sprite(SpriteSheet.player, 32, 48, 1, 1);
+    public static final Sprite player_west_2 = new Sprite(SpriteSheet.player, 32, 48, 2, 1);
+    public static final Sprite player_west_3 = new Sprite(SpriteSheet.player, 32, 48, 3, 1);
+
     public static final Sprite player_east = new Sprite(SpriteSheet.player, 32, 48, 0, 2);
+    public static final Sprite player_east_1 = new Sprite(SpriteSheet.player, 32, 48, 1, 2);
+    public static final Sprite player_east_2 = new Sprite(SpriteSheet.player, 32, 48, 2, 2);
+    public static final Sprite player_east_3 = new Sprite(SpriteSheet.player, 32, 48, 3, 2);
+
     public static final Sprite player_north = new Sprite(SpriteSheet.player, 32, 48, 0, 3);
+    public static final Sprite player_north_1 = new Sprite(SpriteSheet.player, 32, 48, 1, 3);
+    public static final Sprite player_north_2 = new Sprite(SpriteSheet.player, 32, 48, 2, 3);
+    public static final Sprite player_north_3 = new Sprite(SpriteSheet.player, 32, 48, 3, 3);
 
     public final int WIDTH;
     public final int HEIGHT;

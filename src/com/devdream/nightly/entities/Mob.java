@@ -11,6 +11,9 @@ import com.devdream.nightly.types.EntityState;
  */
 public abstract class Mob extends Entity {
 
+    protected int animationSpeed;
+    protected int animationCounter;
+
     protected Sprite sprite;
 
     protected EntityState state;
@@ -18,12 +21,14 @@ public abstract class Mob extends Entity {
 
 
     public Mob(final Sprite sprite) {
+        animationSpeed = 150;
+        animationCounter = 0;
         this.sprite = sprite;
         state = EntityState.IDLE;
         direction = Direction.SOUTH;
     }
 
-    public void move(final int xMove, final int yMove) {
+    public final void move(final int xMove, final int yMove) {
         state = EntityState.MOVING;
 
         if (xMove < 0) {
@@ -47,7 +52,17 @@ public abstract class Mob extends Entity {
 
     @Override
     public void update() {
-        //
+        if (state == EntityState.MOVING) {
+            animationCounter++;
+
+            if (animationCounter < animationSpeed) {
+                animationCounter++;
+            } else {
+                animationCounter = 0;
+            }
+        } else {
+            animationCounter = 0;
+        }
     }
 
     private boolean isCollision() {

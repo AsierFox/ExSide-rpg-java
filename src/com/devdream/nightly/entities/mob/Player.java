@@ -15,16 +15,22 @@ public class Player extends Mob {
     public Player(final Keyboard input, final Sprite sprite) {
         super(sprite);
         this.input = input;
+
+        load();
     }
 
     public Player(final Keyboard input, final Sprite sprite, final int x, final int y) {
         this(input, sprite);
         this.x = x;
         this.y = y;
+
+        load();
     }
 
     @Override
     public void update() {
+        super.update();
+
         int xMove = 0;
         int yMove = 0;
 
@@ -51,24 +57,80 @@ public class Player extends Mob {
 
     @Override
     public void render(Renderer renderer) {
-        setSpriteDirection();
+        setSprite();
 
         // We can duplicate this line to render more things
         renderer.renderPlayer(sprite, x - sprite.WIDTH / 2, y - sprite.HEIGHT / 2);
     }
 
-    private void setSpriteDirection() {
+    private void load() {
+        animationSpeed = 100;
+    }
+
+    private void setSprite() {
         if (direction == Direction.SOUTH) {
-            sprite = Sprite.player_south;
+            if (state == EntityState.MOVING) {
+                if (animationCounter < (animationSpeed * .25)) {
+                    sprite = Sprite.player_south_1;
+                } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
+                    sprite = Sprite.player_south_2;
+                } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
+                    sprite = Sprite.player_south_3;
+                } else {
+                    sprite = Sprite.player_south;
+                }
+            }
+            else {
+                sprite = Sprite.player_south;
+            }
         }
         else if (direction == Direction.EAST) {
-            sprite = Sprite.player_east;
+            if (state == EntityState.MOVING) {
+                if (animationCounter < (animationSpeed * .25)) {
+                    sprite = Sprite.player_east_1;
+                } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
+                    sprite = Sprite.player_east_2;
+                } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
+                    sprite = Sprite.player_east_3;
+                } else {
+                    sprite = Sprite.player_east;
+                }
+            }
+            else {
+                sprite = Sprite.player_east;
+            }
         }
         else if (direction == Direction.WEST) {
-            sprite = Sprite.player_west;
+            if (state == EntityState.MOVING) {
+                if (animationCounter < (animationSpeed * .25)) {
+                    sprite = Sprite.player_west_1;
+                } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
+                    sprite = Sprite.player_west_2;
+                } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
+                    sprite = Sprite.player_west_3;
+                } else {
+                    sprite = Sprite.player_west;
+                }
+            }
+            else {
+                sprite = Sprite.player_west;
+            }
         }
         else if (direction == Direction.NORTH) {
-            sprite = Sprite.player_north;
+            if (state == EntityState.MOVING) {
+                if (animationCounter < (animationSpeed * .25)) {
+                    sprite = Sprite.player_north_1;
+                } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
+                    sprite = Sprite.player_north_2;
+                } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
+                    sprite = Sprite.player_north_3;
+                } else {
+                    sprite = Sprite.player_north;
+                }
+            }
+            else {
+                sprite = Sprite.player_north;
+            }
         }
     }
 
