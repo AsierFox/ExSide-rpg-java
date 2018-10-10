@@ -15,21 +15,6 @@ public class TestLevel extends BaseLevel {
     }
 
     @Override
-    public void update() {
-        //
-    }
-
-    @Override
-    public void render(final Renderer renderer, final int xScroll, final int yScroll) {
-        super.render(renderer, xScroll, yScroll);
-    }
-
-    @Override
-    public void time() {
-        //
-    }
-
-    @Override
     protected void load() {
         Random rand = new Random();
 
@@ -38,6 +23,21 @@ public class TestLevel extends BaseLevel {
                 tiles[x + y * width] = rand.nextInt(4);
             }
         }
+    }
+
+    @Override
+    public void time() {
+        //
+    }
+
+    @Override
+    public void update() {
+        //
+    }
+
+    @Override
+    public void render(final Renderer renderer, final int xScroll, final int yScroll) {
+        super.render(renderer, xScroll, yScroll);
     }
 
 }

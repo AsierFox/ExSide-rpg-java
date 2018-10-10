@@ -25,9 +25,11 @@ public abstract class BaseLevel {
         load();
     }
 
-    public void update() {
-        //
-    }
+    protected abstract void load();
+
+    protected abstract void time();
+
+    protected abstract void update();
 
     public void render(final Renderer renderer, final int xScroll, final int yScroll) {
         renderer.setOffset(xScroll, yScroll);
@@ -46,13 +48,7 @@ public abstract class BaseLevel {
         }
     }
 
-    public void time() {
-        //
-    }
-
-    protected abstract void load();
-
-    public Tile getTile(final int x, final int y) {
+    public final Tile getTile(final int x, final int y) {
         // Control get out bounds of the map
         if (x < 0 || y < 0 || x >= width || y >= height) {
             return VoidTile.tile;

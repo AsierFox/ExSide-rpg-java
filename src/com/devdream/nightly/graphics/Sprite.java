@@ -27,7 +27,7 @@ public class Sprite {
     public final int WIDTH;
     public final int HEIGHT;
 
-    private SpriteSheet SHEET;
+    private SpriteSheet fromSheet;
 
     public int pixelsAmount;
     public int[] pixels;
@@ -36,8 +36,8 @@ public class Sprite {
     private int yLocation;
 
 
-    public Sprite(final SpriteSheet sheet, final int width, final int height, int xLocation, int yLocation) {
-        SHEET = sheet;
+    public Sprite(final SpriteSheet fromSheet, final int width, final int height, int xLocation, int yLocation) {
+        this.fromSheet = fromSheet;
         WIDTH = width;
         HEIGHT = height;
         this.xLocation = xLocation * width;
@@ -69,7 +69,7 @@ public class Sprite {
     private void load() {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
-                pixels[x + y * WIDTH] = SHEET.pixels[(x + xLocation) + (y + yLocation) * SHEET.WIDTH];
+                pixels[x + y * WIDTH] = fromSheet.pixels[(x + xLocation) + (y + yLocation) * fromSheet.WIDTH];
             }
         }
     }
