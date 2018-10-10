@@ -8,10 +8,11 @@ import java.io.IOException;
 
 public class SpriteSheet {
 
-    public static final SpriteSheet road = new SpriteSheet("/road.png", 32);
-    public static final SpriteSheet player = new SpriteSheet("/01_player.png", 95);
+    public static final SpriteSheet road = new SpriteSheet("/road.png", 32, 32);
+    public static final SpriteSheet player = new SpriteSheet("/01_player.png", 95, 95);
 
-    public final int SIZE;
+    public final int WIDTH;
+    public final int HEIGHT;
 
     private final String FILE_PATH;
 
@@ -19,10 +20,11 @@ public class SpriteSheet {
     public int[] pixels;
 
 
-    public SpriteSheet(final String filePath, final int size) {
+    public SpriteSheet(final String filePath, final int width, final int height) {
         FILE_PATH = filePath;
-        SIZE = size;
-        pixelsAmount = SIZE * SIZE;
+        WIDTH = width;
+        HEIGHT = height;
+        pixelsAmount = WIDTH * HEIGHT;
         pixels = new int[pixelsAmount];
 
         load();

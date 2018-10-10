@@ -3,7 +3,6 @@ package com.devdream.nightly.entities.mob;
 import com.devdream.nightly.entities.Mob;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
-import com.devdream.nightly.graphics.SpriteSheet;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.types.EntityState;
 
@@ -17,7 +16,7 @@ public class Player extends Mob {
     }
 
     public Player(final Keyboard input, final Sprite sprite, final int x, final int y) {
-        super(sprite);
+        this(input, sprite);
         this.x = x;
         this.y = y;
     }

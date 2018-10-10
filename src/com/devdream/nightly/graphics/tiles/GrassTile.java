@@ -7,7 +7,7 @@ import com.devdream.nightly.graphics.Tile;
 
 public class GrassTile extends Tile {
 
-    public static final Tile tile = new GrassTile(new Sprite(SpriteSheet.road, 16, 0, 0));
+    public static final Tile tile = new GrassTile(new Sprite(SpriteSheet.road, 16, 16, 0, 0));
 
     public GrassTile(final Sprite sprite) {
         super(sprite);

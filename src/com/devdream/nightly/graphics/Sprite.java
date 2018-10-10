@@ -4,10 +4,10 @@ import java.awt.*;
 
 public class Sprite {
 
-    public static final Sprite player = new Sprite(SpriteSheet.player, 32, 0, 0);
+    public static final Sprite player = new Sprite(SpriteSheet.player, 30, 50, 0, 0);
 
-    public final int SIZE;
-    public final int SIZE_MASK;
+    public final int WIDTH;
+    public final int HEIGHT;
 
     private SpriteSheet SHEET;
 
@@ -18,31 +18,31 @@ public class Sprite {
     private int yLocation;
 
 
-    public Sprite(final SpriteSheet sheet, final int size, int xLocation, int yLocation) {
+    public Sprite(final SpriteSheet sheet, final int width, final int height, int xLocation, int yLocation) {
         SHEET = sheet;
-        SIZE = size;
-        SIZE_MASK = SIZE - 1;
-        this.xLocation = xLocation * SIZE;
-        this.yLocation = yLocation * SIZE;
-        pixelsAmount = SIZE * SIZE;
+        WIDTH = width;
+        HEIGHT = height;
+        this.xLocation = xLocation * width;
+        this.yLocation = yLocation * height;
+        pixelsAmount = width * height;
         pixels = new int[pixelsAmount];
 
         load();
     }
 
-    public Sprite(final Color color, final int size) {
-        SIZE = size;
-        SIZE_MASK = SIZE - 1;
-        pixelsAmount = SIZE * SIZE;
+    public Sprite(final Color color, final int width, final int height) {
+        WIDTH = width;
+        HEIGHT = height;
+        pixelsAmount = width * height;
         pixels = new int[pixelsAmount];
 
         loadColor(color);
     }
 
     private void load() {
-        for (int y = 0; y < SIZE; y++) {
-            for (int x = 0; x < SIZE; x++) {
-                pixels[x + y * SIZE] = SHEET.pixels[(x + xLocation) + (y + yLocation) * SHEET.SIZE];
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                pixels[x + y * WIDTH] = SHEET.pixels[(x + xLocation) + (y + yLocation) * SHEET.WIDTH];
             }
         }
     }

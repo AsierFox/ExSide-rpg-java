@@ -1,11 +1,5 @@
 package com.devdream.nightly.graphics;
 
-import com.devdream.nightly.Game;
-import com.devdream.nightly.entities.mob.Player;
-import com.devdream.nightly.graphics.tiles.GrassTile;
-
-import java.util.Random;
-
 /**
  * Class that renders the pixels to the screen.
  */
@@ -68,14 +62,14 @@ public class Renderer {
         // Adjust location of the tiles by the offset, to reverse the map movement position
         xPosition -= xOffset;
         yPosition -= yOffset;
-        for (int y = 0; y < tile.sprite.SIZE; y++) {
+        for (int y = 0; y < tile.sprite.HEIGHT; y++) {
             // Absolute position will move specific tile position
             int yAbsolute = y + yPosition;
-            for (int x = 0; x < tile.sprite.SIZE; x++) {
+            for (int x = 0; x < tile.sprite.WIDTH; x++) {
                 int xAbsolute = x + xPosition;
 
                 // Only render the tiles that we can see on the screen
-                if (xAbsolute < -tile.sprite.SIZE || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
+                if (xAbsolute < -tile.sprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
                     break;
                 }
                 // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
@@ -83,7 +77,7 @@ public class Renderer {
                     xAbsolute = 0;
                 }
 
-                pixels[xAbsolute + yAbsolute * width] = tile.sprite.pixels[x + y * tile.sprite.SIZE];
+                pixels[xAbsolute + yAbsolute * width] = tile.sprite.pixels[x + y * tile.sprite.WIDTH];
             }
         }
     }
@@ -92,14 +86,14 @@ public class Renderer {
         // Adjust location of the tiles by the offset, to reverse the map movement position
         xPosition -= xOffset;
         yPosition -= yOffset;
-        for (int y = 0; y < playerSprite.SIZE; y++) {
+        for (int y = 0; y < playerSprite.HEIGHT; y++) {
             // Absolute position will move specific tile position
             int yAbsolute = y + yPosition;
-            for (int x = 0; x < playerSprite.SIZE; x++) {
+            for (int x = 0; x < playerSprite.WIDTH; x++) {
                 int xAbsolute = x + xPosition;
 
                 // Only render that we can see on the screen
-                if (xAbsolute < -playerSprite.SIZE || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
+                if (xAbsolute < -playerSprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
                     break;
                 }
                 // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
@@ -107,7 +101,7 @@ public class Renderer {
                     xAbsolute = 0;
                 }
 
-                pixels[xAbsolute + yAbsolute * width] = playerSprite.pixels[x + y * playerSprite.SIZE];
+                pixels[xAbsolute + yAbsolute * width] = playerSprite.pixels[x + y * playerSprite.WIDTH];
             }
         }
     }

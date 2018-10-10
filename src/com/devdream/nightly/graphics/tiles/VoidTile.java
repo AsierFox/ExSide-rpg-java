@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class VoidTile extends Tile {
 
-    public static final Tile tile = new VoidTile(new Sprite(Color.BLACK, 16));
+    public static final Tile tile = new VoidTile(new Sprite(Color.BLACK, 16, 16));
 
     public VoidTile(final Sprite sprite) {
         super(sprite);
