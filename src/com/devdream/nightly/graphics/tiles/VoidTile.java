@@ -6,7 +6,7 @@ import com.devdream.nightly.graphics.Tile;
 
 public class VoidTile extends Tile {
 
-    public static final Tile tile = new VoidTile(new Sprite(0x271907, 16, 16));
+    public static final Tile tile = new VoidTile(new Sprite(0x271907, Tile.WORLD_TILE_SIZE));
 
     public VoidTile(final Sprite sprite) {
         super(sprite);

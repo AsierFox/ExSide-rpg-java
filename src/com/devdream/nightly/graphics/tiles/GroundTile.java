@@ -7,9 +7,9 @@ import com.devdream.nightly.graphics.Tile;
 
 public class GroundTile extends Tile {
 
-    public static final Tile grass = new GroundTile(new Sprite(SpriteSheet.road, 16, 16, 0, 0));
-    public static final Tile barro = new GroundTile(new Sprite(SpriteSheet.road, 16, 16, 1, 0));
-    public static final Tile sand = new GroundTile(new Sprite(SpriteSheet.road, 16, 16, 1, 1), true);
+    public static final Tile grass = new GroundTile(new Sprite(SpriteSheet.road, WORLD_TILE_SIZE, 0, 0));
+    public static final Tile barro = new GroundTile(new Sprite(SpriteSheet.road, WORLD_TILE_SIZE, 1, 0));
+    public static final Tile sand = new GroundTile(new Sprite(SpriteSheet.road, WORLD_TILE_SIZE, 1, 1), true);
 
     public GroundTile(final Sprite sprite) {
         super(sprite);

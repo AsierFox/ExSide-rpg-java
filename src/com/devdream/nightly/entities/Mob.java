@@ -1,6 +1,8 @@
 package com.devdream.nightly.entities;
 
 import com.devdream.nightly.graphics.Sprite;
+import com.devdream.nightly.graphics.Tile;
+import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 
@@ -21,6 +23,7 @@ public abstract class Mob extends Entity {
 
 
     public Mob(final Sprite sprite) {
+        super();
         animationSpeed = 150;
         animationCounter = 0;
         this.sprite = sprite;
@@ -28,26 +31,9 @@ public abstract class Mob extends Entity {
         direction = Direction.SOUTH;
     }
 
-    public final void move(final int xMove, final int yMove) {
-        state = EntityState.MOVING;
-
-        if (xMove < 0) {
-            direction = Direction.WEST;
-        }
-        else if (xMove > 0) {
-            direction = Direction.EAST;
-        }
-        if (yMove < 0) {
-            direction = Direction.NORTH;
-        }
-        else if (yMove > 0) {
-            direction = Direction.SOUTH;
-        }
-
-        if (!isCollision()) {
-            x += xMove;
-            y += yMove;
-        }
+    @Override
+    public void init(final BaseLevel belongsToLevel) {
+        this.belongsToLevel = belongsToLevel;
     }
 
     @Override
@@ -65,7 +51,34 @@ public abstract class Mob extends Entity {
         }
     }
 
-    private boolean isCollision() {
+    public final void move(final int xMove, final int yMove) {
+        if (isCollision(xMove, yMove)) {
+            return;
+        }
+
+        state = EntityState.MOVING;
+
+        if (xMove < 0) {
+            direction = Direction.WEST;
+        }
+        else if (xMove > 0) {
+            direction = Direction.EAST;
+        }
+        if (yMove < 0) {
+            direction = Direction.NORTH;
+        }
+        else if (yMove > 0) {
+            direction = Direction.SOUTH;
+        }
+
+        x += xMove;
+        y += yMove;
+    }
+
+    private boolean isCollision(final int xMove, final int yMove) {
+        if (belongsToLevel.getTile((x + xMove) / Tile.WORLD_TILE_SIZE, (y + yMove) / Tile.WORLD_TILE_SIZE).isSolid) {
+            return true;
+        }
         return false;
     }
 

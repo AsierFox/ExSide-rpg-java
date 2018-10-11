@@ -11,13 +11,13 @@ public class TestLevel extends BaseLevel {
 
     public TestLevel(final Keyboard keyboard, final int width, final int height) {
         super(keyboard, width, height);
-
-        player = new Player(keyboard, Sprite.player_south, playerSpawnPosition.x, playerSpawnPosition.y);
     }
 
     @Override
     protected void load(final String path) {
-        playerSpawnPosition = new Vector2D(50, 50);
+        playerSpawnPosition = new Vector2D(150, 150);
+
+        player = new Player(keyboard, Sprite.player_south, playerSpawnPosition.x, playerSpawnPosition.y);
 
         Random rand = new Random();
         for (int y = 0; y < height; y++) {
@@ -26,6 +26,8 @@ public class TestLevel extends BaseLevel {
                 tiles[x + y * width] = rand.nextInt(4);
             }
         }
+
+        player.init(this);
     }
 
 }

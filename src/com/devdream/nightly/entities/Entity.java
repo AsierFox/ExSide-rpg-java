@@ -14,7 +14,7 @@ public abstract class Entity {
 
     protected Random random;
 
-    protected BaseLevel belongsTolevel;
+    protected BaseLevel belongsToLevel;
 
 
     public Entity() {
@@ -22,6 +22,8 @@ public abstract class Entity {
 
         isRemoved = false;
     }
+
+    public abstract void init(final BaseLevel belongsToLevel);
 
     public abstract void update();
 

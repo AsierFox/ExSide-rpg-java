@@ -48,6 +48,10 @@ public class Sprite {
         load();
     }
 
+    public Sprite(final SpriteSheet fromSheet, final int size, int xLocation, int yLocation) {
+        this(fromSheet, size, size, xLocation, yLocation);
+    }
+
     public Sprite(final Color color, final int width, final int height) {
         WIDTH = width;
         HEIGHT = height;
@@ -57,6 +61,10 @@ public class Sprite {
         loadColor(color.getRGB());
     }
 
+    public Sprite(final Color color, final int size) {
+        this(color, size, size);
+    }
+
     public Sprite(final int color, final int width, final int height) {
         WIDTH = width;
         HEIGHT = height;
@@ -64,6 +72,10 @@ public class Sprite {
         pixels = new int[pixelsAmount];
 
         loadColor(color);
+    }
+
+    public Sprite(final int color, final int size) {
+        this(color, size, size);
     }
 
     private void load() {

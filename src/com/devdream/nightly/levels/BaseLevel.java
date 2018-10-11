@@ -50,6 +50,7 @@ public abstract class BaseLevel {
 
         renderer.setOffset(xScroll, yScroll);
 
+        // TODO Can refactor
         // TODO Make >> 4 and + 16 dynamic
         // Divide by / 16, the size of our sprites
         int yTopSide = yScroll >> 4;
@@ -60,7 +61,6 @@ public abstract class BaseLevel {
 
         for (int y = yTopSide; y < yBottomSide; y++) {
             for (int x = xLeftSize; x < xRightSide; x++) {
-                // TODO Can refactor this
                 getTile(x, y).render(renderer, x, y);
             }
         }
@@ -68,7 +68,7 @@ public abstract class BaseLevel {
         player.render(renderer);
     }
 
-    public final Tile getTile(final int x, final int y) {
+    public Tile getTile(final int x, final int y) {
         // Control get out bounds of the map
         if (x < 0 || y < 0 || x >= width || y >= height) {
             return VoidTile.tile;

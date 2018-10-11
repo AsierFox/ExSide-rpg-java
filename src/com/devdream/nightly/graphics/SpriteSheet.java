@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class SpriteSheet {
 
-    public static final SpriteSheet road = new SpriteSheet("/road.png", 32, 32);
+    public static final SpriteSheet road = new SpriteSheet("/tilesets/road.png", 32, 32);
     public static final SpriteSheet player = new SpriteSheet("/01_player.png", 128, 192);
 
     public final int WIDTH;
