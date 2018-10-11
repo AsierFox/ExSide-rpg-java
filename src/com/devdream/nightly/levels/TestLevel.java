@@ -22,7 +22,6 @@ public class TestLevel extends BaseLevel {
         Random rand = new Random();
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                // TODO Understand this
                 tiles[x + y * width] = rand.nextInt(4);
             }
         }
