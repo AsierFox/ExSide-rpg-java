@@ -6,6 +6,8 @@ import java.nio.file.Paths;
 
 public class FileReader {
 
+    public static final String JSONExt = ".json";
+
     public static String readFile(final String filePath) {
         String fileContent = null;
         try {

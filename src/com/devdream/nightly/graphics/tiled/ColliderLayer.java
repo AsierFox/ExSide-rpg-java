@@ -1,0 +1,14 @@
+package com.devdream.nightly.graphics.tiled;
+
+import java.awt.*;
+
+public class ColliderLayer extends TiledLayer {
+
+    public Rectangle[] colliders;
+
+    public ColliderLayer(final Rectangle[] colliders, final int width, final int height) {
+        super(width, height);
+        this.colliders = colliders;
+    }
+
+}
