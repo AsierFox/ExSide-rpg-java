@@ -1,84 +1,118 @@
 package com.devdream.nightly.graphics;
 
-import java.awt.*;
+import com.devdream.nightly.maths.Vector2D;
+import com.devdream.nightly.utils.MathUtils;
 
+/**
+ * Sprite class that manages sprite pixels from the sprite sheet raster.
+ */
 public class Sprite {
 
-    public static final Sprite player_south = new Sprite(SpriteSheet.player, 32, 48, 0, 0);
-    public static final Sprite player_south_1 = new Sprite(SpriteSheet.player, 32, 48, 1, 0);
-    public static final Sprite player_south_2 = new Sprite(SpriteSheet.player, 32, 48, 2, 0);
-    public static final Sprite player_south_3 = new Sprite(SpriteSheet.player, 32, 48, 3, 0);
-
-    public static final Sprite player_west = new Sprite(SpriteSheet.player, 32, 48, 0, 1);
-    public static final Sprite player_west_1 = new Sprite(SpriteSheet.player, 32, 48, 1, 1);
-    public static final Sprite player_west_2 = new Sprite(SpriteSheet.player, 32, 48, 2, 1);
-    public static final Sprite player_west_3 = new Sprite(SpriteSheet.player, 32, 48, 3, 1);
-
-    public static final Sprite player_east = new Sprite(SpriteSheet.player, 32, 48, 0, 2);
-    public static final Sprite player_east_1 = new Sprite(SpriteSheet.player, 32, 48, 1, 2);
-    public static final Sprite player_east_2 = new Sprite(SpriteSheet.player, 32, 48, 2, 2);
-    public static final Sprite player_east_3 = new Sprite(SpriteSheet.player, 32, 48, 3, 2);
-
-    public static final Sprite player_north = new Sprite(SpriteSheet.player, 32, 48, 0, 3);
-    public static final Sprite player_north_1 = new Sprite(SpriteSheet.player, 32, 48, 1, 3);
-    public static final Sprite player_north_2 = new Sprite(SpriteSheet.player, 32, 48, 2, 3);
-    public static final Sprite player_north_3 = new Sprite(SpriteSheet.player, 32, 48, 3, 3);
+    private SpriteSheet fromSheet;
 
     public final int WIDTH;
     public final int HEIGHT;
 
-    private SpriteSheet fromSheet;
-
+    private int xLocation;
+    private int yLocation;
+    
     public int pixelsAmount;
     public int[] pixels;
 
-    private int xLocation;
-    private int yLocation;
 
-
-    public Sprite(final SpriteSheet fromSheet, final int width, final int height, int xLocation, int yLocation) {
+    /**
+     * Get sprite of specific with and height, from specific coord location.
+     * @param fromSheet
+     * @param width
+     * @param height
+     * @param xLocation
+     * @param yLocation
+     */
+    public Sprite(final SpriteSheet fromSheet, final int width, final int height, final int xLocation, final int yLocation) {
         this.fromSheet = fromSheet;
         WIDTH = width;
         HEIGHT = height;
+        
         this.xLocation = xLocation * width;
         this.yLocation = yLocation * height;
+        
         pixelsAmount = width * height;
         pixels = new int[pixelsAmount];
 
-        load();
+        loadByLocation();
     }
 
-    public Sprite(final SpriteSheet fromSheet, final int size, int xLocation, int yLocation) {
+    /**
+     * Get sprite of specific size, from specific coord location.
+     * @param fromSheet
+     * @param size
+     * @param xLocation
+     * @param yLocation
+     */
+    public Sprite(final SpriteSheet fromSheet, final int size, final int xLocation, final int yLocation) {
         this(fromSheet, size, size, xLocation, yLocation);
     }
+    
 
-    public Sprite(final Color color, final int width, final int height) {
+    /**
+     * Get sprite using the grid index <b>(starting from 0)</b> of a specific width and height.
+     * @param fromSheet
+     * @param size
+     * @param xLocation
+     * @param yLocation
+     */
+    public Sprite(final int index, final SpriteSheet fromSheet, final int width, final int height) {
+        this.fromSheet = fromSheet;
         WIDTH = width;
         HEIGHT = height;
+        
+    	final int spriteSheetTotalColumns = fromSheet.WIDTH / WIDTH;
+    	final Vector2D coords = MathUtils.getCoordsByIndex(index, spriteSheetTotalColumns);
+        this.xLocation = coords.x * width;
+        this.yLocation = coords.y * height;
+
         pixelsAmount = width * height;
         pixels = new int[pixelsAmount];
-
-        loadColor(color.getRGB());
+    	
+    	loadByLocation();
+    }
+    
+    /**
+     * Get sprite using the grid index <b>(starting from 0)</b> of a specific size.
+     * @param index
+     * @param fromSheet
+     * @param size
+     */
+    public Sprite(final int index, final SpriteSheet fromSheet, final int size) {
+        this(index, fromSheet, size, size);
     }
 
-    public Sprite(final Color color, final int size) {
-        this(color, size, size);
-    }
-
+    /**
+     * Get an sprite of a specific width and height and color <b>(using 0x<i>HEX_CODE</i>)</b>.
+     * @param color
+     * @param width
+     * @param height
+     */
     public Sprite(final int color, final int width, final int height) {
         WIDTH = width;
         HEIGHT = height;
+        
         pixelsAmount = width * height;
         pixels = new int[pixelsAmount];
 
         loadColor(color);
     }
 
+    /**
+     * Get an sprite of a specific size and color <b>(using 0x<i>HEX_CODE</i>)</b>.
+     * @param color
+     * @param size
+     */
     public Sprite(final int color, final int size) {
         this(color, size, size);
     }
 
-    private void load() {
+    private void loadByLocation() {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
                 pixels[x + y * WIDTH] = fromSheet.pixels[(x + xLocation) + (y + yLocation) * fromSheet.WIDTH];

@@ -13,7 +13,7 @@ public class FileReader {
         try {
             fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
         } catch (IOException e) {
-            Logger.logError(FileReader.class, "Error reading the file " + filePath + "!", e);
+            Logger.logError(FileReader.class, "Error reading the file " + filePath, e);
         }
         return fileContent;
     }

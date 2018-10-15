@@ -60,6 +60,7 @@ public class Renderer {
         // Adjust location of the tiles by the offset, to reverse the map movement position
         xPosition -= xOffset;
         yPosition -= yOffset;
+
         for (int y = 0; y < tile.sprite.HEIGHT; y++) {
             // Absolute position will move specific tile position
             int yAbsolute = y + yPosition;
@@ -80,6 +81,31 @@ public class Renderer {
         }
     }
 
+    public void renderTile(int xPosition, int yPosition, final Sprite tileSprite) {
+        // Adjust location of the tiles by the offset, to reverse the map movement position
+        xPosition -= xOffset;
+        yPosition -= yOffset;
+
+        for (int y = 0; y < tileSprite.HEIGHT; y++) {
+            // Absolute position will move specific tile position
+            int yAbsolute = y + yPosition;
+            for (int x = 0; x < tileSprite.WIDTH; x++) {
+                int xAbsolute = x + xPosition;
+
+                // Only render the tiles that we can see on the screen
+                if (xAbsolute < -tileSprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
+                    break;
+                }
+                // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
+                if (xAbsolute < 0) {
+                    xAbsolute = 0;
+                }
+
+                pixels[xAbsolute + yAbsolute * width] = tileSprite.pixels[x + y * tileSprite.WIDTH];
+            }
+        }
+    }
+
     public void renderPlayer(final Sprite playerSprite, int xPosition, int yPosition) {
         // Adjust location of the tiles by the offset, to reverse the map movement position
         xPosition -= xOffset;
@@ -87,6 +113,7 @@ public class Renderer {
         for (int y = 0; y < playerSprite.HEIGHT; y++) {
             // Absolute position will move specific tile position
             int yAbsolute = y + yPosition;
+
             for (int x = 0; x < playerSprite.WIDTH; x++) {
                 int xAbsolute = x + xPosition;
 

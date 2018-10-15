@@ -1,6 +1,7 @@
 package com.devdream.nightly.entities.mob;
 
 import com.devdream.nightly.entities.Mob;
+import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.io.Keyboard;
@@ -71,65 +72,65 @@ public class Player extends Mob {
         if (direction == Direction.SOUTH) {
             if (state == EntityState.MOVING) {
                 if (animationCounter < (animationSpeed * .25)) {
-                    sprite = Sprite.player_south_1;
+                    sprite = G.Sprites.player_south_1;
                 } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
-                    sprite = Sprite.player_south_2;
+                    sprite = G.Sprites.player_south_2;
                 } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
-                    sprite = Sprite.player_south_3;
+                    sprite = G.Sprites.player_south_3;
                 } else {
-                    sprite = Sprite.player_south;
+                    sprite = G.Sprites.player_south;
                 }
             }
             else {
-                sprite = Sprite.player_south;
+                sprite = G.Sprites.player_south;
             }
         }
         else if (direction == Direction.EAST) {
             if (state == EntityState.MOVING) {
                 if (animationCounter < (animationSpeed * .25)) {
-                    sprite = Sprite.player_east_1;
+                    sprite = G.Sprites.player_east_1;
                 } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
-                    sprite = Sprite.player_east_2;
+                    sprite = G.Sprites.player_east_2;
                 } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
-                    sprite = Sprite.player_east_3;
+                    sprite = G.Sprites.player_east_3;
                 } else {
-                    sprite = Sprite.player_east;
+                    sprite = G.Sprites.player_east;
                 }
             }
             else {
-                sprite = Sprite.player_east;
+                sprite = G.Sprites.player_east;
             }
         }
         else if (direction == Direction.WEST) {
             if (state == EntityState.MOVING) {
                 if (animationCounter < (animationSpeed * .25)) {
-                    sprite = Sprite.player_west_1;
+                    sprite = G.Sprites.player_west_1;
                 } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
-                    sprite = Sprite.player_west_2;
+                    sprite = G.Sprites.player_west_2;
                 } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
-                    sprite = Sprite.player_west_3;
+                    sprite = G.Sprites.player_west_3;
                 } else {
-                    sprite = Sprite.player_west;
+                    sprite = G.Sprites.player_west;
                 }
             }
             else {
-                sprite = Sprite.player_west;
+                sprite = G.Sprites.player_west;
             }
         }
         else if (direction == Direction.NORTH) {
             if (state == EntityState.MOVING) {
                 if (animationCounter < (animationSpeed * .25)) {
-                    sprite = Sprite.player_north_1;
+                    sprite = G.Sprites.player_north_1;
                 } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
-                    sprite = Sprite.player_north_2;
+                    sprite = G.Sprites.player_north_2;
                 } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
-                    sprite = Sprite.player_north_3;
+                    sprite = G.Sprites.player_north_3;
                 } else {
-                    sprite = Sprite.player_north;
+                    sprite = G.Sprites.player_north;
                 }
             }
             else {
-                sprite = Sprite.player_north;
+                sprite = G.Sprites.player_north;
             }
         }
     }

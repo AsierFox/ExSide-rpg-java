@@ -151,7 +151,7 @@ public class Game extends Canvas implements Runnable {
         }
 
         renderer.clear();
-
+        
         currentLevel.render(renderer);
 
         System.arraycopy(renderer.pixels, 0, pixels, 0, pixels.length);

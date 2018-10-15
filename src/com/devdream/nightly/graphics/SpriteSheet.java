@@ -6,15 +6,15 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+/**
+ * Creates a raster of pixels to control the image sheet and extract sprites from it.
+ */
 public class SpriteSheet {
 
-    public static final SpriteSheet road = new SpriteSheet("/tilesets/road.png", 32, 32);
-    public static final SpriteSheet player = new SpriteSheet("/01_player.png", 128, 192);
+    private final String FILE_PATH;
 
     public final int WIDTH;
     public final int HEIGHT;
-
-    private final String FILE_PATH;
 
     public int pixelsAmount;
     public int[] pixels;

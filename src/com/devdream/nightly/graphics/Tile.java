@@ -1,8 +1,8 @@
 package com.devdream.nightly.graphics;
 
-public abstract class Tile {
+public class Tile {
 
-    // TODO USE this to avoid << 4, >>4, + 16 or / 16
+    // TODO USE this to avoid << 4, >> 4, + 16 or / 16
     public static final int WORLD_TILE_SIZE = 16;
 
     public int x;
@@ -18,6 +18,10 @@ public abstract class Tile {
         isBreakable = false;
     }
 
-    public abstract void render(Renderer renderer, final int x, final int y);
+    public void render(Renderer renderer, final int x, final int y) {
+        // TODO Make << 4 dynamic
+        // << 4 is like * 16
+        renderer.renderTile(x << 4, y << 4, this);
+    }
 
 }
