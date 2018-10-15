@@ -1,10 +1,8 @@
 package com.devdream.nightly.levels;
 
 import com.devdream.nightly.entities.mob.Player;
-import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.Renderer;
-import com.devdream.nightly.graphics.Tile;
-import com.devdream.nightly.graphics.tiled.TiledMapSpawner;
+import com.devdream.nightly.graphics.tiled.TiledMap;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.maths.Vector2D;
 
@@ -12,11 +10,10 @@ public abstract class BaseLevel {
 
     protected int width;
     protected int height;
-    protected int[] tiles;
 
     protected Keyboard keyboard;
 
-    protected TiledMapSpawner tiledMapSpawner;
+    protected TiledMap tiledMap;
     public Player player;
 
     public Vector2D playerSpawnPosition;
@@ -26,7 +23,6 @@ public abstract class BaseLevel {
         this.keyboard = keyboard;
         this.width = width;
         this.height = height;
-        tiles = new int[width * height];
 
         load(null);
     }
@@ -43,7 +39,7 @@ public abstract class BaseLevel {
 
     public void update() {
         player.update();
-        tiledMapSpawner.update();
+        tiledMap.update();
     }
 
     public void render(final Renderer renderer) {
@@ -70,24 +66,17 @@ public abstract class BaseLevel {
         }
         */
 
-    	tiledMapSpawner.render(renderer, player);
+    	tiledMap.render(renderer, player);
 
         player.render(renderer);
     }
 
-    public Tile getTile(final int x, final int y) {
-        // Control get out bounds of the map
-        if (x < 0 || y < 0 || x >= width || y >= height) {
-            return G.Sprites.voidTile;
-        }
-        switch (tiles[x + y * width]) {
-            case 0:
-            case 2:
-                return G.Sprites.grass;
-            case 1: return G.Sprites.barro;
-            case 3: return G.Sprites.sand;
-        }
-        return G.Sprites.voidTile;
-    }
+//    public Tile getTile(final int x, final int y) {
+//        // Control get out bounds of the map
+//        if (x < 0 || y < 0 || x >= tiledMap.mapTilesWidth || y >= tiledMap.mapTilesHeight) {
+//            return G.Sprites.voidTile;
+//        }
+//        return new Tile(tiled);
+//    }
 
 }

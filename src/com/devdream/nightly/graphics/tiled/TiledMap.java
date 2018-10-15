@@ -12,7 +12,7 @@ import org.json.JSONObject;
 import java.awt.*;
 import java.util.ArrayList;
 
-public class TiledMapSpawner {
+public class TiledMap {
 
     public static final String MAP_ROUTES = "/maps/";
 
@@ -22,8 +22,8 @@ public class TiledMapSpawner {
     private static final String TILELAYER_TYPE = "tilelayer";
     private static final String OBJECTGROUP_TYPE = "objectgroup";
 
-    private final int mapTilesWidth;
-    private final int mapTilesHeight;
+    public final int mapTilesWidth;
+    public final int mapTilesHeight;
 
     private final int tileWidth;
     private final int tileHeight;
@@ -34,6 +34,7 @@ public class TiledMapSpawner {
     private ArrayList<TileLayer> tileLayers;
     private ArrayList<ColliderLayer> colliderLayers;
     private ArrayList<Rectangle> mergedColliders;
+    private ArrayList<Rectangle> updatingColliders;
     // TODO Manage map items & enemies
     private ArrayList<?> mapItems;
     private ArrayList<?> mapEnemies;
@@ -41,11 +42,11 @@ public class TiledMapSpawner {
     private Sprite[] sprites;
 
     
-    public TiledMapSpawner(final String mapName) {
+    public TiledMap(final String mapName) {
         this(mapName, new Vector2D(0, 0));
     }
 
-    public TiledMapSpawner(final String mapName, final Vector2D playerSpawn) {
+    public TiledMap(final String mapName, final Vector2D playerSpawn) {
         String fileContent = FileReader.readFile("res/" + MAP_ROUTES + mapName + FileReader.JSONExt);
 
         tiledJSON = new JSONObject(fileContent);
@@ -61,6 +62,7 @@ public class TiledMapSpawner {
         tileLayers = new ArrayList<>();
         colliderLayers = new ArrayList<>();
         mergedColliders = new ArrayList<>();
+        updatingColliders = new ArrayList<>();
 
         readLayers();
 
@@ -77,7 +79,7 @@ public class TiledMapSpawner {
     }
 
     public void update() {
-    	//
+    	updateColliders();
     }
 
     public void render(final Renderer renderer, final Player player) {
@@ -102,6 +104,21 @@ public class TiledMapSpawner {
     			}
     		}
     	}
+    }
+
+    private void updateColliders() {
+        if (!updatingColliders.isEmpty()) {
+            updatingColliders.clear();
+        }
+        for (int i = 0, ilen = mergedColliders.size(); i < ilen; i++) {
+            final Rectangle rect = mergedColliders.get(i);
+            // TODO revisar get player
+            int xPosition = rect.x; //- (int) player.x;
+            int yPosition = rect.y; //- (int) player.y;
+            final Rectangle updatedRect = new Rectangle(xPosition, yPosition, rect.width, rect.height);
+
+            updatingColliders.add(updatedRect);
+        }
     }
 
 	private void readLayers() {

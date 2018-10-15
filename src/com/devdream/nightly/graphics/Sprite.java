@@ -52,14 +52,14 @@ public class Sprite {
     public Sprite(final SpriteSheet fromSheet, final int size, final int xLocation, final int yLocation) {
         this(fromSheet, size, size, xLocation, yLocation);
     }
-    
+
 
     /**
      * Get sprite using the grid index <b>(starting from 0)</b> of a specific width and height.
+     * @param index
      * @param fromSheet
-     * @param size
-     * @param xLocation
-     * @param yLocation
+     * @param width
+     * @param height
      */
     public Sprite(final int index, final SpriteSheet fromSheet, final int width, final int height) {
         this.fromSheet = fromSheet;

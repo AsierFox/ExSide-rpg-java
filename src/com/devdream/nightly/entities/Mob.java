@@ -1,7 +1,6 @@
 package com.devdream.nightly.entities;
 
 import com.devdream.nightly.graphics.Sprite;
-import com.devdream.nightly.graphics.Tile;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
@@ -76,9 +75,9 @@ public abstract class Mob extends Entity {
     }
 
     private boolean isCollision(final int xMove, final int yMove) {
-        if (belongsToLevel.getTile((x + xMove) / Tile.WORLD_TILE_SIZE, (y + yMove) / Tile.WORLD_TILE_SIZE).isSolid) {
-            return true;
-        }
+//        if (belongsToLevel.getTile((x + xMove) / Tile.WORLD_TILE_SIZE, (y + yMove) / Tile.WORLD_TILE_SIZE).isSolid) {
+//            return true;
+//        }
         return false;
     }
 

@@ -32,7 +32,6 @@ public class Game extends Canvas implements Runnable {
     private PropertiesReader gamePropertiesReader;
     private Keyboard keyboard;
     private Renderer renderer;
-
     private BaseLevel currentLevel;
 
     private BufferedImage image;
@@ -55,7 +54,6 @@ public class Game extends Canvas implements Runnable {
         setPreferredSize(size);
 
         renderer = new Renderer(WIDTH, HEIGHT);
-
         currentLevel = new TestLevel(keyboard, 64, 64);
 
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -137,7 +135,6 @@ public class Game extends Canvas implements Runnable {
 
     private void update() {
         keyboard.update();
-
         currentLevel.update();
     }
 
@@ -151,12 +148,11 @@ public class Game extends Canvas implements Runnable {
         }
 
         renderer.clear();
-        
         currentLevel.render(renderer);
 
         System.arraycopy(renderer.pixels, 0, pixels, 0, pixels.length);
 
-        // Send data to the buffer
+        // Send data to the buffers
         Graphics graphics = bufferStrategy.getDrawGraphics();
 
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
@@ -164,8 +160,8 @@ public class Game extends Canvas implements Runnable {
         graphics.setColor(Color.WHITE);
         graphics.drawString("Player -> x: " + currentLevel.player.x + ", y: " + currentLevel.player.y, 30, 30);
 
-        graphics.dispose();
         // Swap buffers
+        graphics.dispose();
         bufferStrategy.show();
     }
 
