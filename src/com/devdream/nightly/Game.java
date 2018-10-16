@@ -127,8 +127,12 @@ public class Game extends Canvas implements Runnable {
         frame = new JFrame();
         // Is important to set resizable at first instance to the frame
         frame.setResizable(false);
-        frame.setTitle(GameProperties.instance().getTitle());
         frame.add(this);
+        frame.setTitle(GameProperties.instance().getTitle());
+        frame.setIconImage(new ImageIcon(Game.class.getResource(GameProperties.instance().getIcon())).getImage());
+        if (!GameProperties.instance().areWindowborders()) {
+            frame.setUndecorated(true);
+        }
         // Size frame to match the Canvas dimensions
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
