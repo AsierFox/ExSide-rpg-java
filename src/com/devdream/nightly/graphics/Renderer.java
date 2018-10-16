@@ -83,6 +83,12 @@ public class Renderer {
         }
     }
 
+    /**
+     * Renders the player.
+     * @param playerSprite
+     * @param xPosition
+     * @param yPosition
+     */
     public void renderPlayer(final Sprite playerSprite, int xPosition, int yPosition) {
         // Adjust location of the tiles by the offset, to reverse the map movement position
         xPosition -= xOffset;
@@ -107,7 +113,7 @@ public class Renderer {
                 int pixel = playerSprite.pixels[x + y * playerSprite.WIDTH];
 
                 // TODO Make dynamic suppress sheet color
-                if (pixel != 0x00ff00) {
+                if (pixel != 0xff000000) {
                     pixels[xAbsolute + yAbsolute * width] = pixel;
                     // Flip sprite
                 }
@@ -117,6 +123,7 @@ public class Renderer {
 
     /**
      * Renders a rectangle.
+     * @param rect
      */
 	public void renderRect(Rectangle rect) {
 		// Adjust location of the tiles by the offset, to reverse the map movement position
@@ -147,6 +154,9 @@ public class Renderer {
         }
 	}
 
+    /**
+     * Clears all pixels of the screen.
+     */
 	public void clear() {
         for (int i = 0; i < pixelsAmount; i++) {
             pixels[i] = 0;
