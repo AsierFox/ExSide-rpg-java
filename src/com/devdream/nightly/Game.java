@@ -3,6 +3,7 @@ package com.devdream.nightly;
 import com.devdream.nightly.entities.mob.Player;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
+import com.devdream.nightly.io.Mouse;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.levels.TestLevel;
 import com.devdream.nightly.properties.GameProperties;
@@ -47,6 +48,10 @@ public class Game extends Canvas implements Runnable {
 
         addKeyListener(keyboard);
 
+        Mouse mouse = new Mouse();
+        addMouseListener(mouse);
+        addMouseMotionListener(mouse);
+
         // Set size to Canvas
         Dimension size = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
         setPreferredSize(size);
@@ -78,11 +83,12 @@ public class Game extends Canvas implements Runnable {
 
     @Override
     public void run() {
-        long lastTime = System.nanoTime();
+        long loopTiming = System.nanoTime();
+        long timer = System.nanoTime();
+        final int nanosecondPerSecond = 1000000000;
+        final double nanosecondsToSeconds = 16666666; // 1000000000 / 60
+        long lastTime;
         double delta = 0;
-        long timer = System.currentTimeMillis();
-
-        final double nanosecondsToSeconds = 1000000000.0 / 60.0;
         int UPS = 0;
         int FPS = 0;
 
@@ -90,8 +96,10 @@ public class Game extends Canvas implements Runnable {
 
         while (isRunning) {
             long currentTime = System.nanoTime();
-            delta += (currentTime - lastTime) / nanosecondsToSeconds;
-            lastTime = currentTime;
+            lastTime = currentTime - loopTiming;
+            loopTiming = currentTime;
+
+            delta += lastTime / nanosecondsToSeconds;
 
             while (delta > 0) {
                 update();
@@ -102,15 +110,13 @@ public class Game extends Canvas implements Runnable {
             render();
             FPS++;
 
-            // Greater than 1 second
-            if (System.currentTimeMillis() - timer > 1000) {
-                // Sum 1 second, to execute this every second
-                timer += 1000;
-
+            if (System.nanoTime() - timer > nanosecondPerSecond) {
                 Logger.logInfo(getClass(), "Updates x second: " + UPS + ", FPS: " + FPS);
 
                 UPS = 0;
                 FPS = 0;
+
+                timer = System.nanoTime();
             }
         }
 
@@ -157,6 +163,8 @@ public class Game extends Canvas implements Runnable {
 
         graphics.setColor(Color.WHITE);
         graphics.drawString("Player -> x: " + Player.getInstance().pos.x + ", y: " + Player.getInstance().pos.y, 30, 30);
+
+        graphics.fillRect(Mouse.getX(), Mouse.getY(), 10, 10);
 
         // Swap buffers
         graphics.dispose();

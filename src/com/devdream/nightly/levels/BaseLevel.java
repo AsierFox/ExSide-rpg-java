@@ -12,7 +12,7 @@ public abstract class BaseLevel {
 
     protected Keyboard keyboard;
 
-    protected TiledMap tiledMap;
+    public TiledMap tiledMap;
 
 
     public BaseLevel(final Keyboard keyboard, final int width, final int height) {

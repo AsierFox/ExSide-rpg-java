@@ -16,7 +16,7 @@ public class TiledMap {
     public final int mapTilesHeight;
 
     private ArrayList<TileLayer> tileLayers;
-    protected ArrayList<Rectangle> mergedColliders;
+    public ArrayList<Rectangle> mergedColliders;
     private Sprite[] sprites;
 
     private ArrayList<Rectangle> updatingColliders;
@@ -60,13 +60,14 @@ public class TiledMap {
     			for (int x = 0; x < mapTilesWidth; x++) {
     				final int currentTileLocation = tileLocations[x + y * mapTilesWidth];
 
-					// TODO * 16, make dynamic
-					int xPosition = x << 4;
-					int yPosition = y << 4;
-
 					// In readLayers() (0 converts to -1 when are not tiles)
     				if (-1 != currentTileLocation) {
-    					renderer.renderTile(xPosition, yPosition, sprites[currentTileLocation]);
+
+						// TODO * 16, make dynamic
+						int xPosition = x << 4;
+						int yPosition = y << 4;
+
+						renderer.renderTile(xPosition, yPosition, sprites[currentTileLocation]);
     				}
     			}
     		}

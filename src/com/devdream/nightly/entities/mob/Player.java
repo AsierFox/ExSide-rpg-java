@@ -18,9 +18,6 @@ public class Player extends Mob {
 	private static Player instance;
 	
     private Keyboard keyboard;
-    
-    private Rectangle collider;
-
 
     public static Player getInstance() {
     	if (null == instance) {
@@ -29,18 +26,17 @@ public class Player extends Mob {
 		return instance;
 	}
 
-    public Player() {
+    private Player() {
     	super(G.Sprites.player_south);
 
-    	load();
-    	
-    	collider = new Rectangle(pos.x, pos.y, sprite.WIDTH, sprite.HEIGHT);
+        animationSpeed = 100;
     }
 
     public void init(final Keyboard keyboard, final Vector2D spawnPosition) {
         this.keyboard = keyboard;
         pos.x = spawnPosition.x;
         pos.y = spawnPosition.y;
+        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH, sprite.HEIGHT);
     }
 
     @Override
@@ -63,18 +59,22 @@ public class Player extends Mob {
             xMove++;
         }
 
+        // Update collider position
+        final int leftPadding = 5;
+        final int rightPadding = 10;
+        collider.x = (pos.x - sprite.WIDTH / 2) + leftPadding;
+        collider.y = pos.y;
+        collider.width = sprite.WIDTH - rightPadding;
+        collider.height = sprite.HEIGHT / 2;
+
+        // Check diagonal movement for some reason
+        // (xMove != 0 && yMove != 0)
         if (xMove != 0 || yMove != 0) {
             move(xMove, yMove);
         }
         else {
             state = EntityState.IDLE;
         }
-
-        // Update collider position
-        collider.x = pos.x - sprite.WIDTH / 2;
-        collider.y = pos.y - sprite.HEIGHT / 2;
-        collider.width = sprite.WIDTH;
-        collider.height = sprite.HEIGHT;
     }
 
     @Override
@@ -87,10 +87,6 @@ public class Player extends Mob {
         if (GameProperties.instance().isDebug()) {
         	renderer.renderRect(collider);
         }
-    }
-
-    private void load() {
-        animationSpeed = 100;
     }
 
     private void setSprite() {
