@@ -1,5 +1,7 @@
 package com.devdream.nightly.graphics;
 
+import java.awt.*;
+
 /**
  * Class that renders the pixels to the screen.
  */
@@ -11,9 +13,9 @@ public class Renderer {
     public int width;
     public int height;
 
+    private int pixelsAmount;
     public int[] pixels;
 
-    private int pixelsAmount;
     private int xOffset;
     private int yOffset;
 
@@ -56,32 +58,7 @@ public class Renderer {
         }
     }*/
 
-    public void renderTile(int xPosition, int yPosition, final Tile tile) {
-        // Adjust location of the tiles by the offset, to reverse the map movement position
-        xPosition -= xOffset;
-        yPosition -= yOffset;
-
-        for (int y = 0; y < tile.sprite.HEIGHT; y++) {
-            // Absolute position will move specific tile position
-            int yAbsolute = y + yPosition;
-            for (int x = 0; x < tile.sprite.WIDTH; x++) {
-                int xAbsolute = x + xPosition;
-
-                // Only render the tiles that we can see on the screen
-                if (xAbsolute < -tile.sprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
-                    break;
-                }
-                // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
-                if (xAbsolute < 0) {
-                    xAbsolute = 0;
-                }
-
-                pixels[xAbsolute + yAbsolute * width] = tile.sprite.pixels[x + y * tile.sprite.WIDTH];
-            }
-        }
-    }
-
-    public void renderTile(int xPosition, int yPosition, final Sprite tileSprite) {
+	public void renderTile(int xPosition, int yPosition, final Sprite tileSprite) {
         // Adjust location of the tiles by the offset, to reverse the map movement position
         xPosition -= xOffset;
         yPosition -= yOffset;
@@ -138,7 +115,39 @@ public class Renderer {
         }
     }
 
-    public void clear() {
+    /**
+     * Renders a rectangle.
+     */
+	public void renderRect(Rectangle rect) {
+		// Adjust location of the tiles by the offset, to reverse the map movement position
+        final int xPosition = rect.x - xOffset;
+        final int yPosition = rect.y - yOffset;
+
+        for (int y = 0; y < rect.height; y++) {
+            // Absolute position will move specific tile position
+            int yAbsolute = y + yPosition;
+
+            for (int x = 0; x < rect.width; x++) {
+                int xAbsolute = x + xPosition;
+
+                // Only render that we can see on the screen
+                if (xAbsolute < -rect.width || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
+                    break;
+                }
+                // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
+                if (xAbsolute < 0) {
+                    xAbsolute = 0;
+                }
+
+                // Only paint borders
+                if (x == 0 || y == 0 || x == rect.width - 1 || y == rect.height - 1) {
+                	pixels[xAbsolute + yAbsolute * width] = Color.RED.getRGB();
+                }
+            }
+        }
+	}
+
+	public void clear() {
         for (int i = 0; i < pixelsAmount; i++) {
             pixels[i] = 0;
         }

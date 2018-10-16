@@ -1,30 +1,46 @@
 package com.devdream.nightly.entities.mob;
 
-import com.devdream.nightly.entities.Mob;
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.Renderer;
-import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.io.Keyboard;
+import com.devdream.nightly.maths.Vector2D;
+import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 
+import java.awt.*;
+
+/**
+ * Singleton class player.
+ */
 public class Player extends Mob {
 
-    private Keyboard input;
+	private static Player instance;
+	
+    private Keyboard keyboard;
+    
+    private Rectangle collider;
 
-    public Player(final Keyboard input, final Sprite sprite) {
-        super(sprite);
-        this.input = input;
 
-        load();
+    public static Player getInstance() {
+    	if (null == instance) {
+    		instance = new Player();
+    	}
+		return instance;
+	}
+
+    public Player() {
+    	super(G.Sprites.player_south);
+
+    	load();
+    	
+    	collider = new Rectangle(pos.x, pos.y, sprite.WIDTH, sprite.HEIGHT);
     }
 
-    public Player(final Keyboard input, final Sprite sprite, final int x, final int y) {
-        this(input, sprite);
-        this.x = x;
-        this.y = y;
-
-        load();
+    public void init(final Keyboard keyboard, final Vector2D spawnPosition) {
+        this.keyboard = keyboard;
+        pos.x = spawnPosition.x;
+        pos.y = spawnPosition.y;
     }
 
     @Override
@@ -34,16 +50,16 @@ public class Player extends Mob {
         int xMove = 0;
         int yMove = 0;
 
-        if (input.up) {
+        if (keyboard.up) {
             yMove--;
         }
-        else if (input.down) {
+        else if (keyboard.down) {
             yMove++;
         }
-        else if (input.left) {
+        else if (keyboard.left) {
             xMove--;
         }
-        else if (input.right) {
+        else if (keyboard.right) {
             xMove++;
         }
 
@@ -53,6 +69,12 @@ public class Player extends Mob {
         else {
             state = EntityState.IDLE;
         }
+
+        // Update collider position
+        collider.x = pos.x - sprite.WIDTH / 2;
+        collider.y = pos.y - sprite.HEIGHT / 2;
+        collider.width = sprite.WIDTH;
+        collider.height = sprite.HEIGHT;
     }
 
     @Override
@@ -60,7 +82,11 @@ public class Player extends Mob {
         setSprite();
 
         // We can duplicate this line to render more things
-        renderer.renderPlayer(sprite, x - sprite.WIDTH / 2, y - sprite.HEIGHT / 2);
+        renderer.renderPlayer(sprite, pos.x - sprite.WIDTH / 2, pos.y - sprite.HEIGHT / 2);
+
+        if (GameProperties.instance().isDebug()) {
+        	renderer.renderRect(collider);
+        }
     }
 
     private void load() {

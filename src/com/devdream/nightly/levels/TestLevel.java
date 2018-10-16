@@ -1,7 +1,6 @@
 package com.devdream.nightly.levels;
 
 import com.devdream.nightly.entities.mob.Player;
-import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.tiled.TiledMap;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.maths.Vector2D;
@@ -14,11 +13,11 @@ public class TestLevel extends BaseLevel {
 
     @Override
     protected void load(final String path) {
-        playerSpawnPosition = new Vector2D(150, 150);
+    	tiledMap = new TiledMap("tiled-map");
 
-        tiledMap = new TiledMap("tiled-map");
-        player = new Player(keyboard, G.Sprites.player_south, playerSpawnPosition.x, playerSpawnPosition.y);
-        player.init(this);
+		Vector2D playerSpawnPosition = new Vector2D(150, 150);
+		Player.getInstance().init(keyboard, playerSpawnPosition);
+		Player.getInstance().attachLevel(this);
     }
 
 }

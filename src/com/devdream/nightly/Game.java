@@ -1,11 +1,12 @@
 package com.devdream.nightly;
 
+import com.devdream.nightly.entities.mob.Player;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.levels.TestLevel;
+import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.utils.Logger;
-import com.devdream.nightly.utils.PropertiesReader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +30,6 @@ public class Game extends Canvas implements Runnable {
     private JFrame frame;
     private Thread thread;
 
-    private PropertiesReader gamePropertiesReader;
     private Keyboard keyboard;
     private Renderer renderer;
     private BaseLevel currentLevel;
@@ -41,12 +41,10 @@ public class Game extends Canvas implements Runnable {
 
 
     public Game() {
-        gamePropertiesReader = new PropertiesReader();
         keyboard = new Keyboard();
 
         isRunning = false;
 
-        gamePropertiesReader.loadPropertiesFile(PropertiesReader.GameProperties.FILENAME);
         addKeyListener(keyboard);
 
         // Set size to Canvas
@@ -123,7 +121,7 @@ public class Game extends Canvas implements Runnable {
         frame = new JFrame();
         // Is important to set resizable at first instance to the frame
         frame.setResizable(false);
-        frame.setTitle(gamePropertiesReader.getProperty(PropertiesReader.GameProperties.TITLE));
+        frame.setTitle(GameProperties.instance().getTitle());
         frame.add(this);
         // Size frame to match the Canvas dimensions
         frame.pack();
@@ -158,7 +156,7 @@ public class Game extends Canvas implements Runnable {
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
         graphics.setColor(Color.WHITE);
-        graphics.drawString("Player -> x: " + currentLevel.player.x + ", y: " + currentLevel.player.y, 30, 30);
+        graphics.drawString("Player -> x: " + Player.getInstance().pos.x + ", y: " + Player.getInstance().pos.y, 30, 30);
 
         // Swap buffers
         graphics.dispose();

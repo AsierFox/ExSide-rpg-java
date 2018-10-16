@@ -1,5 +1,6 @@
-package com.devdream.nightly.entities;
+package com.devdream.nightly.entities.mob;
 
+import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.types.Direction;
@@ -15,8 +16,6 @@ public abstract class Mob extends Entity {
     protected int animationSpeed;
     protected int animationCounter;
 
-    protected Sprite sprite;
-
     protected EntityState state;
     protected Direction direction;
 
@@ -31,7 +30,7 @@ public abstract class Mob extends Entity {
     }
 
     @Override
-    public void init(final BaseLevel belongsToLevel) {
+    public void attachLevel(final BaseLevel belongsToLevel) {
         this.belongsToLevel = belongsToLevel;
     }
 
@@ -70,8 +69,8 @@ public abstract class Mob extends Entity {
             direction = Direction.SOUTH;
         }
 
-        x += xMove;
-        y += yMove;
+        pos.x += xMove;
+        pos.y += yMove;
     }
 
     private boolean isCollision(final int xMove, final int yMove) {

@@ -7,12 +7,6 @@ import java.util.Properties;
 
 public class PropertiesReader {
 
-    public static class GameProperties {
-        public static final String FILENAME = "game";
-
-        public static final String TITLE = "title";
-    }
-
     private static final String PROPERTIES_EXTENSION = ".properties";
 
     private Properties properties;

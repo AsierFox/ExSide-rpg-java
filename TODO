@@ -1,4 +1,4 @@
-- Make Tile sprites to 64, change dynamic << 4 & >> 4
+- Make Tile sprites dynamic, changing << 4 & >> 4
 - 2D Lighting
 - Rotate & flip the tiles tiles
 
@@ -23,10 +23,23 @@ Main -> Game
             getTile(x, y).render(renderer, x, y);
             // Copy renderer.pixels to raster pixels
             System.arraycopy(renderer.pixels, 0, pixels, 0, pixels.length);
-
             // Send data to the buffer
             Graphics graphics = bufferStrategy.getDrawGraphics();
             graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
             graphics.dispose();
             // Swap buffers
             bufferStrategy.show();
+
+
+Tile object types:
+	- name: ""
+	  type: ""
+	  Description: These are the colliders, without any information.
+
+	- name: spawn
+	  type: player / enemy / civilian
+	  Description: Spawn of players, enemies, civilians...
+
+	- name: item
+	  type: breakable / obtainable / chest
+	  Description: Items that can break interacting with them or are in the ground or fall by enemies drop, a chest to open...

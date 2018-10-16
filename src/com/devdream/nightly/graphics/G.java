@@ -1,8 +1,6 @@
 package com.devdream.nightly.graphics;
 
 import com.devdream.nightly.graphics.tiled.TiledMap;
-import com.devdream.nightly.graphics.tiles.GroundTile;
-import com.devdream.nightly.graphics.tiles.VoidTile;
 
 public interface G {
 
@@ -16,13 +14,6 @@ public interface G {
 	}
 
 	interface Sprites {
-	    // Tiles
-	    Tile voidTile = new VoidTile(new Sprite(0x271907, Tile.WORLD_TILE_SIZE));
-
-	    Tile grass = new GroundTile(new Sprite(0, G.SpriteSheets.road, Tile.WORLD_TILE_SIZE));
-	    Tile barro = new GroundTile(new Sprite(G.SpriteSheets.road, Tile.WORLD_TILE_SIZE, 1, 0), true);
-	    Tile sand = new GroundTile(new Sprite(G.SpriteSheets.road, Tile.WORLD_TILE_SIZE, 1, 1));
-
 	    // Player
 	    Sprite player_south = new Sprite(G.SpriteSheets.player, 32, 48, 0, 0);
 	    Sprite player_south_1 = new Sprite(G.SpriteSheets.player, 32, 48, 1, 0);

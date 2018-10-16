@@ -1,29 +1,27 @@
 package com.devdream.nightly.entities;
 
 import com.devdream.nightly.graphics.Renderer;
+import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.levels.BaseLevel;
-
-import java.util.Random;
+import com.devdream.nightly.maths.Vector2D;
 
 public abstract class Entity {
 
-    public int x;
-    public int y;
+    public Vector2D pos;
 
-    private boolean isRemoved;
-
-    protected Random random;
+    public Sprite sprite;
 
     protected BaseLevel belongsToLevel;
 
+    private boolean isRemoved;
+
 
     public Entity() {
-        random = new Random();
-
+    	pos = new Vector2D();
         isRemoved = false;
     }
 
-    public abstract void init(final BaseLevel belongsToLevel);
+    public abstract void attachLevel(final BaseLevel belongsToLevel);
 
     public abstract void update();
 

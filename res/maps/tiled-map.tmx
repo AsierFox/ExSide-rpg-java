@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.1" tiledversion="2018.09.12" orientation="orthogonal" renderorder="left-up" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="9">
+<map version="1.1" tiledversion="2018.09.12" orientation="orthogonal" renderorder="left-up" width="20" height="20" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="43">
  <tileset firstgid="1" name="femat" tilewidth="16" tileheight="16" tilecount="1092" columns="26">
   <image source="femat.png" width="428" height="683"/>
  </tileset>
@@ -60,5 +60,6 @@
   <object id="6" x="273.333" y="0" width="42" height="49.3333"/>
   <object id="7" x="240.667" y="271.333" width="14" height="12.6667"/>
   <object id="8" x="304.182" y="282.182" width="15.6364" height="17.8182"/>
+  <object id="42" name="Player Spawn" x="114" y="94"/>
  </objectgroup>
 </map>
