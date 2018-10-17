@@ -1,5 +1,7 @@
 package com.devdream.nightly.graphics;
 
+import com.devdream.nightly.items.Projectile;
+
 import java.awt.*;
 
 /**
@@ -24,19 +26,25 @@ public class Renderer {
         pixels = new int[pixelsAmount];
     }
 
-	public void renderTile(int xPosition, int yPosition, final Sprite tileSprite) {
+    /**
+     * Renders a map tile.
+     * @param xPosition
+     * @param yPosition
+     * @param sprite
+     */
+	public void renderTile(int xPosition, int yPosition, final Sprite sprite) {
         // Adjust location of the tiles by the offset, to reverse the map movement position
         xPosition -= xOffset;
         yPosition -= yOffset;
 
-        for (int y = 0; y < tileSprite.HEIGHT; y++) {
+        for (int y = 0; y < sprite.HEIGHT; y++) {
             // Absolute position will move specific tile position
             int yAbsolute = y + yPosition;
-            for (int x = 0; x < tileSprite.WIDTH; x++) {
+            for (int x = 0; x < sprite.WIDTH; x++) {
                 int xAbsolute = x + xPosition;
 
                 // Only render the tiles that we can see on the screen
-                if (xAbsolute < -tileSprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
+                if (xAbsolute < -sprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
                     break;
                 }
                 // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
@@ -44,7 +52,7 @@ public class Renderer {
                     xAbsolute = 0;
                 }
 
-                pixels[xAbsolute + yAbsolute * width] = tileSprite.pixels[x + y * tileSprite.WIDTH];
+                pixels[xAbsolute + yAbsolute * width] = sprite.pixels[x + y * sprite.WIDTH];
             }
         }
     }
@@ -78,10 +86,38 @@ public class Renderer {
                 // Suppress sprite sheet background color
                 int pixel = playerSprite.pixels[x + y * playerSprite.WIDTH];
 
-                // TODO Make dynamic suppress sheet color
+                // TODO Make dynamic suppress sheet color (SpriteSheet constructor)
                 if (pixel != 0xff000000) {
                     pixels[xAbsolute + yAbsolute * width] = pixel;
                     // Flip sprite
+                }
+            }
+        }
+    }
+
+    public void renderProjectile(int xPosition, int yPosition, final Projectile projectile) {
+        // Adjust location of the tiles by the offset, to reverse the map movement position
+        xPosition -= xOffset;
+        yPosition -= yOffset;
+
+        for (int y = 0; y < projectile.sprite.HEIGHT; y++) {
+            // Absolute position will move specific tile position
+            int yAbsolute = y + yPosition;
+            for (int x = 0; x < projectile.sprite.WIDTH; x++) {
+                int xAbsolute = x + xPosition;
+
+                // Only render the tiles that we can see on the screen
+                if (xAbsolute < -projectile.sprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
+                    break;
+                }
+                // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
+                if (xAbsolute < 0) {
+                    xAbsolute = 0;
+                }
+
+                int pixel = projectile.sprite.pixels[x + y * projectile.sprite.WIDTH];
+                if (pixel != 0xff000000) {
+                    pixels[xAbsolute + yAbsolute * width] = pixel;
                 }
             }
         }

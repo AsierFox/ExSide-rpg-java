@@ -1,29 +1,20 @@
 package com.devdream.nightly.items;
 
+import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.Renderer;
 
-import java.awt.*;
+public class Arrow extends Projectile {
 
-// TODO Make WeaponProjectile extended
-public class Arrow extends Item {
-
-    private final int xOriginReference;
-    private final int yOriginReference;
-    private final double xUpdate;
-    private final double yUpdate;
-    private double angle;
     private double speed;
     private double damage;
     private double range;
     private double cadence;
 
-    public Arrow(final int xOrigin, final int yOrigin, final double direction) {
-        pos.x = xOrigin;
-        pos.y = yOrigin;
 
-        xOriginReference = xOrigin;
-        yOriginReference = yOrigin;
-        angle = direction;
+    public Arrow(final int xOrigin, final int yOrigin, final double direction) {
+        super(xOrigin, yOrigin, direction);
+
+        sprite = G.Sprites.arrow;
 
         speed = 20;
         damage = 20;
@@ -45,7 +36,7 @@ public class Arrow extends Item {
 
     @Override
     public void render(Renderer renderer) {
-        renderer.renderRect(new Rectangle(pos.x, pos.y, 30, 30));
+        renderer.renderProjectile(pos.x, pos.y, this);
     }
 
 }

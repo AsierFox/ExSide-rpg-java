@@ -9,11 +9,15 @@ public interface G {
     }
 
 	interface SpriteSheets {
-	    SpriteSheet road = new SpriteSheet("/tilesets/road.png", 32, 32);
+		SpriteSheet projectiles = new SpriteSheet("/arrow.png", 14, 15);
+		SpriteSheet road = new SpriteSheet("/tilesets/road.png", 32, 32);
 	    SpriteSheet player = new SpriteSheet("/01_player.png", 128, 192);
 	}
 
 	interface Sprites {
+
+    	Sprite arrow = new Sprite(0, G.SpriteSheets.projectiles, 14, 15);
+
 	    // Player
 	    Sprite player_south = new Sprite(G.SpriteSheets.player, 32, 48, 0, 0);
 	    Sprite player_south_1 = new Sprite(G.SpriteSheets.player, 32, 48, 1, 0);
