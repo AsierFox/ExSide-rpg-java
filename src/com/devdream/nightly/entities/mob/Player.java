@@ -1,9 +1,11 @@
 package com.devdream.nightly.entities.mob;
 
+import com.devdream.nightly.Game;
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.io.Mouse;
+import com.devdream.nightly.items.Arrow;
 import com.devdream.nightly.maths.Vector2D;
 import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
@@ -86,8 +88,14 @@ public class Player extends Mob {
     }
 
     private void shoot() {
-    	final double shootDirection = Math.atan2(Mouse.getX(), Mouse.getY());
-    	//
+        // >> 1 is like / 2
+        int shootX = Mouse.getX() - (Game.getWindowTotalWidth() >> 1);
+        int shootY = Mouse.getY() - (Game.getWindowTotalHeight() >> 1);
+    	final double shootDirection = Math.atan2(shootY, shootX);
+    	// Convert angle to degrees
+    	//shootDirection *= 180/ Math.PI;
+        updatingArrows.add(new Arrow(pos.x, pos.y, shootDirection));
+        // TODO Add projectile to the level
     }
 
     private void updateCollider() {
@@ -99,6 +107,8 @@ public class Player extends Mob {
 
 	@Override
     public void render(Renderer renderer) {
+        super.render(renderer);
+
         setSprite();
 
         // We can duplicate this line to render more things

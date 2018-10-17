@@ -12,7 +12,7 @@ public class WorldTime {
 	}
 
 	public void update() {
-		System.out.println((int) new Date().getTime() - startReferenceDate.getTime() / 1000);
+		//System.out.println((int) new Date().getTime() - startReferenceDate.getTime() / 1000);
 	}
 	
 }

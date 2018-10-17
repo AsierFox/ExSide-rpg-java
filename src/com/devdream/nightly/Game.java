@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable {
 
     public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 16 * 9; // Aspect ratio
-    public static final int SCALE = 1;
+    public static final int SCALE = 3;
 
     private static final String THREAD_NAME = "Game thread";
 
@@ -175,6 +175,14 @@ public class Game extends Canvas implements Runnable {
         // Swap buffers
         graphics.dispose();
         bufferStrategy.show();
+    }
+
+    public static int getWindowTotalWidth() {
+        return Game.WIDTH * Game.SCALE;
+    }
+
+    public static int getWindowTotalHeight() {
+        return Game.HEIGHT * Game.SCALE;
     }
 
 }
