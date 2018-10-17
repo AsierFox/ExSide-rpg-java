@@ -1,4 +1,4 @@
-package com.devdream.nightly.graphics.tiled;
+package com.devdream.nightly.tiled;
 
 public class TileLayer extends TiledLayer {
 

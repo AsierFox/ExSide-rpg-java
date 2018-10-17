@@ -1,4 +1,4 @@
-package com.devdream.nightly.graphics.tiled;
+package com.devdream.nightly.tiled;
 
 import java.awt.*;
 

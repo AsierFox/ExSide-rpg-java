@@ -3,6 +3,7 @@ package com.devdream.nightly.entities.mob;
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
+import com.devdream.nightly.io.Mouse;
 import com.devdream.nightly.maths.Vector2D;
 import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
@@ -16,8 +17,12 @@ import java.awt.*;
 public class Player extends Mob {
 
 	private static Player instance;
-	
-    private Keyboard keyboard;
+
+	private Keyboard keyboard;
+
+	private final int colliderLeftPadding;
+    private final int colliderRightPadding;
+
 
     public static Player getInstance() {
     	if (null == instance) {
@@ -30,6 +35,9 @@ public class Player extends Mob {
     	super(G.Sprites.player_south);
 
         animationSpeed = 100;
+
+        colliderLeftPadding = 5;
+        colliderRightPadding = 10;
     }
 
     public void init(final Keyboard keyboard, final Vector2D spawnPosition) {
@@ -46,6 +54,7 @@ public class Player extends Mob {
         int xMove = 0;
         int yMove = 0;
 
+        // Read keyboard events
         if (keyboard.up) {
             yMove--;
         }
@@ -59,13 +68,12 @@ public class Player extends Mob {
             xMove++;
         }
 
-        // Update collider position
-        final int leftPadding = 5;
-        final int rightPadding = 10;
-        collider.x = (pos.x - sprite.WIDTH / 2) + leftPadding;
-        collider.y = pos.y;
-        collider.width = sprite.WIDTH - rightPadding;
-        collider.height = sprite.HEIGHT / 2;
+        // Read mouse events
+        if (Mouse.getBtn() == 1) {
+            shoot();
+        }
+
+        updateCollider();
 
         // Check diagonal movement for some reason
         // (xMove != 0 && yMove != 0)
@@ -77,7 +85,19 @@ public class Player extends Mob {
         }
     }
 
-    @Override
+    private void shoot() {
+    	final double shootDirection = Math.atan2(Mouse.getX(), Mouse.getY());
+    	//
+    }
+
+    private void updateCollider() {
+        collider.x = (pos.x - sprite.WIDTH / 2) + colliderLeftPadding;
+        collider.y = pos.y;
+        collider.width = sprite.WIDTH - colliderRightPadding;
+        collider.height = sprite.HEIGHT / 2;
+	}
+
+	@Override
     public void render(Renderer renderer) {
         setSprite();
 

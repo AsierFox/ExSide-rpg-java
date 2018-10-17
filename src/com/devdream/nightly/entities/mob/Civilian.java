@@ -7,7 +7,6 @@ public class Civilian extends Mob {
 
 	public Civilian(Sprite sprite) {
 		super(sprite);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -1,17 +1,28 @@
 package com.devdream.nightly.io;
 
+import com.devdream.nightly.utils.FileReader;
+
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.util.Optional;
 
 public class Mouse implements MouseListener, MouseMotionListener {
 
+	
     private static int mouseX;
     private static int mouseY;
     private static int mouseBtn;
 
+    private static Cursor cursor;
+
+
     public Mouse() {
         mouseX = mouseY = mouseBtn = -1;
+
+        setPrecisionCursor();
     }
 
     public static int getX() {
@@ -25,6 +36,10 @@ public class Mouse implements MouseListener, MouseMotionListener {
     public static int getBtn() {
         return mouseBtn;
     }
+
+    public static Cursor getCursor() {
+		return cursor;
+	}
 
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -40,7 +55,6 @@ public class Mouse implements MouseListener, MouseMotionListener {
         mouseBtn = -1;
     }
 
-
     @Override
     public void mouseDragged(MouseEvent e) {
 
@@ -50,7 +64,6 @@ public class Mouse implements MouseListener, MouseMotionListener {
     public void mouseMoved(MouseEvent e) {
         mouseX = e.getX();
         mouseY = e.getY();
-
     }
 
     @Override
@@ -64,6 +77,14 @@ public class Mouse implements MouseListener, MouseMotionListener {
     @Override
     public String toString() {
         return "Mouse x=" + mouseX + ", y=" + mouseY + " btn=" + mouseBtn;
+    }
+
+    private void setPrecisionCursor() {
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Optional<BufferedImage> cursorImage = FileReader.loadImage("/cursor/precise.png");
+        // Center pointer position
+        Point cursorPoint = new Point(cursorImage.get().getWidth() / 2, cursorImage.get().getHeight() / 2);
+        cursor = toolkit.createCustomCursor(cursorImage.get(), cursorPoint, "Precise cursor");
     }
 
 }

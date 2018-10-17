@@ -1,4 +1,4 @@
-package com.devdream.nightly.graphics.tiled;
+package com.devdream.nightly.tiled;
 
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.graphics.SpriteSheet;
@@ -36,8 +36,6 @@ public class TiledMapSpawner {
     protected ArrayList<ColliderLayer> colliderLayers;
     protected ArrayList<Rectangle> mergedColliders;
     // TODO Manage map items & enemies
-    protected ArrayList<?> mapItems;
-    protected ArrayList<?> mapEnemies;
     protected Sprite[] sprites;
 
 
@@ -69,9 +67,6 @@ public class TiledMapSpawner {
         sprites = new Sprite[totalSprites];
 
         loadSpriteLayers();
-
-        loadItemLayers();
-        loadEnemyLayers();
     }
 
     /**
@@ -189,11 +184,5 @@ public class TiledMapSpawner {
             }
         }
 	}
-
-    private void loadItemLayers() {
-    }
-
-    private void loadEnemyLayers() {
-    }
 
 }

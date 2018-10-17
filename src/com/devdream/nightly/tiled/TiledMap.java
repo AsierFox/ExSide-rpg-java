@@ -1,4 +1,4 @@
-package com.devdream.nightly.graphics.tiled;
+package com.devdream.nightly.tiled;
 
 import com.devdream.nightly.entities.mob.Player;
 import com.devdream.nightly.graphics.Renderer;
@@ -19,8 +19,6 @@ public class TiledMap {
     public ArrayList<Rectangle> mergedColliders;
     private Sprite[] sprites;
 
-    private ArrayList<Rectangle> updatingColliders;
-
 
     public TiledMap(final String mapName) {
     	spawner = new TiledMapSpawner(mapName);
@@ -32,12 +30,10 @@ public class TiledMap {
     	mergedColliders = spawner.mergedColliders;
     	tileLayers = spawner.tileLayers;
     	sprites = spawner.sprites;
-
-    	updatingColliders = new ArrayList<>();
     }
 
     public void update() {
-    	updateColliders();
+    	// Remove logic, etc...
     }
 
     public void render(final Renderer renderer) {
@@ -63,7 +59,7 @@ public class TiledMap {
 					// In readLayers() (0 converts to -1 when are not tiles)
     				if (-1 != currentTileLocation) {
 
-						// TODO * 16, make dynamic
+						// TODO Make dynamic
 						int xPosition = x << 4;
 						int yPosition = y << 4;
 
@@ -75,22 +71,9 @@ public class TiledMap {
     }
 
     private void renderColliders(final Renderer renderer) {
-    	for (Rectangle rect : updatingColliders) {
+    	for (Rectangle rect : mergedColliders) {
     		renderer.renderRect(rect);
     	}
-    }
-
-    private void updateColliders() {
-        if (!updatingColliders.isEmpty()) {
-            updatingColliders.clear();
-        }
-        for (int i = 0, ilen = mergedColliders.size(); i < ilen; i++) {
-            final Rectangle rect = mergedColliders.get(i);
-
-            // TODO Is this code necessary (?)
-
-            updatingColliders.add(rect);
-        }
     }
 
 }

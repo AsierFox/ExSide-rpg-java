@@ -75,7 +75,7 @@ public abstract class Mob extends Entity {
         for (Rectangle mapCollider : belongsToLevel.tiledMap.mergedColliders) {
 
             if (collider.intersects(mapCollider)) {
-
+/*
                 // Right collision
                 if (xMove > 0 && collider.x - mapCollider.x < 0) {
                     System.out.println("Right");
@@ -100,8 +100,12 @@ public abstract class Mob extends Entity {
                     isCollisionY = true;
                     yMove = 0;
                 }
+*/
 
-                break;
+            	isCollisionX = (xMove > 0 && collider.x - mapCollider.x < 0) || xMove < 0 && collider.x - mapCollider.x > 0;
+            	isCollisionY = (yMove < 0 && collider.y - mapCollider.y > 0) || (yMove > 0 && collider.y - mapCollider.y < 0);
+
+            	break;
             }
         }
 

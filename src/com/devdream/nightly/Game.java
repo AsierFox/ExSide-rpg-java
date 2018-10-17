@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable {
 
     public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 16 * 9; // Aspect ratio
-    public static final int SCALE = 3;
+    public static final int SCALE = 1;
 
     private static final String THREAD_NAME = "Game thread";
 
@@ -86,7 +86,7 @@ public class Game extends Canvas implements Runnable {
         long loopTiming = System.nanoTime();
         long timer = System.nanoTime();
         final int nanosecondPerSecond = 1000000000;
-        final double nanosecondsToSeconds = 16666666; // 1000000000 / 60
+        final double nanosecondsToSeconds = 16666666.6667; // 1000000000 / 60
         long lastTime;
         double delta = 0;
         int UPS = 0;
@@ -130,6 +130,7 @@ public class Game extends Canvas implements Runnable {
         frame.add(this);
         frame.setTitle(GameProperties.instance().getTitle());
         frame.setIconImage(new ImageIcon(Game.class.getResource(GameProperties.instance().getIcon())).getImage());
+        frame.setCursor(Mouse.getCursor());
         if (!GameProperties.instance().areWindowborders()) {
             frame.setUndecorated(true);
         }
@@ -168,6 +169,7 @@ public class Game extends Canvas implements Runnable {
         graphics.setColor(Color.WHITE);
         graphics.drawString("Player -> x: " + Player.getInstance().pos.x + ", y: " + Player.getInstance().pos.y, 30, 30);
 
+        graphics.setColor(Color.CYAN);
         graphics.fillRect(Mouse.getX(), Mouse.getY(), 10, 10);
 
         // Swap buffers

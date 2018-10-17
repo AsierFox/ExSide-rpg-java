@@ -1,6 +1,6 @@
 package com.devdream.nightly.graphics;
 
-import com.devdream.nightly.graphics.tiled.TiledMap;
+import com.devdream.nightly.tiled.TiledMap;
 
 public interface G {
 
