@@ -8,7 +8,7 @@ public class Arrow extends Projectile {
 	private static final int SPEED = 2;
 	private static final int DAMAGE = 20;
 	private static final int RANGE = 180;
-	public static final int CADENCE = 20;
+	public static final int CADENCE = 16;
 
 
 	public Arrow(final int xOrigin, final int yOrigin, final double direction) {

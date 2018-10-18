@@ -11,6 +11,8 @@ import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 
+import java.awt.*;
+
 /**
  * Singleton class player.
  */
@@ -36,7 +38,7 @@ public class Player extends Mob {
         animationSpeed = 100;
 
         colliderLeftPadding = 5;
-        colliderRightPadding = 30;
+        colliderRightPadding = 10;
 
         cadenceCounter = 0;
     }
@@ -45,6 +47,7 @@ public class Player extends Mob {
         this.keyboard = keyboard;
         pos.x = spawnPosition.x;
         pos.y = spawnPosition.y;
+        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH - colliderRightPadding, sprite.HEIGHT >> 1);
     }
 
     @Override

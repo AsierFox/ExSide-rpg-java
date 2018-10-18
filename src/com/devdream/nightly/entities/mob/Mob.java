@@ -28,8 +28,6 @@ public abstract class Mob extends Entity {
         animationCounter = 0;
         state = EntityState.IDLE;
         direction = Direction.SOUTH;
-
-        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH - colliderRightPadding, sprite.HEIGHT >> 1);
     }
 
     @Override
