@@ -20,8 +20,6 @@ public abstract class Mob extends Entity {
     protected EntityState state;
     protected Direction direction;
 
-    protected Rectangle collider;
-
 
     public Mob(final Sprite sprite) {
         super();
@@ -30,6 +28,8 @@ public abstract class Mob extends Entity {
         animationCounter = 0;
         state = EntityState.IDLE;
         direction = Direction.SOUTH;
+
+        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH - colliderRightPadding, sprite.HEIGHT >> 1);
     }
 
     @Override

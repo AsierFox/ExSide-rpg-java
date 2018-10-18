@@ -8,6 +8,7 @@ import com.devdream.nightly.items.Item;
 import com.devdream.nightly.tiled.TiledMap;
 import com.devdream.nightly.ui.HUD;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -56,6 +57,8 @@ public abstract class BaseLevel {
         }
 
         playerHUD.update();
+
+        checkCollisions();
     }
 
     /**
@@ -70,6 +73,8 @@ public abstract class BaseLevel {
     		}
     	}
 
+    	// With Java 8
+        //items.removeIf(Item::isRemoved);
     	Iterator<Item> itemsIterator = items.iterator();
     	while (itemsIterator.hasNext()) {
     		Item item = itemsIterator.next();
@@ -77,6 +82,22 @@ public abstract class BaseLevel {
     			itemsIterator.remove();
     		}
     	}
+    }
+
+    private void checkCollisions() {
+        for (Item item : items) {
+
+            for (Rectangle mapCollider : tiledMap.mergedColliders) {
+                if (item.collider.intersects(mapCollider)) {
+                    item.dispose();
+                }
+            }
+            for (Entity entity : entities) {
+                if (item.collider.intersects(entity.collider)) {
+                    item.dispose();
+                }
+            }
+        }
     }
 
     /**

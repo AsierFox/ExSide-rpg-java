@@ -1,6 +1,8 @@
 package com.devdream.nightly.items;
 
+import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
+import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.utils.MathUtils;
 
 /**
@@ -39,9 +41,20 @@ public abstract class Projectile extends Item {
     	if (getDistance() >= range) {
     		dispose();
     	}
+
+    	// Update collider
+        collider.x = pos.x.intValue();
+    	collider.y = pos.y.intValue();
     }
 
-    public double getDistance() {
+    @Override
+    public void render(final Renderer renderer) {
+        if (GameProperties.instance().isDebug()) {
+            renderer.renderRect(collider);
+        }
+    }
+
+    private double getDistance() {
     	return MathUtils.getDistanceBetweenCoords(xOriginReference, pos.x, yOriginReference, pos.y);
     }
 

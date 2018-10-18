@@ -31,6 +31,8 @@ public class Arrow extends Projectile {
 
     @Override
     public void render(Renderer renderer) {
+	    super.render(renderer);
+
         renderer.renderItem(pos.x.intValue(), pos.y.intValue(), this);
     }
 
