@@ -4,18 +4,26 @@ import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.maths.Vector2D;
 
+/**
+ * Item class.
+ */
 public abstract class Item {
 
-    public Vector2D pos;
+    public Vector2D<Double> pos;
     public Sprite sprite;
 
     private boolean isRemoved;
 
 
     public Item() {
-        pos = new Vector2D();
+        pos = new Vector2D<>(.0d, .0d);
 
         isRemoved = false;
+    }
+
+    public Item(final Sprite sprite) {
+    	this();
+    	this.sprite = sprite;
     }
 
     public abstract void update();

@@ -1,5 +1,11 @@
 package com.devdream.nightly.items;
 
+import com.devdream.nightly.graphics.Sprite;
+import com.devdream.nightly.utils.MathUtils;
+
+/**
+ * Item that can be throwable.
+ */
 public abstract class Projectile extends Item {
 
     protected final int xOriginReference;
@@ -8,14 +14,35 @@ public abstract class Projectile extends Item {
     protected double yUpdate;
 
     protected final double angle;
+    protected double speed;
+    protected double damage;
+    protected final double range;
+    protected final double cadence;
 
 
-    public Projectile(final int xOrigin, final int yOrigin, final double direction) {
-        pos.x = xOrigin;
-        pos.y = yOrigin;
+    public Projectile(int xOrigin, int yOrigin, double direction, double speed, double damage, double range, double cadence, Sprite sprite) {
+    	super(sprite);
+        pos.x = (double) xOrigin;
+        pos.y = (double) yOrigin;
+
         xOriginReference = xOrigin;
         yOriginReference = yOrigin;
         angle = direction;
+        this.speed = speed;
+        this.damage = damage;
+        this.range = range;
+        this.cadence = cadence;
+    }
+
+    @Override
+    public void update() {
+    	if (getDistance() >= range) {
+    		dispose();
+    	}
+    }
+
+    public double getDistance() {
+    	return MathUtils.getDistanceBetweenCoords(xOriginReference, pos.x, yOriginReference, pos.y);
     }
 
 }

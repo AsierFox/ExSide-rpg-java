@@ -1,13 +1,18 @@
 package com.devdream.nightly.ui;
 
+import com.devdream.nightly.graphics.G;
+import com.devdream.nightly.graphics.GameWindow;
 import com.devdream.nightly.graphics.Renderer;
+import com.devdream.nightly.graphics.Sprite;
 
 public class HUD {
 
-	private boolean visible;
-
 	public WorldTime worldTime;
 	public HealthBar healthBar;
+	
+	private Sprite hudBackground;
+	
+	private boolean visible;
 
 
 	public HUD() {
@@ -15,6 +20,8 @@ public class HUD {
 
 		worldTime = new WorldTime();
 		healthBar = new HealthBar();
+		
+		hudBackground = G.Sprites.hudBackground;
 	}
 
 	public void update() {
@@ -22,7 +29,7 @@ public class HUD {
 	}
 
 	public void render(final Renderer renderer) {
-		//
+		renderer.renderStickySprite(0, GameWindow.HEIGHT - hudBackground.HEIGHT, hudBackground);
 	}
 
 }

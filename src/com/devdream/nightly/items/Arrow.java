@@ -5,38 +5,33 @@ import com.devdream.nightly.graphics.Renderer;
 
 public class Arrow extends Projectile {
 
-    private double speed;
-    private double damage;
-    private double range;
-    private double cadence;
+	private static final int SPEED = 2;
+	private static final int DAMAGE = 20;
+	private static final int RANGE = 180;
+	public static final int CADENCE = 20;
 
 
-    public Arrow(final int xOrigin, final int yOrigin, final double direction) {
-        super(xOrigin, yOrigin, direction);
-
-        sprite = G.Sprites.arrow;
-
-        speed = 20;
-        damage = 20;
-        range = 100;
-        cadence = 50;
+	public Arrow(final int xOrigin, final int yOrigin, final double direction) {
+        super(xOrigin, yOrigin, direction, SPEED, DAMAGE, RANGE, CADENCE, G.Sprites.arrow);
 
         // Calculate vectors
         // cos to update x every frame to calculate next direction angle
-        xUpdate = Math.cos(angle) * speed;
+        xUpdate = Math.cos(angle) * SPEED;
         // sine to update x every frame to calculate next direction angle
-        yUpdate = Math.sin(angle) * speed;
+        yUpdate = Math.sin(angle) * SPEED;
     }
 
     @Override
     public void update() {
+    	super.update();
+
         pos.x += xUpdate;
         pos.y += yUpdate;
     }
 
     @Override
     public void render(Renderer renderer) {
-        renderer.renderProjectile(pos.x, pos.y, this);
+        renderer.renderItem(pos.x.intValue(), pos.y.intValue(), this);
     }
 
 }

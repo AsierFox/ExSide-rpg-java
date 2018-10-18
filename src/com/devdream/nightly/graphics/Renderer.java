@@ -1,6 +1,7 @@
 package com.devdream.nightly.graphics;
 
-import com.devdream.nightly.items.Projectile;
+import com.devdream.nightly.items.Item;
+import com.devdream.nightly.tiled.TiledMap;
 
 import java.awt.*;
 
@@ -9,9 +10,6 @@ import java.awt.*;
  */
 public class Renderer {
 
-    public int width;
-    public int height;
-
     private int pixelsAmount;
     public int[] pixels;
 
@@ -19,11 +17,35 @@ public class Renderer {
     private int yOffset;
 
 
-    public Renderer(final int width, final int height) {
-        this.width = width;
-        this.height = height;
-        pixelsAmount = width * height;
+    public Renderer() {
+        pixelsAmount = GameWindow.WIDTH * GameWindow.HEIGHT;
         pixels = new int[pixelsAmount];
+    }
+
+    /**
+     * Renders the tiled map.
+     * @param tiledMap
+     */
+    public void renderMap(final TiledMap tiledMap) {
+    	for (int i = 0, ilen = tiledMap.tileLayers.size(); i < ilen; i++) {
+    		int[] tileLocations = tiledMap.tileLayers.get(i).tilesLocation;
+
+    		for (int y = 0; y < tiledMap.mapTilesHeight; y++) {
+    			for (int x = 0; x < tiledMap.mapTilesWidth; x++) {
+    				final int currentTileLocation = tileLocations[x + y * tiledMap.mapTilesWidth];
+
+					// In readLayers() (0 converts to -1 when are not tiles)
+    				if (-1 != currentTileLocation) {
+
+						// TODO Make dynamic Tile size
+						int xPosition = x << 4;
+						int yPosition = y << 4;
+
+						renderTile(xPosition, yPosition, tiledMap.sprites[currentTileLocation]);
+    				}
+    			}
+    		}
+    	}
     }
 
     /**
@@ -37,24 +59,7 @@ public class Renderer {
         xPosition -= xOffset;
         yPosition -= yOffset;
 
-        for (int y = 0; y < sprite.HEIGHT; y++) {
-            // Absolute position will move specific tile position
-            int yAbsolute = y + yPosition;
-            for (int x = 0; x < sprite.WIDTH; x++) {
-                int xAbsolute = x + xPosition;
-
-                // Only render the tiles that we can see on the screen
-                if (xAbsolute < -sprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
-                    break;
-                }
-                // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
-                if (xAbsolute < 0) {
-                    xAbsolute = 0;
-                }
-
-                pixels[xAbsolute + yAbsolute * width] = sprite.pixels[x + y * sprite.WIDTH];
-            }
-        }
+        procesSpriteRender(xPosition, yPosition, sprite);
     }
 
     /**
@@ -63,51 +68,52 @@ public class Renderer {
      * @param xPosition
      * @param yPosition
      */
-    public void renderPlayer(final Sprite playerSprite, int xPosition, int yPosition) {
-        // Adjust location of the tiles by the offset, to reverse the map movement position
+    public void renderPlayer(int xPosition, int yPosition, final Sprite playerSprite) {
         xPosition -= xOffset;
         yPosition -= yOffset;
-        for (int y = 0; y < playerSprite.HEIGHT; y++) {
-            // Absolute position will move specific tile position
-            int yAbsolute = y + yPosition;
 
-            for (int x = 0; x < playerSprite.WIDTH; x++) {
-                int xAbsolute = x + xPosition;
-
-                // Only render that we can see on the screen
-                if (xAbsolute < -playerSprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
-                    break;
-                }
-                // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
-                if (xAbsolute < 0) {
-                    xAbsolute = 0;
-                }
-
-                // Suppress sprite sheet background color
-                int pixel = playerSprite.pixels[x + y * playerSprite.WIDTH];
-
-                // TODO Make dynamic suppress sheet color (SpriteSheet constructor)
-                if (pixel != 0xff000000) {
-                    pixels[xAbsolute + yAbsolute * width] = pixel;
-                    // Flip sprite
-                }
-            }
-        }
+        procesSpriteRender(xPosition, yPosition, playerSprite);
     }
 
-    public void renderProjectile(int xPosition, int yPosition, final Projectile projectile) {
-        // Adjust location of the tiles by the offset, to reverse the map movement position
+    /**
+     * Renders an Item.
+     * @param xPosition
+     * @param yPosition
+     * @param item
+     */
+    public void renderItem(int xPosition, int yPosition, final Item item) {
         xPosition -= xOffset;
         yPosition -= yOffset;
 
-        for (int y = 0; y < projectile.sprite.HEIGHT; y++) {
+        procesSpriteRender(xPosition, yPosition, item.sprite);
+    }
+
+    /**
+     * Renders an Sprite.
+     * @param xPosition
+     * @param yPosition
+     * @param item
+     */
+    public void renderSprite(int xPosition, int yPosition, final Sprite sprite) {
+        xPosition -= xOffset;
+        yPosition -= yOffset;
+
+        procesSpriteRender(xPosition, yPosition, sprite);
+    }
+
+    public void renderStickySprite(int xPosition, int yPosition, final Sprite sprite) {
+    	procesSpriteRender(xPosition, yPosition, sprite);
+    }
+    
+    private void procesSpriteRender(int xPosition, int yPosition, final Sprite sprite) {
+    	for (int y = 0; y < sprite.HEIGHT; y++) {
             // Absolute position will move specific tile position
             int yAbsolute = y + yPosition;
-            for (int x = 0; x < projectile.sprite.WIDTH; x++) {
+            for (int x = 0; x < sprite.WIDTH; x++) {
                 int xAbsolute = x + xPosition;
 
                 // Only render the tiles that we can see on the screen
-                if (xAbsolute < -projectile.sprite.WIDTH || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
+                if (xAbsolute < -sprite.WIDTH || xAbsolute >= GameWindow.WIDTH || yAbsolute < 0 || yAbsolute >= GameWindow.HEIGHT) {
                     break;
                 }
                 // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
@@ -115,9 +121,10 @@ public class Renderer {
                     xAbsolute = 0;
                 }
 
-                int pixel = projectile.sprite.pixels[x + y * projectile.sprite.WIDTH];
-                if (pixel != 0xff000000) {
-                    pixels[xAbsolute + yAbsolute * width] = pixel;
+                int pixel = sprite.pixels[x + y * sprite.WIDTH];
+                // TODO Make dynamic suppress sheet color (SpriteSheet constructor)
+                if (pixel != 0xff000000 && pixel != 0xffffffff) {
+                    pixels[xAbsolute + yAbsolute * GameWindow.WIDTH] = pixel;
                 }
             }
         }
@@ -128,7 +135,6 @@ public class Renderer {
      * @param rect
      */
 	public void renderRect(Rectangle rect) {
-		// Adjust location of the tiles by the offset, to reverse the map movement position
         final int xPosition = rect.x - xOffset;
         final int yPosition = rect.y - yOffset;
 
@@ -140,7 +146,7 @@ public class Renderer {
                 int xAbsolute = x + xPosition;
 
                 // Only render that we can see on the screen
-                if (xAbsolute < -rect.width || xAbsolute >= width || yAbsolute < 0 || yAbsolute >= height) {
+                if (xAbsolute < -rect.width || xAbsolute >= GameWindow.WIDTH || yAbsolute < 0 || yAbsolute >= GameWindow.HEIGHT) {
                     break;
                 }
                 // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
@@ -150,11 +156,21 @@ public class Renderer {
 
                 // Only paint borders
                 if (x == 0 || y == 0 || x == rect.width - 1 || y == rect.height - 1) {
-                	pixels[xAbsolute + yAbsolute * width] = Color.RED.getRGB();
+                	pixels[xAbsolute + yAbsolute * GameWindow.WIDTH] = Color.RED.getRGB();
                 }
             }
         }
 	}
+
+	/**
+	 * Set offset to adjust location of the tiles by the offset, to reverse the map movement position.
+	 * @param xOffset
+	 * @param yOffset
+	 */
+    public void setOffset(final int xOffset, final int yOffset) {
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+    }
 
     /**
      * Clears all pixels of the screen.
@@ -163,11 +179,6 @@ public class Renderer {
         for (int i = 0; i < pixelsAmount; i++) {
             pixels[i] = 0;
         }
-    }
-
-    public void setOffset(final int xOffset, final int yOffset) {
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
     }
 
 }

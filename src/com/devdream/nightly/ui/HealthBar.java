@@ -7,5 +7,9 @@ public class HealthBar {
 	public HealthBar() {
 		life = 100;
 	}
+	
+	public void update() {
+		//
+	}
 
 }

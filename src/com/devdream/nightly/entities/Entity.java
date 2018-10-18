@@ -7,7 +7,7 @@ import com.devdream.nightly.maths.Vector2D;
 
 public abstract class Entity {
 
-    public Vector2D pos;
+    public Vector2D<Integer> pos;
 
     public Sprite sprite;
 
@@ -17,7 +17,8 @@ public abstract class Entity {
 
 
     public Entity() {
-    	pos = new Vector2D();
+    	pos = new Vector2D<>(0, 0);
+
         isRemoved = false;
     }
 
@@ -29,6 +30,7 @@ public abstract class Entity {
 
     public void dispose() {
         // Remove from level
+    	belongsToLevel.removeEntity(this);
         isRemoved = true;
     }
 

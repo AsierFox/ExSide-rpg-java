@@ -1,7 +1,7 @@
 package com.devdream.nightly.entities.mob;
 
-import com.devdream.nightly.Game;
 import com.devdream.nightly.graphics.G;
+import com.devdream.nightly.graphics.GameWindow;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.io.Mouse;
@@ -24,6 +24,8 @@ public class Player extends Mob {
 
 	private final int colliderLeftPadding;
     private final int colliderRightPadding;
+    
+    private int cadenceCounter;
 
 
     public static Player getInstance() {
@@ -40,9 +42,11 @@ public class Player extends Mob {
 
         colliderLeftPadding = 5;
         colliderRightPadding = 10;
+
+        cadenceCounter = 0;
     }
 
-    public void init(final Keyboard keyboard, final Vector2D spawnPosition) {
+    public void init(final Keyboard keyboard, final Vector2D<Integer> spawnPosition) {
         this.keyboard = keyboard;
         pos.x = spawnPosition.x;
         pos.y = spawnPosition.y;
@@ -71,8 +75,14 @@ public class Player extends Mob {
         }
 
         // Read mouse events
-        if (Mouse.getBtn() == 1) {
+        if (Mouse.getBtn() == 1 && canShoot()) {
             shoot();
+            cadenceCounter = 0;
+        }
+
+        // Update
+        if (cadenceCounter <= Arrow.CADENCE) {
+        	cadenceCounter++;
         }
 
         updateCollider();
@@ -87,15 +97,19 @@ public class Player extends Mob {
         }
     }
 
+    private boolean canShoot() {
+    	return cadenceCounter > Arrow.CADENCE;
+    }
+
     private void shoot() {
         // >> 1 is like / 2
-        int shootX = Mouse.getX() - (Game.getWindowTotalWidth() >> 1);
-        int shootY = Mouse.getY() - (Game.getWindowTotalHeight() >> 1);
+        int shootX = Mouse.getX() - (GameWindow.getTotalWidth() >> 1);
+        int shootY = Mouse.getY() - (GameWindow.getTotalHeight() >> 1);
     	final double shootDirection = Math.atan2(shootY, shootX);
     	// Convert angle to degrees
     	//shootDirection *= 180/ Math.PI;
-        updatingArrows.add(new Arrow(pos.x, pos.y, shootDirection));
-        // TODO Add projectile to the level
+    	// TODO Check current weapon of the player
+        belongsToLevel.addItem(new Arrow(pos.x, pos.y, shootDirection));
     }
 
     private void updateCollider() {
@@ -111,8 +125,7 @@ public class Player extends Mob {
 
         setSprite();
 
-        // We can duplicate this line to render more things
-        renderer.renderPlayer(sprite, pos.x - sprite.WIDTH / 2, pos.y - sprite.HEIGHT / 2);
+        renderer.renderPlayer(pos.x - sprite.WIDTH / 2, pos.y - sprite.HEIGHT / 2, sprite);
 
         if (GameProperties.instance().isDebug()) {
         	renderer.renderRect(collider);

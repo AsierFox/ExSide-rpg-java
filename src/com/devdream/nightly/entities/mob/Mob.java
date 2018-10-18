@@ -3,18 +3,14 @@ package com.devdream.nightly.entities.mob;
 import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
-import com.devdream.nightly.items.Arrow;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * Entities that can have interaction in the game.
- *
- * TODO Implement lighting here in the future.
  */
 public abstract class Mob extends Entity {
 
@@ -26,7 +22,6 @@ public abstract class Mob extends Entity {
 
     protected Rectangle collider;
 
-    protected ArrayList<Arrow> updatingArrows;
 
     public Mob(final Sprite sprite) {
         super();
@@ -35,8 +30,6 @@ public abstract class Mob extends Entity {
         animationCounter = 0;
         state = EntityState.IDLE;
         direction = Direction.SOUTH;
-
-        updatingArrows = new ArrayList<>();
     }
 
     @Override
@@ -57,10 +50,6 @@ public abstract class Mob extends Entity {
             }
         } else {
             animationCounter = 0;
-        }
-
-        for (Arrow arrow : updatingArrows) {
-            arrow.update();
         }
     }
 
@@ -87,6 +76,7 @@ public abstract class Mob extends Entity {
         for (Rectangle mapCollider : belongsToLevel.tiledMap.mergedColliders) {
 
             if (collider.intersects(mapCollider)) {
+
 /*
                 // Right collision
                 if (xMove > 0 && collider.x - mapCollider.x < 0) {
@@ -131,9 +121,6 @@ public abstract class Mob extends Entity {
 
     @Override
     public void render(final Renderer renderer) {
-        for (Arrow arrow : updatingArrows) {
-            arrow.render(renderer);
-        }
     }
 
 }

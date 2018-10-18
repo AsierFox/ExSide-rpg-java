@@ -1,15 +1,11 @@
 package com.devdream.nightly.maths;
 
-public class Vector2D {
+public class Vector2D<T extends Number> {
 
-    public int x;
-    public int y;
+    public T x;
+    public T y;
 
-    public Vector2D() {
-        this(0, 0);
-    }
-
-    public Vector2D(final int x, final int y) {
+    public Vector2D(final T x, final T y) {
         this.x = x;
         this.y = y;
     }
@@ -17,5 +13,5 @@ public class Vector2D {
     public String toString() {
     	return "x=" + x + ", y=" + y;
     }
-    
+
 }

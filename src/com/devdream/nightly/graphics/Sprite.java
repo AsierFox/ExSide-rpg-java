@@ -67,7 +67,7 @@ public class Sprite {
         HEIGHT = height;
         
     	final int spriteSheetTotalColumns = fromSheet.WIDTH / WIDTH;
-    	final Vector2D coords = MathUtils.getCoordsByIndex(index, spriteSheetTotalColumns);
+    	final Vector2D<Integer> coords = MathUtils.getCoordsByIndex(index, spriteSheetTotalColumns);
         this.xLocation = coords.x * width;
         this.yLocation = coords.y * height;
 

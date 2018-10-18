@@ -12,10 +12,14 @@ public interface G {
 		SpriteSheet projectiles = new SpriteSheet("/arrow.png", 14, 15);
 		SpriteSheet road = new SpriteSheet("/tilesets/road.png", 32, 32);
 	    SpriteSheet player = new SpriteSheet("/01_player.png", 128, 192);
+	    SpriteSheet hudBackground = new SpriteSheet("/hud/hud-bg.png", 276, 37);
 	}
 
 	interface Sprites {
+		// HUD
+		Sprite hudBackground = new Sprite(0, G.SpriteSheets.hudBackground, 276, 37);
 
+		// Weapon
     	Sprite arrow = new Sprite(0, G.SpriteSheets.projectiles, 14, 15);
 
 	    // Player
