@@ -1,6 +1,6 @@
 package com.devdream.nightly.tiled;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 public class ColliderLayer extends TiledLayer {
 

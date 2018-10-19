@@ -1,5 +1,13 @@
 package com.devdream.nightly;
 
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
+
 import com.devdream.nightly.entities.mob.Player;
 import com.devdream.nightly.graphics.GameWindow;
 import com.devdream.nightly.graphics.Renderer;
@@ -8,11 +16,6 @@ import com.devdream.nightly.io.Mouse;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.levels.TestLevel;
 import com.devdream.nightly.utils.Logger;
-
-import java.awt.*;
-import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 
 /**
  * Extends Canvas for user interaction with JFrame.

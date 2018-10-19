@@ -1,5 +1,7 @@
 package com.devdream.nightly.graphics;
 
+import java.awt.Color;
+
 import com.devdream.nightly.tiled.TiledMap;
 
 public interface G {
@@ -42,6 +44,9 @@ public interface G {
 	    Sprite player_north_1 = new Sprite(G.SpriteSheets.player, 32, 48, 1, 3);
 	    Sprite player_north_2 = new Sprite(G.SpriteSheets.player, 32, 48, 2, 3);
 	    Sprite player_north_3 = new Sprite(G.SpriteSheets.player, 32, 48, 3, 3);
+	    
+	    // Particles
+	    Sprite arrow_particle = new Sprite(Color.PINK.getRGB(), 3);
 	}
 
 }

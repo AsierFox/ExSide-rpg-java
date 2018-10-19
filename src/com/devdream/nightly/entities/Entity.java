@@ -1,11 +1,11 @@
 package com.devdream.nightly.entities;
 
+import java.awt.Rectangle;
+
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.maths.Vector2D;
-
-import java.awt.*;
 
 public abstract class Entity {
 
@@ -17,17 +17,11 @@ public abstract class Entity {
 
     public Rectangle collider;
 
-    protected int colliderLeftPadding;
-    protected int colliderRightPadding;
-
     private boolean isRemoved;
 
 
     public Entity() {
     	pos = new Vector2D<>(0, 0);
-
-        colliderLeftPadding = 0;
-        colliderRightPadding = 0;
 
         isRemoved = false;
     }

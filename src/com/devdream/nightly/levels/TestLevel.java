@@ -15,7 +15,7 @@ public class TestLevel extends BaseLevel {
     protected void load() {
     	tiledMap = new TiledMap("tiled-map");
 
-		Vector2D playerSpawnPosition = new Vector2D(150, 150);
+		Vector2D<Integer> playerSpawnPosition = new Vector2D<>(150, 150);
 		Player.getInstance().init(keyboard, playerSpawnPosition);
 		Player.getInstance().attachLevel(this);
     }

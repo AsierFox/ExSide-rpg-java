@@ -1,9 +1,10 @@
 package com.devdream.nightly.graphics;
 
+import java.awt.Color;
+import java.awt.Rectangle;
+
 import com.devdream.nightly.items.Item;
 import com.devdream.nightly.tiled.TiledMap;
-
-import java.awt.*;
 
 /**
  * Class that renders the pixels to the screen.
@@ -59,7 +60,7 @@ public class Renderer {
         xPosition -= xOffset;
         yPosition -= yOffset;
 
-        procesSpriteRender(xPosition, yPosition, sprite);
+        processSpriteRender(xPosition, yPosition, sprite);
     }
 
     /**
@@ -72,7 +73,7 @@ public class Renderer {
         xPosition -= xOffset;
         yPosition -= yOffset;
 
-        procesSpriteRender(xPosition, yPosition, playerSprite);
+        processSpriteRender(xPosition, yPosition, playerSprite);
     }
 
     /**
@@ -85,27 +86,27 @@ public class Renderer {
         xPosition -= xOffset;
         yPosition -= yOffset;
 
-        procesSpriteRender(xPosition, yPosition, item.sprite);
+        processSpriteRender(xPosition, yPosition, item.sprite);
     }
 
     /**
      * Renders an Sprite.
      * @param xPosition
      * @param yPosition
-     * @param item
+     * @param sprite
      */
     public void renderSprite(int xPosition, int yPosition, final Sprite sprite) {
         xPosition -= xOffset;
         yPosition -= yOffset;
 
-        procesSpriteRender(xPosition, yPosition, sprite);
+        processSpriteRender(xPosition, yPosition, sprite);
     }
 
     public void renderStickySprite(int xPosition, int yPosition, final Sprite sprite) {
-    	procesSpriteRender(xPosition, yPosition, sprite);
+    	processSpriteRender(xPosition, yPosition, sprite);
     }
-    
-    private void procesSpriteRender(int xPosition, int yPosition, final Sprite sprite) {
+
+    private void processSpriteRender(int xPosition, int yPosition, final Sprite sprite) {
     	for (int y = 0; y < sprite.HEIGHT; y++) {
             // Absolute position will move specific tile position
             int yAbsolute = y + yPosition;

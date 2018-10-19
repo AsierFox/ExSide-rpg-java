@@ -1,13 +1,15 @@
 package com.devdream.nightly.io;
 
-import com.devdream.nightly.utils.FileReader;
-
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.Optional;
+
+import com.devdream.nightly.utils.FileReader;
 
 public class Mouse implements MouseListener, MouseMotionListener {
 

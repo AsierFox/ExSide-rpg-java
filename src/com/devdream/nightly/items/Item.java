@@ -1,10 +1,11 @@
 package com.devdream.nightly.items;
 
+import java.awt.Rectangle;
+import java.util.Random;
+
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.maths.Vector2D;
-
-import java.awt.*;
 
 /**
  * Item class.
@@ -15,11 +16,14 @@ public abstract class Item {
     public Rectangle collider;
     public Sprite sprite;
 
+    protected Random rand;
+    
     private boolean isRemoved;
 
 
     public Item() {
         pos = new Vector2D<>(.0d, .0d);
+        rand = new Random();
         isRemoved = false;
     }
 
@@ -40,6 +44,10 @@ public abstract class Item {
 
     public boolean isRemoved() {
         return isRemoved;
+    }
+    
+    public boolean canCollide() {
+    	return true;
     }
 
 }

@@ -1,17 +1,17 @@
 package com.devdream.nightly.entities.mob;
 
+import java.awt.Rectangle;
+
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.GameWindow;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.io.Mouse;
-import com.devdream.nightly.items.Arrow;
+import com.devdream.nightly.items.projectiles.Arrow;
 import com.devdream.nightly.maths.Vector2D;
 import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
-
-import java.awt.*;
 
 /**
  * Singleton class player.
@@ -23,6 +23,10 @@ public class Player extends Mob {
 	private Keyboard keyboard;
 
     private int cadenceCounter;
+
+    private int colliderTopPadding;
+    private int colliderLeftPadding;
+    private int colliderRightPadding;
 
 
     public static Player getInstance() {
@@ -37,8 +41,9 @@ public class Player extends Mob {
 
         animationSpeed = 100;
 
-        colliderLeftPadding = 5;
-        colliderRightPadding = 10;
+        colliderTopPadding = 5;
+        colliderLeftPadding = 6;
+        colliderRightPadding = 12;
 
         cadenceCounter = 0;
     }
@@ -47,7 +52,7 @@ public class Player extends Mob {
         this.keyboard = keyboard;
         pos.x = spawnPosition.x;
         pos.y = spawnPosition.y;
-        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH - colliderRightPadding, sprite.HEIGHT >> 1);
+        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
     }
 
     @Override
@@ -111,7 +116,7 @@ public class Player extends Mob {
 
     private void updateCollider() {
         collider.x = (pos.x - sprite.WIDTH / 2) + colliderLeftPadding;
-        collider.y = pos.y;
+        collider.y = pos.y + colliderTopPadding;
 	}
 
 	@Override

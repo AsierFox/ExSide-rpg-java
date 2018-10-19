@@ -1,11 +1,16 @@
 package com.devdream.nightly.graphics;
 
-import com.devdream.nightly.utils.Logger;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+import com.devdream.nightly.utils.Logger;
 
 /**
  * Creates a raster of pixels to control the image sheet and extract sprites from it.

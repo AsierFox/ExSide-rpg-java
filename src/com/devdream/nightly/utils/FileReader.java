@@ -1,12 +1,17 @@
 package com.devdream.nightly.utils;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
+
+import javax.imageio.ImageIO;
 
 public class FileReader {
 

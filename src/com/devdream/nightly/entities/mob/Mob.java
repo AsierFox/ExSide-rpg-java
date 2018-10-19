@@ -1,13 +1,13 @@
 package com.devdream.nightly.entities.mob;
 
+import java.awt.Rectangle;
+
 import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
-
-import java.awt.*;
 
 /**
  * Entities that can have interaction in the game.

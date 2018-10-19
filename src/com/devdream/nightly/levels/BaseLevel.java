@@ -1,16 +1,20 @@
 package com.devdream.nightly.levels;
 
+import java.awt.Rectangle;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
+
 import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.entities.mob.Player;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.items.Item;
+import com.devdream.nightly.items.particles.Particle;
+import com.devdream.nightly.items.particles.ParticleSpawner;
 import com.devdream.nightly.tiled.TiledMap;
+import com.devdream.nightly.types.ParticleType;
 import com.devdream.nightly.ui.HUD;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public abstract class BaseLevel {
 
@@ -25,6 +29,7 @@ public abstract class BaseLevel {
     
     protected ArrayList<Entity> entities;
     protected ArrayList<Item> items;
+    protected ArrayList<Particle> particles;
 
 
     public BaseLevel(final Keyboard keyboard, final int width, final int height) {
@@ -34,8 +39,9 @@ public abstract class BaseLevel {
 
     	playerHUD = new HUD();
 
-        this.entities = new ArrayList<>();
-        this.items = new ArrayList<>();
+        entities = new ArrayList<>();
+        items = new ArrayList<>();
+        particles = new ArrayList<>();
 
         load();
     }
@@ -54,6 +60,9 @@ public abstract class BaseLevel {
         }
         for (Item item : items) {
         	item.update();
+        }
+        for (Particle particle : ParticleSpawner.particles) {
+        	particle.update();
         }
 
         playerHUD.update();
@@ -85,16 +94,19 @@ public abstract class BaseLevel {
     }
 
     private void checkCollisions() {
-        for (Item item : items) {
+    	ListIterator<Item> itemsIterator = items.listIterator();
+        while (itemsIterator.hasNext()) {
+        	Item item = itemsIterator.next();
 
-            for (Rectangle mapCollider : tiledMap.mergedColliders) {
-                if (item.collider.intersects(mapCollider)) {
-                    item.dispose();
+        	for (Rectangle mapCollider : tiledMap.mergedColliders) {
+                if (item.canCollide() && item.collider.intersects(mapCollider)) {
+                	item.dispose();
+                	ParticleSpawner.generateParticles(item.pos.x, item.pos.y, ParticleType.TEST);
                 }
             }
             for (Entity entity : entities) {
                 if (item.collider.intersects(entity.collider)) {
-                    item.dispose();
+                	item.dispose();
                 }
             }
         }
@@ -114,6 +126,9 @@ public abstract class BaseLevel {
         }
         for (Item item : items) {
         	item.render(renderer);
+        }
+        for (Particle particle : ParticleSpawner.particles) {
+        	particle.render(renderer);
         }
 
     	playerHUD.render(renderer);
