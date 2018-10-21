@@ -8,6 +8,7 @@ import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
+import com.devdream.nightly.utils.MathUtils;
 
 /**
  * Entities that can have interaction in the game.
@@ -67,53 +68,61 @@ public abstract class Mob extends Entity {
             direction = Direction.EAST;
         }
 
-        boolean isCollisionX = false;
-        boolean isCollisionY = false;
+        Direction collisionDirection = Direction.NONE;
 
         // Check collisions
         for (Rectangle mapCollider : belongsToLevel.tiledMap.mergedColliders) {
 
             if (collider.intersects(mapCollider)) {
 
-/*
-                // Right collision
-                if (xMove > 0 && collider.x - mapCollider.x < 0) {
-                    System.out.println("Right");
-                    isCollisionX = true;
-                    xMove = 0;
-                }
-                // Left collision
-                if (xMove < 0 && collider.x - mapCollider.x > 0) {
-                    System.out.println("Left");
-                    isCollisionX = true;
-                    xMove = 0;
-                }
-                // Top collision
-                if (yMove < 0 && collider.y - mapCollider.y > 0) {
-                    System.out.println("Top");
-                    isCollisionY = true;
-                    yMove = 0;
-                }
-                // Bottom collision
-                if (yMove > 0 && collider.y - mapCollider.y < 0) {
-                    System.out.println("Bottom");
-                    isCollisionY = true;
-                    yMove = 0;
-                }
-*/
+            	collisionDirection = MathUtils.getRectangleDepthSideCollision(collider, mapCollider);
+            	
+            	/*
+            	if (direction == Direction.WEST || direction == Direction.EAST) {
+            		// Right collision
+                	if (collider.x + collider.width >= mapCollider.x && collider.x + collider.width <= mapCollider.x + mapCollider.width) {
+                		System.out.println("right");
+                		isCollisionRight = true;
+                	}
+                	// Left collision
+                	else if (collider.x <= mapCollider.x + mapCollider.width && collider.x >= mapCollider.x) {
+                		System.out.println("left");
+                		isCollisionLeft = true;
+                	}
+            	}
 
-            	isCollisionX = (xMove > 0 && collider.x - mapCollider.x < 0) || xMove < 0 && collider.x - mapCollider.x > 0;
-            	isCollisionY = (yMove < 0 && collider.y - mapCollider.y > 0) || (yMove > 0 && collider.y - mapCollider.y < 0);
+            	if (direction == Direction.NORTH || direction == Direction.SOUTH) {
+	            	// Top collision
+	        		if (collider.y <= mapCollider.y + mapCollider.height && collider.y + collider.height >= mapCollider.y + mapCollider.height) {
+	        			System.out.println("top");
+	        			isCollisionTop = true;
+	        		}
+	            	// Bottom collision
+	        		else if (collider.y <= mapCollider.y + mapCollider.height && collider.y >= mapCollider.y) {
+	        			System.out.println("bottom");
+	        			isCollisionBottom = true;
+	        		}
+            	}*/
 
             	break;
             }
         }
 
-        if (!isCollisionX) {
-            pos.x += xMove;
+        if (direction == Direction.NORTH && collisionDirection == Direction.NORTH) {
+        	pos.x += xMove;
         }
-        if (!isCollisionY) {
+        else if (direction == Direction.SOUTH && collisionDirection == Direction.SOUTH) {
+        	pos.x += xMove;
+        }
+        else if (direction == Direction.WEST && collisionDirection == Direction.WEST) {
             pos.y += yMove;
+        }
+        else if (direction == Direction.EAST && collisionDirection == Direction.EAST) {
+        	pos.y += yMove;
+        }
+        else {
+        	pos.x += xMove;
+        	pos.y += yMove;
         }
     }
 

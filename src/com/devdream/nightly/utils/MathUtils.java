@@ -1,6 +1,9 @@
 package com.devdream.nightly.utils;
 
+import java.awt.Rectangle;
+
 import com.devdream.nightly.maths.Vector2D;
+import com.devdream.nightly.types.Direction;
 
 public class MathUtils {
 
@@ -14,6 +17,43 @@ public class MathUtils {
 		final int x = index % totalColumns;
 		final int y = (int) Math.floor(index / totalColumns);
 		return new Vector2D<>(x, y);
+	}
+	
+	/**
+	 * Gets the side of collision in depth between two rectangles.
+	 * @param collider
+	 * @param obstacle
+	 * @return
+	 */
+	public static Direction getRectangleDepthSideCollision(final Rectangle collider, final Rectangle obstacle) {
+		int dx = (collider.x + collider.width / 2) - (obstacle.x + obstacle.width / 2);
+    	int dy = (collider.y + collider.height / 2) - (obstacle.y + obstacle.height / 2);
+    	int width = (collider.width + obstacle.width) / 2;
+    	int height = (collider.height + obstacle.height) / 2;
+    	int crossWidth = width * dy;
+    	int crossHeight= height * dx;
+
+    	// Detect if is collision (done with intersects)
+    	//if (Math.abs(dx) <= width && Math.abs(dy) <= height) {
+	    if (crossWidth > crossHeight) {
+	    	if (crossWidth > -crossHeight) {
+	    		System.out.println("Top!");
+	    		return Direction.NORTH;
+	    	}
+	    	else {
+	    		System.out.println("Right!");
+	    		return Direction.EAST;
+	    	}
+	    } else {
+	    	if (crossWidth > -crossHeight) {
+	    		System.out.println("Left!");
+	    		return Direction.WEST;
+	    	}
+	    	else {
+	    		System.out.println("Bottom!");
+	    		return Direction.SOUTH;
+	    	}
+	    }
 	}
 
 	/**

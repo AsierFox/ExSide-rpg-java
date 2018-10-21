@@ -2,16 +2,17 @@ package com.devdream.nightly.items.particles;
 
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.Sprite;
+import com.devdream.nightly.types.Direction;
 
 public class TestParticle extends Particle {
 
-	public static final int AMOUNT = 10;
+	public static final int AMOUNT = 30;
 
-	private static final int DURATION = 10;
+	private static final int DURATION = 40;
 
 
-	public TestParticle(final double x, final double y) {
-		super(x, y, DURATION, getSprite());
+	public TestParticle(final double x, final double y, final Direction collisionDirection) {
+		super(x, y, DURATION, getSprite(), collisionDirection);
 	}
 
 	private static Sprite getSprite() {

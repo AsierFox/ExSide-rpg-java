@@ -38,16 +38,11 @@ public abstract class Item {
     public abstract void render(final Renderer renderer);
 
     public void dispose() {
-        // Remove from level
         isRemoved = true;
     }
 
     public boolean isRemoved() {
         return isRemoved;
-    }
-    
-    public boolean canCollide() {
-    	return true;
     }
 
 }

@@ -15,6 +15,7 @@ import com.devdream.nightly.items.particles.ParticleSpawner;
 import com.devdream.nightly.tiled.TiledMap;
 import com.devdream.nightly.types.ParticleType;
 import com.devdream.nightly.ui.HUD;
+import com.devdream.nightly.utils.MathUtils;
 
 public abstract class BaseLevel {
 
@@ -75,22 +76,28 @@ public abstract class BaseLevel {
      * Using Iterator is the right way to avoid ConcurrentModificationException.
      */
     private void checkDeletions() {
+    	// With Java 8
+        //items.removeIf(Item::isRemoved);
     	Iterator<Entity> entitiesIterator = entities.iterator();
-    	for (Entity entity : entities) {
-    		if (entity.isRemoved()) {
+    	while (entitiesIterator.hasNext()) {
+    		if (entitiesIterator.next().isRemoved()) {
     			entitiesIterator.remove();
     		}
     	}
 
-    	// With Java 8
-        //items.removeIf(Item::isRemoved);
     	Iterator<Item> itemsIterator = items.iterator();
     	while (itemsIterator.hasNext()) {
-    		Item item = itemsIterator.next();
-    		if (item.isRemoved()) {
+    		if (itemsIterator.next().isRemoved()) {
     			itemsIterator.remove();
     		}
     	}
+
+    	Iterator<Particle> particleIterator = ParticleSpawner.particles.iterator();
+        while (particleIterator.hasNext()) {
+        	if (particleIterator.next().isRemoved()) {
+        		particleIterator.remove();
+        	}
+        }
     }
 
     private void checkCollisions() {
@@ -99,9 +106,9 @@ public abstract class BaseLevel {
         	Item item = itemsIterator.next();
 
         	for (Rectangle mapCollider : tiledMap.mergedColliders) {
-                if (item.canCollide() && item.collider.intersects(mapCollider)) {
+                if (item.collider.intersects(mapCollider)) {
                 	item.dispose();
-                	ParticleSpawner.generateParticles(item.pos.x, item.pos.y, ParticleType.TEST);
+                	ParticleSpawner.generateParticles(item.pos.x, item.pos.y, ParticleType.TEST, MathUtils.getRectangleDepthSideCollision(item.collider, mapCollider));
                 }
             }
             for (Entity entity : entities) {
