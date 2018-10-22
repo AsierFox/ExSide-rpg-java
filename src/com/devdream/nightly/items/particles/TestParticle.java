@@ -17,7 +17,7 @@ public class TestParticle extends Particle {
 
 	private static Sprite getSprite() {
 		// Can add different color particles with random
-		return G.Sprites.arrow_particle;
+		return G.Sprites.arrowParticle;
 	}
 
 }

@@ -2,13 +2,14 @@ package com.devdream.nightly.entities.mob;
 
 import java.awt.Rectangle;
 
+import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.GameWindow;
 import com.devdream.nightly.graphics.Renderer;
+import com.devdream.nightly.graphics.SpriteAnimation;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.io.Mouse;
-import com.devdream.nightly.items.projectiles.Arrow;
-import com.devdream.nightly.maths.Vector2D;
+import com.devdream.nightly.items.projectiles.TestProjectile;
 import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
@@ -16,7 +17,7 @@ import com.devdream.nightly.types.EntityState;
 /**
  * Singleton class player.
  */
-public class Player extends Mob {
+public class Player extends Entity {
 
 	private static Player instance;
 
@@ -28,8 +29,13 @@ public class Player extends Mob {
     private int colliderLeftPadding;
     private int colliderRightPadding;
 
+	private SpriteAnimation southAnimation;
+	private SpriteAnimation westAnimation;
+	private SpriteAnimation eastAnimation;
+	private SpriteAnimation northAnimation;
 
-    public static Player getInstance() {
+
+	public static Player getInstance() {
     	if (null == instance) {
     		instance = new Player();
     	}
@@ -37,28 +43,30 @@ public class Player extends Mob {
 	}
 
     private Player() {
-    	super(G.Sprites.player_south);
-
-        animationSpeed = 100;
+    	super(G.Sprites.playerDefault);
 
         colliderTopPadding = 5;
         colliderLeftPadding = 6;
         colliderRightPadding = 12;
 
         cadenceCounter = 0;
+
+        southAnimation = new SpriteAnimation(G.SpriteSheets.player, G.Sprites.playerWidth, G.Sprites.playerHeight, 0, 3);
+        westAnimation = new SpriteAnimation(G.SpriteSheets.player, G.Sprites.playerWidth, G.Sprites.playerHeight, 4, 7);
+        eastAnimation = new SpriteAnimation(G.SpriteSheets.player, G.Sprites.playerWidth, G.Sprites.playerHeight, 8, 11);
+        northAnimation = new SpriteAnimation(G.SpriteSheets.player, G.Sprites.playerWidth, G.Sprites.playerHeight, 12, 15);
+
+        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
     }
 
-    public void init(final Keyboard keyboard, final Vector2D<Integer> spawnPosition) {
+    public void init(final Keyboard keyboard) {
         this.keyboard = keyboard;
-        pos.x = spawnPosition.x;
-        pos.y = spawnPosition.y;
-        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
+        pos.x = 150;
+        pos.y = 150;
     }
 
     @Override
     public void update() {
-        super.update();
-
         int xMove = 0;
         int yMove = 0;
 
@@ -77,30 +85,31 @@ public class Player extends Mob {
         }
 
         // Read mouse events
-        if (Mouse.getBtn() == 1 && canShoot()) {
+        if (Mouse.getBtn() == Mouse.LEFT_CLICK_BTN && canShoot()) {
             shoot();
             cadenceCounter = 0;
         }
-
-        // Update
-        if (cadenceCounter <= Arrow.CADENCE) {
+        // Update cadence
+        if (cadenceCounter <= TestProjectile.CADENCE) {
         	cadenceCounter++;
         }
 
         updateCollider();
 
         // Check diagonal movement for some reason
-        // (xMove != 0 && yMove != 0)
+        //(xMove != 0 && yMove != 0)
         if (xMove != 0 || yMove != 0) {
             move(xMove, yMove);
         }
         else {
             state = EntityState.IDLE;
         }
+
+        updateSprite();
     }
 
     private boolean canShoot() {
-    	return cadenceCounter > Arrow.CADENCE;
+    	return cadenceCounter > TestProjectile.CADENCE;
     }
 
     private void shoot() {
@@ -111,7 +120,7 @@ public class Player extends Mob {
     	// Convert angle to degrees
     	//shootDirection *= 180/ Math.PI;
     	// TODO Check current weapon of the player
-        belongsToLevel.addItem(new Arrow(pos.x, pos.y, shootDirection));
+        belongsToLevel.addItem(new TestProjectile(pos.x, pos.y, shootDirection));
     }
 
     private void updateCollider() {
@@ -121,82 +130,45 @@ public class Player extends Mob {
 
 	@Override
     public void render(Renderer renderer) {
-        super.render(renderer);
-
-        setSprite();
-
-        renderer.renderPlayer(pos.x - sprite.WIDTH / 2, pos.y - sprite.HEIGHT / 2, sprite);
+        renderer.renderSprite(pos.x - sprite.WIDTH / 2, pos.y - sprite.HEIGHT / 2, sprite);
 
         if (GameProperties.instance().isDebug()) {
         	renderer.renderRect(collider);
         }
     }
 
-    private void setSprite() {
-        // TODO Refactor
+    private void updateSprite() {
         if (direction == Direction.SOUTH) {
             if (state == EntityState.MOVING) {
-                if (animationCounter < (animationSpeed * .25)) {
-                    sprite = G.Sprites.player_south_1;
-                } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
-                    sprite = G.Sprites.player_south_2;
-                } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
-                    sprite = G.Sprites.player_south_3;
-                } else {
-                    sprite = G.Sprites.player_south;
-                }
+            	southAnimation.update();
+            } else {
+            	southAnimation.reset();
             }
-            else {
-                sprite = G.Sprites.player_south;
-            }
-        }
-        else if (direction == Direction.EAST) {
-            if (state == EntityState.MOVING) {
-                if (animationCounter < (animationSpeed * .25)) {
-                    sprite = G.Sprites.player_east_1;
-                } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
-                    sprite = G.Sprites.player_east_2;
-                } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
-                    sprite = G.Sprites.player_east_3;
-                } else {
-                    sprite = G.Sprites.player_east;
-                }
-            }
-            else {
-                sprite = G.Sprites.player_east;
-            }
+        	sprite = southAnimation.currentSprite;
         }
         else if (direction == Direction.WEST) {
             if (state == EntityState.MOVING) {
-                if (animationCounter < (animationSpeed * .25)) {
-                    sprite = G.Sprites.player_west_1;
-                } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
-                    sprite = G.Sprites.player_west_2;
-                } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
-                    sprite = G.Sprites.player_west_3;
-                } else {
-                    sprite = G.Sprites.player_west;
-                }
+            	westAnimation.update();
+            } else {
+            	westAnimation.reset();
             }
-            else {
-                sprite = G.Sprites.player_west;
+        	sprite = westAnimation.currentSprite;
+        }
+        else if (direction == Direction.EAST) {
+            if (state == EntityState.MOVING) {
+            	eastAnimation.update();
+            } else {
+            	eastAnimation.reset();
             }
+        	sprite = eastAnimation.currentSprite;
         }
         else if (direction == Direction.NORTH) {
             if (state == EntityState.MOVING) {
-                if (animationCounter < (animationSpeed * .25)) {
-                    sprite = G.Sprites.player_north_1;
-                } else if (animationCounter > (animationSpeed * .25) && animationCounter < (animationSpeed * .5)) {
-                    sprite = G.Sprites.player_north_2;
-                } else if (animationCounter > (animationSpeed * .5) && animationCounter < (animationSpeed * .75)) {
-                    sprite = G.Sprites.player_north_3;
-                } else {
-                    sprite = G.Sprites.player_north;
-                }
+            	northAnimation.update();
+            } else {
+            	northAnimation.reset();
             }
-            else {
-                sprite = G.Sprites.player_north;
-            }
+        	sprite = northAnimation.currentSprite;
         }
     }
 

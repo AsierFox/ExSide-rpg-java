@@ -24,6 +24,14 @@ public class TiledMapSpawner {
     private static final String SPAWN_PATTERN_NAME = "spawn";
     private static final String ENEMIES_LAYER_NAME = "item";
 
+    private static final String SPAWN_PLAYER_TYPE = "player";
+    private static final String SPAWN_CIVILIAN_TYPE = "civilian";
+    private static final String SPAWN_ENEMY_TYPE = "enemy";
+
+    private static final String ITEM_BREAKABLE_TYPE = "breakable";
+    private static final String ITEM_OBTAINABLE_TYPE = "obtainable";
+    private static final String ITEM_ANIMATED_TYPE = "animated";
+
     protected final int mapTilesWidth;
     protected final int mapTilesHeight;
 

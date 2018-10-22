@@ -3,7 +3,6 @@ package com.devdream.nightly.graphics;
 import java.awt.Graphics;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
-import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -17,37 +16,61 @@ import com.devdream.nightly.utils.Logger;
  */
 public class SpriteSheet {
 
-    private final String FILE_PATH;
+	public static final int NO_SUPRESS_COLOR = 0;
+
+
+	private final String FILE_PATH;
 
     public final int WIDTH;
     public final int HEIGHT;
+
+    public final int supressedColor;
 
     public int pixelsAmount;
     public int[] pixels;
 
     private int transparencyType;
 
+
+    /**
+     * Create an default SpriteSheet with OPAQUE transparency and any suppress color.
+     * @param filePath
+     * @param width
+     * @param height
+     */
     public SpriteSheet(final String filePath, final int width, final int height) {
-        this(filePath, width, height, Transparency.OPAQUE);
+        this(filePath, width, height, Transparency.OPAQUE, NO_SUPRESS_COLOR);
     }
 
-    public SpriteSheet(final String filePath, final int width, final int height, final int transparencyType) {
+    /**
+     * Loads an SpriteSheet with custom parameters.
+     * @param filePath
+     * @param width
+     * @param height
+     * @param transparencyType
+     * @param supressedColor
+     */
+    public SpriteSheet(final String filePath, final int width, final int height, final int transparencyType, final int supressedColor) {
         FILE_PATH = filePath;
         WIDTH = width;
         HEIGHT = height;
+
         pixelsAmount = WIDTH * HEIGHT;
         pixels = new int[pixelsAmount];
 
         this.transparencyType = transparencyType;
+        this.supressedColor = supressedColor;
 
         load();
     }
 
+    /**
+     * Loads the SpriteSheet image.
+     */
     private void load() {
         try {
-            Image image = ImageIO.read(SpriteSheet.class.getResource(FILE_PATH));
+            BufferedImage image = ImageIO.read(SpriteSheet.class.getResource(FILE_PATH));
 
-            // TODO Check if this really improves performance
             // Improves performance of the image by checking if we can accelerate by hardware,
             // using graphics card ram instead of the default ram.
             GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
@@ -61,7 +84,7 @@ public class SpriteSheet {
             // Get image rastered to control all sprite sheet pixels by array
             optimizedImage.getRGB(0, 0, image.getWidth(null), image.getHeight(null), pixels, 0, image.getWidth(null));
         } catch (IOException e) {
-            Logger.logError(getClass(), "Error reading " + FILE_PATH + " sprite sheet!", e);
+            Logger.logError(getClass(), "Error reading " + FILE_PATH + " sprite sheet.", e);
         }
     }
 

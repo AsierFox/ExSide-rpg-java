@@ -1,8 +1,10 @@
 package com.devdream.nightly.levels;
 
+import com.devdream.nightly.entities.mob.Civilian;
+import com.devdream.nightly.entities.mob.Enemy;
 import com.devdream.nightly.entities.mob.Player;
+import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
-import com.devdream.nightly.maths.Vector2D;
 import com.devdream.nightly.tiled.TiledMap;
 
 public class TestLevel extends BaseLevel {
@@ -15,9 +17,21 @@ public class TestLevel extends BaseLevel {
     protected void load() {
     	tiledMap = new TiledMap("tiled-map");
 
-		Vector2D<Integer> playerSpawnPosition = new Vector2D<>(150, 150);
-		Player.getInstance().init(keyboard, playerSpawnPosition);
-		Player.getInstance().attachLevel(this);
+		Player.getInstance().init(keyboard);
+		Player.getInstance().attachToLevel(this);
+
+		new Civilian().attachToLevel(this);
+		new Enemy().attachToLevel(this);
     }
 
+    @Override
+    public void update() {
+    	super.update();
+    }
+
+    @Override
+    public void render(Renderer renderer) {
+    	super.render(renderer);
+    }
+    
 }

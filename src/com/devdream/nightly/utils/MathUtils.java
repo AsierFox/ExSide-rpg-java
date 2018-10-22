@@ -18,7 +18,7 @@ public class MathUtils {
 		final int y = (int) Math.floor(index / totalColumns);
 		return new Vector2D<>(x, y);
 	}
-	
+
 	/**
 	 * Gets the side of collision in depth between two rectangles.
 	 * @param collider

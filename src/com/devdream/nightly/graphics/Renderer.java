@@ -64,19 +64,6 @@ public class Renderer {
     }
 
     /**
-     * Renders the player.
-     * @param playerSprite
-     * @param xPosition
-     * @param yPosition
-     */
-    public void renderPlayer(int xPosition, int yPosition, final Sprite playerSprite) {
-        xPosition -= xOffset;
-        yPosition -= yOffset;
-
-        processSpriteRender(xPosition, yPosition, playerSprite);
-    }
-
-    /**
      * Renders an Item.
      * @param xPosition
      * @param yPosition
@@ -106,6 +93,12 @@ public class Renderer {
     	processSpriteRender(xPosition, yPosition, sprite);
     }
 
+    /**
+     * Process to render an sprite image to the screen.
+     * @param xPosition
+     * @param yPosition
+     * @param sprite
+     */
     private void processSpriteRender(int xPosition, int yPosition, final Sprite sprite) {
     	for (int y = 0; y < sprite.HEIGHT; y++) {
             // Absolute position will move specific tile position
@@ -123,8 +116,7 @@ public class Renderer {
                 }
 
                 int pixel = sprite.pixels[x + y * sprite.WIDTH];
-                // TODO Make dynamic suppress sheet color (SpriteSheet constructor)
-                if (pixel != 0xff000000 && pixel != 0xffffffff) {
+                if (pixel != sprite.getSupressedColor()) {
                     pixels[xAbsolute + yAbsolute * GameWindow.WIDTH] = pixel;
                 }
             }

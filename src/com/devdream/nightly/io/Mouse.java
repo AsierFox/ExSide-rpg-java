@@ -13,8 +13,10 @@ import com.devdream.nightly.utils.FileReader;
 
 public class Mouse implements MouseListener, MouseMotionListener {
 
-	
-    private static int mouseX;
+	public static final int LEFT_CLICK_BTN = 1;
+	public static final int RIGHT_CLICK_BTN = 3;
+
+	private static int mouseX;
     private static int mouseY;
     private static int mouseBtn;
 
@@ -84,7 +86,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
 
     private void setPrecisionCursor() {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
-        Optional<BufferedImage> cursorImage = FileReader.loadImage("/cursor/precise.png");
+        Optional<BufferedImage> cursorImage = FileReader.loadImage("/cursor.png");
         // Center pointer position
         Point cursorPoint = new Point(cursorImage.get().getWidth() / 2, cursorImage.get().getHeight() / 2);
         cursor = toolkit.createCustomCursor(cursorImage.get(), cursorPoint, "Precise cursor");

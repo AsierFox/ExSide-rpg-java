@@ -73,10 +73,10 @@ public class Sprite {
 
         pixelsAmount = width * height;
         pixels = new int[pixelsAmount];
-    	
-    	loadByLocation();
+
+        loadByLocation();
     }
-    
+
     /**
      * Get sprite using the grid index <b>(starting from 0)</b> of a specific size.
      * @param index
@@ -112,6 +112,9 @@ public class Sprite {
         this(color, size, size);
     }
 
+    /**
+     * Load an Sprite from specific location in SpriteSheet.
+     */
     private void loadByLocation() {
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
@@ -120,10 +123,21 @@ public class Sprite {
         }
     }
 
+    /**
+     * Load an Sprite filled with an specific color.
+     */
     private void loadColor(final int color) {
         for (int i = 0; i < pixelsAmount; i++) {
             pixels[i] = color;
         }
+    }
+
+    public int getSupressedColor() {
+    	// If is an color Sprite, it doesn't have fromSheet attr
+    	if (fromSheet == null) {
+    		return SpriteSheet.NO_SUPRESS_COLOR;
+    	}
+		return fromSheet.supressedColor;
     }
 
 }
