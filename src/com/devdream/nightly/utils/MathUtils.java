@@ -44,7 +44,8 @@ public class MathUtils {
 	    		System.out.println("Right!");
 	    		return Direction.EAST;
 	    	}
-	    } else {
+	    }
+	    else {
 	    	if (crossWidth > -crossHeight) {
 	    		System.out.println("Left!");
 	    		return Direction.WEST;

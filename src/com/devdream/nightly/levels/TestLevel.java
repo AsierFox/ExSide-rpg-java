@@ -1,8 +1,8 @@
 package com.devdream.nightly.levels;
 
-import com.devdream.nightly.entities.mob.Civilian;
-import com.devdream.nightly.entities.mob.Enemy;
-import com.devdream.nightly.entities.mob.Player;
+import com.devdream.nightly.entities.Civilian;
+import com.devdream.nightly.entities.Enemy;
+import com.devdream.nightly.entities.Player;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.tiled.TiledMap;

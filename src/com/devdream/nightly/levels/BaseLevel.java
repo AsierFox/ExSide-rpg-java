@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.ListIterator;
 
 import com.devdream.nightly.entities.Entity;
-import com.devdream.nightly.entities.mob.Player;
+import com.devdream.nightly.entities.Player;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.items.Item;

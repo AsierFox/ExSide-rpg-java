@@ -72,9 +72,8 @@ public abstract class Entity {
 
         // Check collisions
         for (Rectangle mapCollider : belongsToLevel.tiledMap.mergedColliders) {
-
+            // TODO Check only rectangles that are near the player
             if (collider.intersects(mapCollider)) {
-
             	collisionDirection = MathUtils.getRectangleDepthSideCollision(collider, mapCollider);
             	break;
             }

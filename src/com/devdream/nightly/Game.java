@@ -8,7 +8,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
-import com.devdream.nightly.entities.mob.Player;
+import com.devdream.nightly.entities.Player;
 import com.devdream.nightly.graphics.GameWindow;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.io.Keyboard;
@@ -18,7 +18,7 @@ import com.devdream.nightly.levels.TestLevel;
 import com.devdream.nightly.utils.Logger;
 
 /**
- * Extends Canvas for user interaction with JFrame.
+ * Extends Canvas for user interaction with GameWindow (JFrame).
  */
 public class Game extends Canvas implements Runnable {
 
@@ -69,7 +69,7 @@ public class Game extends Canvas implements Runnable {
         thread.start();
     }
 
-    public synchronized void stop() {
+    private synchronized void stop() {
         isRunning = false;
         try {
             thread.join();

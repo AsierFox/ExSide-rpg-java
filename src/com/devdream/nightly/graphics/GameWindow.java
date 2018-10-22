@@ -15,7 +15,7 @@ public class GameWindow extends JFrame {
 
 	public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 16 * 9; // Aspect ratio
-    public static final int SCALE = 1;
+    public static final int SCALE = 3;
 
 
     public GameWindow(final Canvas gameCanvas) {
