@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Rectangle;
 
 import com.devdream.nightly.items.Item;
-import com.devdream.nightly.tiled.TiledMap;
+import com.devdream.nightly.tiled.TiledTile;
 
 /**
  * Class that renders the pixels to the screen.
@@ -24,43 +24,17 @@ public class Renderer {
     }
 
     /**
-     * Renders the tiled map.
-     * @param tiledMap
-     */
-    public void renderMap(final TiledMap tiledMap) {
-    	for (int i = 0, ilen = tiledMap.tileLayers.size(); i < ilen; i++) {
-    		int[] tileLocations = tiledMap.tileLayers.get(i).tilesLocation;
-
-    		for (int y = 0; y < tiledMap.mapTilesHeight; y++) {
-    			for (int x = 0; x < tiledMap.mapTilesWidth; x++) {
-    				final int currentTileLocation = tileLocations[x + y * tiledMap.mapTilesWidth];
-
-					// In readLayers() (0 converts to -1 when are not tiles)
-    				if (-1 != currentTileLocation) {
-
-						// TODO Make dynamic Tile size
-						int xPosition = x << 4;
-						int yPosition = y << 4;
-
-						renderTile(xPosition, yPosition, tiledMap.sprites[currentTileLocation]);
-    				}
-    			}
-    		}
-    	}
-    }
-
-    /**
      * Renders a map tile.
      * @param xPosition
      * @param yPosition
      * @param sprite
      */
-	public void renderTile(int xPosition, int yPosition, final Sprite sprite) {
+	public void renderTile(int xPosition, int yPosition, final TiledTile tile) {
         // Adjust location of the tiles by the offset, to reverse the map movement position
         xPosition -= xOffset;
         yPosition -= yOffset;
 
-        processSpriteRender(xPosition, yPosition, sprite);
+    	processSpriteRender(xPosition, yPosition, tile.sprite);
     }
 
     /**

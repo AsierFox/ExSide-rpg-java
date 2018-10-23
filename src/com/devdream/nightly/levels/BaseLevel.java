@@ -111,9 +111,11 @@ public abstract class BaseLevel {
                 	ParticleSpawner.generateParticles(item.pos.x, item.pos.y, ParticleType.TEST, MathUtils.getRectangleDepthSideCollision(item.collider, mapCollider));
                 }
             }
-            for (Entity entity : entities) {
+
+        	for (Entity entity : entities) {
                 if (item.collider.intersects(entity.collider)) {
                 	item.dispose();
+                	ParticleSpawner.generateParticles(item.pos.x, item.pos.y, ParticleType.TEST, MathUtils.getRectangleDepthSideCollision(item.collider, entity.collider));
                 }
             }
         }
@@ -155,6 +157,10 @@ public abstract class BaseLevel {
     
     public void removeItem(final Item item) {
     	items.remove(item);
+    }
+    
+    public Player getPlayer() {
+    	return Player.getInstance();
     }
 
 }

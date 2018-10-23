@@ -1,6 +1,7 @@
 package com.devdream.nightly.levels;
 
 import com.devdream.nightly.entities.Civilian;
+import com.devdream.nightly.entities.Clergy;
 import com.devdream.nightly.entities.Enemy;
 import com.devdream.nightly.entities.Player;
 import com.devdream.nightly.graphics.Renderer;
@@ -22,6 +23,7 @@ public class TestLevel extends BaseLevel {
 
 		new Civilian().attachToLevel(this);
 		new Enemy().attachToLevel(this);
+		new Clergy().attachToLevel(this);
     }
 
     @Override

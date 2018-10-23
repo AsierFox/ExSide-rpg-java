@@ -26,25 +26,30 @@ public abstract class Entity {
     protected BaseLevel belongsToLevel;
 
     protected Random rand;
+    
+    protected int time;
+    protected int xMove;
+    protected int yMove;
 
     private boolean isRemoved;
 
 
-    public Entity() {
+    public Entity(final Sprite sprite) {
     	pos = new Vector2D<>(0, 0);
+    	this.sprite = sprite;
+
     	rand = new Random();
+    	
+    	time = 0;
+    	xMove = 0;
+    	yMove = 0;
         isRemoved = false;
 
         state = EntityState.IDLE;
         direction = Direction.SOUTH;
     }
-    
-    public Entity(final Sprite sprite) {
-    	this();
-    	this.sprite = sprite;
-    }
 
-	public void attachToLevel(BaseLevel belongsToLevel) {
+    public void attachToLevel(BaseLevel belongsToLevel) {
 		this.belongsToLevel = belongsToLevel;
 	}
 
@@ -102,4 +107,5 @@ public abstract class Entity {
     public boolean isRemoved() {
         return isRemoved;
     }
+
 }

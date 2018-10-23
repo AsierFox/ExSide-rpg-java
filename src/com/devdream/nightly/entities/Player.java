@@ -15,6 +15,7 @@ import com.devdream.nightly.types.EntityState;
 
 /**
  * Singleton class player.
+ * TODO Remove singleton
  */
 public class Player extends Entity {
 
@@ -66,8 +67,8 @@ public class Player extends Entity {
 
     @Override
     public void update() {
-        int xMove = 0;
-        int yMove = 0;
+        xMove = 0;
+        yMove = 0;
 
         // Read keyboard events
         if (keyboard.up) {
@@ -98,7 +99,7 @@ public class Player extends Entity {
         // Check diagonal movement for some reason
         //(xMove != 0 && yMove != 0)
         if (xMove != 0 || yMove != 0) {
-            move(xMove, yMove);
+            move(xMove * 2, yMove * 2);
         }
         else {
             state = EntityState.IDLE;
@@ -129,6 +130,7 @@ public class Player extends Entity {
 
 	@Override
     public void render(Renderer renderer) {
+		// TODO Check this for other entities, extract sprite.WIDTH / 2 to Sprite class
         renderer.renderSprite(pos.x - sprite.WIDTH / 2, pos.y - sprite.HEIGHT / 2, sprite);
 
         if (GameProperties.instance().isDebug()) {

@@ -2,7 +2,6 @@ package com.devdream.nightly.entities;
 
 import java.awt.Rectangle;
 
-import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.levels.BaseLevel;

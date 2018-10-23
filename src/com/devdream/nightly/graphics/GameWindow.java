@@ -12,7 +12,6 @@ import com.devdream.nightly.properties.GameProperties;
 public class GameWindow extends JFrame {
 	private static final long serialVersionUID = 1745759043772177195L;
 
-
 	public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 16 * 9; // Aspect ratio
     public static final int SCALE = 3;

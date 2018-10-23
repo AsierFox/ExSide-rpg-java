@@ -5,6 +5,7 @@ public class Vector2D<T extends Number> {
     public T x;
     public T y;
 
+
     public Vector2D(final T x, final T y) {
         this.x = x;
         this.y = y;

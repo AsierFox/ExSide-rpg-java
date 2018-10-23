@@ -45,7 +45,7 @@ public class TiledMapSpawner {
     protected ArrayList<ColliderLayer> colliderLayers;
     protected ArrayList<Rectangle> mergedColliders;
     // TODO Manage map items & enemies
-    protected Sprite[] sprites;
+    protected TiledTile[] tileSprites;
 
 
     public TiledMapSpawner(final String mapName) {
@@ -73,7 +73,7 @@ public class TiledMapSpawner {
         mergeCollisionLayers();
 
         int totalSprites = countAllSprites();
-        sprites = new Sprite[totalSprites];
+        tileSprites = new TiledTile[totalSprites];
 
         loadSpriteLayers();
     }
@@ -185,8 +185,9 @@ public class TiledMapSpawner {
                     // Check that we use the correct sprite sheet
                     if (currentTileLocation >= firstTileGIDOfSheet && currentTileLocation <= lastTileOfSheet) {
                         // If we don't have already any Sprite loaded, load it only once by the index
-                        if (null == sprites[currentTileLocation]) {
-                            sprites[currentTileLocation] = new Sprite(currentTileLocation - firstTileGIDOfSheet, spriteSheet, tilesetTileWidth, tilesetTileHeight);
+                        if (null == tileSprites[currentTileLocation]) {
+                        	tileSprites[currentTileLocation] = new TiledTile(
+                        			new Sprite(currentTileLocation - firstTileGIDOfSheet, spriteSheet, tilesetTileWidth, tilesetTileHeight));
                         }
                     }
                 }

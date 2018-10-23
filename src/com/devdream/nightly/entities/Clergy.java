@@ -10,19 +10,21 @@ import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 
-public class Civilian extends Entity {
+public class Clergy extends Entity {
 
 	private SpriteAnimation southAnimation;
 	private SpriteAnimation westAnimation;
 	private SpriteAnimation eastAnimation;
 	private SpriteAnimation northAnimation;
+	
+	private Player levelPlayer;
 
 
-	public Civilian() {
+	public Clergy() {
 		super(G.Sprites.civilianDefault);
 
-		pos.x = -100;
-		pos.y = 0;
+		pos.x = 140;
+		pos.y = -110;
 
 		southAnimation = new SpriteAnimation(G.SpriteSheets.civilian, G.Sprites.civilianWidth, G.Sprites.civilianHeight, 0, 3);
 		westAnimation = new SpriteAnimation(G.SpriteSheets.civilian, G.Sprites.civilianWidth, G.Sprites.civilianHeight, 4, 7);
@@ -35,33 +37,38 @@ public class Civilian extends Entity {
 	@Override
 	public void attachToLevel(BaseLevel belongsToLevel) {
 		super.attachToLevel(belongsToLevel);
+		levelPlayer =  belongsToLevel.getPlayer();
+
 		belongsToLevel.addEntity(this);
 	}
 
 	@Override
 	public void update() {
-		time++;
 
-		// UPS are 60 per second, so time % 60 == 0 or time & 59 is a second
-		if (time % (rand.nextInt(40) + 30) == 0) {
-			// Generate random -1, 0 or 1
-			xMove = rand.nextInt(3) - 1;
-			yMove = rand.nextInt(3) - 1;
+		if (pos.x < levelPlayer.pos.x) {
+			xMove = 1;
+		}
+		else if (pos.x > levelPlayer.pos.x) {
+			xMove = -1;
+		}
+		else if (pos.y < levelPlayer.pos.y) {
+			yMove = 1;
+		}
+		else if (pos.y > levelPlayer.pos.y) {
+			yMove = -1;
+		}
+		else {
+			xMove = 0;
+			yMove = 0;
+		}
 
-			// 3 over 1 chance to move
-			if (rand.nextInt(3) == 0) {
-				xMove = 0;
-				yMove = 0;
-			}
+		if (xMove != 0 || yMove != 0) {
+			move(xMove, yMove);
 		}
 
 		// Update collider
 		collider.x = pos.x;
 		collider.y = pos.y;
-
-		if ((xMove != 0 || yMove != 0) && !(xMove != 0 && yMove != 0)) {
-			move(xMove, yMove);
-		}
 
 		updateSprite();
 	}
