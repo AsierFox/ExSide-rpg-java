@@ -6,7 +6,8 @@ import java.util.Random;
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.levels.BaseLevel;
-import com.devdream.nightly.maths.Vector2D;
+import com.devdream.nightly.maths.Vector2DFloat;
+import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 import com.devdream.nightly.utils.MathUtils;
@@ -16,7 +17,7 @@ import com.devdream.nightly.utils.MathUtils;
  */
 public abstract class Entity {
 
-    public Vector2D<Integer> pos;
+    public Vector2DFloat<Float> pos;
     public Sprite sprite;
     public Rectangle collider;
 
@@ -28,14 +29,15 @@ public abstract class Entity {
     protected Random rand;
     
     protected int time;
-    protected int xMove;
-    protected int yMove;
+    protected float xMove;
+    protected float yMove;
+    protected float speed;
 
     private boolean isRemoved;
 
 
     public Entity(final Sprite sprite) {
-    	pos = new Vector2D<>(0, 0);
+    	pos = new Vector2DFloat<>(.0f, .0f);
     	this.sprite = sprite;
 
     	rand = new Random();
@@ -43,6 +45,7 @@ public abstract class Entity {
     	time = 0;
     	xMove = 0;
     	yMove = 0;
+        speed = 1;
         isRemoved = false;
 
         state = EntityState.IDLE;
@@ -55,9 +58,15 @@ public abstract class Entity {
 
     public abstract void update();
 
-    public abstract void render(final Renderer renderer);
+    public void render(final Renderer renderer) {
+        renderer.renderEnity(pos.x.intValue(), pos.y.intValue(), this);
 
-    protected final void move(int xMove, int yMove) {
+        if (GameProperties.instance().isDebug()) {
+            renderer.renderRect(collider);
+        }
+    }
+
+    protected final void move(float xMove, float yMove) {
         state = EntityState.MOVING;
 
         if (yMove < 0) {
@@ -83,6 +92,9 @@ public abstract class Entity {
             	break;
             }
         }
+
+        xMove *= speed;
+        yMove *= speed;
 
         if (direction == Direction.NORTH && collisionDirection == Direction.NORTH
         		|| direction == Direction.SOUTH && collisionDirection == Direction.SOUTH) {

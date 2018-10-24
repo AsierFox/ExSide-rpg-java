@@ -100,6 +100,7 @@ public abstract class BaseLevel {
         }
     }
 
+    // TODO Review this implementing listeners
     private void checkCollisions() {
     	ListIterator<Item> itemsIterator = items.listIterator();
         while (itemsIterator.hasNext()) {

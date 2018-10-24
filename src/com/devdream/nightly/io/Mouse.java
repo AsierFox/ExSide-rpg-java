@@ -88,7 +88,7 @@ public class Mouse implements MouseListener, MouseMotionListener {
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Optional<BufferedImage> cursorImage = FileReader.loadImage("/cursor.png");
         // Center pointer position
-        Point cursorPoint = new Point(cursorImage.get().getWidth() / 2, cursorImage.get().getHeight() / 2);
+        Point cursorPoint = new Point(cursorImage.get().getWidth() >> 1, cursorImage.get().getHeight() >> 1);
         cursor = toolkit.createCustomCursor(cursorImage.get(), cursorPoint, "Precise cursor");
     }
 

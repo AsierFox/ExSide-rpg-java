@@ -3,9 +3,7 @@ package com.devdream.nightly.entities;
 import java.awt.Rectangle;
 
 import com.devdream.nightly.graphics.G;
-import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.levels.BaseLevel;
-import com.devdream.nightly.properties.GameProperties;
 
 public class Enemy extends Entity {
 
@@ -17,14 +15,14 @@ public class Enemy extends Entity {
     public Enemy() {
 		super(G.Sprites.enemyDefault);
 
-		pos.x = 0;
-		pos.y = 0;
+		pos.x = 0.0f;
+		pos.y = 0.0f;
 
 		colliderTopPadding = 5;
         colliderLeftPadding = 6;
         colliderRightPadding = 12;
 
-        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
+        collider = new Rectangle(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
 	}
 	
 	@Override
@@ -35,15 +33,10 @@ public class Enemy extends Entity {
 
 	@Override
 	public void update() {
-	}
 
-	@Override
-	public void render(Renderer renderer) {
-		renderer.renderSprite(pos.x, pos.y, sprite);
-
-		if (GameProperties.instance().isDebug()) {
-        	renderer.renderRect(collider);
-        }
+    	// Update collider
+		collider.x = (pos.x.intValue() - (sprite.WIDTH  >> 1));
+		collider.y = (pos.y.intValue() - (sprite.HEIGHT >> 1));
 	}
 
 }

@@ -3,6 +3,7 @@ package com.devdream.nightly.graphics;
 import java.awt.Color;
 import java.awt.Rectangle;
 
+import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.items.Item;
 import com.devdream.nightly.tiled.TiledTile;
 
@@ -27,7 +28,7 @@ public class Renderer {
      * Renders a map tile.
      * @param xPosition
      * @param yPosition
-     * @param sprite
+     * @param tile
      */
 	public void renderTile(int xPosition, int yPosition, final TiledTile tile) {
         // Adjust location of the tiles by the offset, to reverse the map movement position
@@ -48,6 +49,23 @@ public class Renderer {
         yPosition -= yOffset;
 
         processSpriteRender(xPosition, yPosition, item.sprite);
+    }
+
+    /**
+     * Renders an entity.
+     * @param xPosition
+     * @param yPosition
+     * @param entity
+     */
+    public void renderEnity(int xPosition, int yPosition, final Entity entity) {
+        xPosition -= xOffset;
+        yPosition -= yOffset;
+
+        // Center the center of the sprite
+        xPosition -= entity.sprite.WIDTH  >> 1;
+        yPosition -= entity.sprite.HEIGHT >> 1;
+
+        processSpriteRender(xPosition, yPosition, entity.sprite);
     }
 
     /**
@@ -77,6 +95,7 @@ public class Renderer {
     	for (int y = 0; y < sprite.HEIGHT; y++) {
             // Absolute position will move specific tile position
             int yAbsolute = y + yPosition;
+
             for (int x = 0; x < sprite.WIDTH; x++) {
                 int xAbsolute = x + xPosition;
 

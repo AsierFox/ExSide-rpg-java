@@ -11,6 +11,8 @@ public class Keyboard implements KeyListener {
     public boolean down;
     public boolean left;
     public boolean right;
+    
+    public boolean shift;
 
     private boolean[] keys;
 
@@ -24,6 +26,8 @@ public class Keyboard implements KeyListener {
         down = keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN];
         left = keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT];
         right = keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT];
+        
+        shift = keys[KeyEvent.VK_SHIFT];
     }
 
     @Override

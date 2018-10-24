@@ -4,12 +4,10 @@ import java.awt.Rectangle;
 
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.GameWindow;
-import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.SpriteAnimation;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.io.Mouse;
 import com.devdream.nightly.items.projectiles.TestProjectile;
-import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 
@@ -21,8 +19,10 @@ public class Player extends Entity {
 
 	private static Player instance;
 
-	private Keyboard keyboard;
+	private static final float MAX_SPEED = 2.0f;
 
+	private Keyboard keyboard;
+	
     private int cadenceCounter;
 
     private int colliderTopPadding;
@@ -56,32 +56,38 @@ public class Player extends Entity {
         eastAnimation = new SpriteAnimation(G.SpriteSheets.player, G.Sprites.playerWidth, G.Sprites.playerHeight, 8, 11);
         northAnimation = new SpriteAnimation(G.SpriteSheets.player, G.Sprites.playerWidth, G.Sprites.playerHeight, 12, 15);
 
-        collider = new Rectangle(pos.x, pos.y, sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
+        collider = new Rectangle(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
     }
 
     public void init(final Keyboard keyboard) {
         this.keyboard = keyboard;
-        pos.x = 172;
-        pos.y = 100;
+        pos.x = 172.0f;
+        pos.y = 100.0f;
     }
 
     @Override
     public void update() {
         xMove = 0;
         yMove = 0;
-
+        
         // Read keyboard events
+        if (keyboard.shift) {
+           	speed = 2;
+        } else {
+        	speed = 1;
+        }
+
         if (keyboard.up) {
-            yMove--;
+            yMove -= speed;
         }
         else if (keyboard.down) {
-            yMove++;
+            yMove += speed;
         }
         else if (keyboard.left) {
-            xMove--;
+            xMove -= speed;
         }
         else if (keyboard.right) {
-            xMove++;
+            xMove += speed;
         }
 
         // Read mouse events
@@ -89,21 +95,22 @@ public class Player extends Entity {
             shoot();
             cadenceCounter = 0;
         }
+
         // Update cadence
         if (cadenceCounter <= TestProjectile.CADENCE) {
         	cadenceCounter++;
         }
 
-        updateCollider();
-
         // Check diagonal movement for some reason
         //(xMove != 0 && yMove != 0)
         if (xMove != 0 || yMove != 0) {
-            move(xMove * 2, yMove * 2);
+            move(xMove, yMove);
         }
         else {
             state = EntityState.IDLE;
         }
+
+        updateCollider();
 
         updateSprite();
     }
@@ -113,30 +120,19 @@ public class Player extends Entity {
     }
 
     private void shoot() {
-        // >> 1 is like / 2
         int shootX = Mouse.getX() - (GameWindow.getTotalWidth() >> 1);
         int shootY = Mouse.getY() - (GameWindow.getTotalHeight() >> 1);
     	final double shootDirection = Math.atan2(shootY, shootX);
     	// Convert angle to degrees
     	//shootDirection *= 180/ Math.PI;
     	// TODO Check current weapon of the player
-        belongsToLevel.addItem(new TestProjectile(pos.x, pos.y, shootDirection));
+        belongsToLevel.addItem(new TestProjectile(pos.x.intValue(), pos.y.intValue(), shootDirection));
     }
 
     private void updateCollider() {
-        collider.x = (pos.x - sprite.WIDTH / 2) + colliderLeftPadding;
-        collider.y = pos.y + colliderTopPadding;
+        collider.x = (pos.x.intValue() - (sprite.WIDTH >> 1)) + colliderLeftPadding;
+        collider.y = pos.y.intValue() + colliderTopPadding;
 	}
-
-	@Override
-    public void render(Renderer renderer) {
-		// TODO Check this for other entities, extract sprite.WIDTH / 2 to Sprite class
-        renderer.renderSprite(pos.x - sprite.WIDTH / 2, pos.y - sprite.HEIGHT / 2, sprite);
-
-        if (GameProperties.instance().isDebug()) {
-        	renderer.renderRect(collider);
-        }
-    }
 
     private void updateSprite() {
         if (direction == Direction.SOUTH) {

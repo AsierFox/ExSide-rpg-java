@@ -1,6 +1,5 @@
 package com.devdream.nightly.utils;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -19,16 +18,16 @@ public class PropertiesReader {
 
     public void loadPropertiesFile(final String propertiesFile) {
         try {
-            inputStream = new FileInputStream(propertiesFile + PROPERTIES_EXTENSION);
+            inputStream = PropertiesReader.class.getResourceAsStream("/" + propertiesFile + PROPERTIES_EXTENSION);
             properties.load(inputStream);
         } catch (IOException e) {
-            Logger.logError(getClass(), "Error reading " + propertiesFile + PROPERTIES_EXTENSION + "!", e);
+            Logger.logError(getClass(), "Error reading " + propertiesFile + PROPERTIES_EXTENSION, e);
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    Logger.logError(getClass(), "Error closing " + propertiesFile + PROPERTIES_EXTENSION + "!", e);
+                    Logger.logError(getClass(), "Error closing " + propertiesFile + PROPERTIES_EXTENSION, e);
                 }
             }
         }

@@ -135,8 +135,8 @@ public class Game extends Canvas implements Runnable {
         }
 
         // Set offset
-    	int xScroll = Player.getInstance().pos.x - GameWindow.WIDTH / 2;
-        int yScroll = Player.getInstance().pos.y - GameWindow.HEIGHT / 2;
+    	int xScroll = Player.getInstance().pos.x.intValue() - (GameWindow.WIDTH >> 1);
+        int yScroll = Player.getInstance().pos.y.intValue() - (GameWindow.HEIGHT >> 1);
         renderer.setOffset(xScroll, yScroll);
         renderer.clear();
         currentLevel.render(renderer);

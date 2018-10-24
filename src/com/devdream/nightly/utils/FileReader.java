@@ -6,7 +6,10 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Optional;
@@ -25,6 +28,32 @@ public class FileReader {
             Logger.logError(FileReader.class, "Error reading the file " + filePath, e);
         }
         return fileContent;
+    }
+    
+    public static String readFileFromRes(final String filePath) {
+    	StringBuilder result = new StringBuilder("");
+
+    	InputStream inputStream = FileReader.class.getClassLoader().getResourceAsStream("maps/tiled-map.json");
+
+    	try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+    		String line = null;
+            while ((line = br.readLine()) != null) {
+                result.append(line).append("\n");
+            }
+    	} catch (IOException e) {
+            Logger.logError(FileReader.class, "Error reading " + filePath, e);
+    	}
+    	finally {
+    		if (null != inputStream) {
+    			try {
+					inputStream.close();
+				} catch (IOException e) {
+		            Logger.logError(FileReader.class, "Error reading " + filePath, e);
+				}
+    		}
+    	}
+    		
+    	return result.toString();
     }
     
     public static Optional<BufferedImage> loadImage(final String filePath) {

@@ -2,6 +2,7 @@ package com.devdream.nightly.utils;
 
 import java.awt.Rectangle;
 
+import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.maths.Vector2D;
 import com.devdream.nightly.types.Direction;
 
@@ -26,10 +27,10 @@ public class MathUtils {
 	 * @return
 	 */
 	public static Direction getRectangleDepthSideCollision(final Rectangle collider, final Rectangle obstacle) {
-		int dx = (collider.x + collider.width / 2) - (obstacle.x + obstacle.width / 2);
-    	int dy = (collider.y + collider.height / 2) - (obstacle.y + obstacle.height / 2);
-    	int width = (collider.width + obstacle.width) / 2;
-    	int height = (collider.height + obstacle.height) / 2;
+		int dx = (collider.x + (collider.width >> 1)) - (obstacle.x + (obstacle.width >> 1));
+    	int dy = (collider.y + (collider.height >> 1)) - (obstacle.y + (obstacle.height >> 1));
+    	int width = (collider.width + obstacle.width) >> 1;
+    	int height = (collider.height + obstacle.height) >> 1;
     	int crossWidth = width * dy;
     	int crossHeight= height * dx;
 
@@ -58,18 +59,6 @@ public class MathUtils {
 	}
 
 	/**
-	 * Get distance between two int coords.
-	 * @param xReference
-	 * @param xPosition
-	 * @param yReference
-	 * @param yPosition
-	 * @return
-	 */
-	public static double getDistanceBetweenCoords(final int xReference, final int xPosition, final int yReference, final int yPosition) {
-		return Math.sqrt(Math.pow(xReference - xPosition, 2) + Math.pow(yReference - yPosition, 2));
-	}
-
-	/**
 	 * Get distance between two double coords.
 	 * @param xReference
 	 * @param xPosition
@@ -78,7 +67,9 @@ public class MathUtils {
 	 * @return
 	 */
 	public static double getDistanceBetweenCoords(final double xReference, final double xPosition, final double yReference, final double yPosition) {
-		return Math.sqrt(Math.pow(xReference - xPosition, 2) + Math.pow(yReference - yPosition, 2));
+		double dx = Math.abs(xReference - xPosition);
+		double dy = Math.abs(yReference - yPosition);
+		return Math.sqrt((dx * dx) + (dy * dy));
 	}
 
 	/**
@@ -89,6 +80,18 @@ public class MathUtils {
 	 */
 	public static double getDistanceBetweenVectors(final Vector2D<Integer> v1, final Vector2D<Integer> v2) {
 		return getDistanceBetweenCoords(v2.x, v1.x, v2.y, v1.y);
+	}
+
+	/**
+	 * Check if entity against is inside entity radius.
+	 * @param entity Entity current position
+	 * @param againstEntity Entity to check against using radius
+	 * @param radius The radius established
+	 * @return If the entity against is inside the radius of the entity
+	 */
+	public static boolean isEntityInRadius(final Entity entity, final Entity againstEntity, final int radius) {
+		final double distance = getDistanceBetweenCoords(entity.pos.x, againstEntity.pos.x, entity.pos.y, againstEntity.pos.y);
+		return distance <= radius;
 	}
 
 }

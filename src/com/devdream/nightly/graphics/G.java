@@ -12,13 +12,13 @@ public interface G {
 
 	interface SpriteSheets {
 		// Projectiles
-		SpriteSheet projectiles = new SpriteSheet("/items/arrow.png", 14, 15, Transparency.OPAQUE, 0xff000000);
+		SpriteSheet projectiles = new SpriteSheet("items/arrow.png", 14, 15, Transparency.OPAQUE, 0xff000000);
 	    // Entities
-	    SpriteSheet player = new SpriteSheet("/entities/player.png", 128, 192, Transparency.OPAQUE, 0xff000000);
-	    SpriteSheet civilian = new SpriteSheet("/entities/civilian.png", 470, 470, Transparency.OPAQUE, 0xff000000);
-	    SpriteSheet enemy = new SpriteSheet("/entities/enemy.png", 128, 192, Transparency.OPAQUE, 0xff000000);
+	    SpriteSheet player = new SpriteSheet("entities/player.png", 128, 192, Transparency.OPAQUE, 0xff000000);
+	    SpriteSheet civilian = new SpriteSheet("entities/civilian.png", 470, 470, Transparency.OPAQUE, 0xff000000);
+	    SpriteSheet enemy = new SpriteSheet("entities/enemy.png", 128, 192, Transparency.OPAQUE, 0xff000000);
 		// HUD
-	    SpriteSheet hudBackground = new SpriteSheet("/hud/hud-bg.png", 276, 37, Transparency.OPAQUE, 0xffffffff);
+	    SpriteSheet hudBackground = new SpriteSheet("hud/hud-bg.png", 276, 37, Transparency.OPAQUE, 0xffffffff);
 	}
 
 	interface Sprites {

@@ -15,7 +15,7 @@ import com.devdream.nightly.utils.FileReader;
  */
 public class TiledMapSpawner {
 
-    public static final String MAP_ROUTES = "/maps/";
+    public static final String MAP_ROUTES = "maps/";
 
     private static final String TILELAYER_TYPE = "tilelayer";
     private static final String OBJECTGROUP_TYPE = "objectgroup";
@@ -44,16 +44,16 @@ public class TiledMapSpawner {
     protected ArrayList<TileLayer> tileLayers;
     protected ArrayList<ColliderLayer> colliderLayers;
     protected ArrayList<Rectangle> mergedColliders;
-    // TODO Manage map items & enemies
     protected TiledTile[] tileSprites;
+    // TODO Manage map items & enemies
 
 
     public TiledMapSpawner(final String mapName) {
-		String fileContent = FileReader.readFile("res/" + MAP_ROUTES + mapName + FileReader.JSONExt);
+		String fileContent = FileReader.readFileFromRes(MAP_ROUTES + mapName + FileReader.JSONExt);
 
         tiledJSON = new JSONObject(fileContent);
-        
-    	mapTilesWidth = tiledJSON.getInt("width");
+
+        mapTilesWidth = tiledJSON.getInt("width");
         mapTilesHeight = tiledJSON.getInt("height");
 
         tileWidth = tiledJSON.getInt("tilewidth");
