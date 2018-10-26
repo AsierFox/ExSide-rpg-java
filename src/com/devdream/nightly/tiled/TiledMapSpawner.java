@@ -15,7 +15,7 @@ import com.devdream.nightly.utils.FileReader;
  */
 public class TiledMapSpawner {
 
-    public static final String MAP_ROUTES = "maps/";
+    public static final String MAP_ROUTES = "/maps/";
 
     private static final String TILELAYER_TYPE = "tilelayer";
     private static final String OBJECTGROUP_TYPE = "objectgroup";
@@ -49,7 +49,7 @@ public class TiledMapSpawner {
 
 
     public TiledMapSpawner(final String mapName) {
-		String fileContent = FileReader.readFileFromRes(MAP_ROUTES + mapName + FileReader.JSONExt);
+		String fileContent = FileReader.readFile(MAP_ROUTES + mapName + FileReader.JSONExt);
 
         tiledJSON = new JSONObject(fileContent);
 

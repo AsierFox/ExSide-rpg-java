@@ -10,8 +10,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Optional;
 
 import javax.imageio.ImageIO;
@@ -21,16 +19,6 @@ public class FileReader {
     public static final String JSONExt = ".json";
 
     public static String readFile(final String filePath) {
-        String fileContent = null;
-        try {
-            fileContent = new String(Files.readAllBytes(Paths.get(filePath)));
-        } catch (IOException e) {
-            Logger.logError(FileReader.class, "Error reading the file " + filePath, e);
-        }
-        return fileContent;
-    }
-    
-    public static String readFileFromRes(final String filePath) {
     	StringBuilder result = new StringBuilder("");
 
     	InputStream inputStream = FileReader.class.getClassLoader().getResourceAsStream("maps/tiled-map.json");

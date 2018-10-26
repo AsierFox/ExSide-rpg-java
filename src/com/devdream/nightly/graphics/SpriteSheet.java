@@ -1,16 +1,9 @@
 package com.devdream.nightly.graphics;
 
-import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
-import com.devdream.nightly.utils.Logger;
+import com.devdream.nightly.utils.FileReader;
 
 /**
  * Creates a raster of pixels to control the image sheet and extract sprites from it.
@@ -69,25 +62,9 @@ public class SpriteSheet {
      * Loads the SpriteSheet image.
      */
     private void load() {
-        try {
-        	System.out.println("MEW");
-            BufferedImage image = ImageIO.read(new File("res/" + FILE_PATH));
-
-            // Improves performance of the image by checking if we can accelerate by hardware,
-            // using graphics card ram instead of the default ram.
-            GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-            BufferedImage optimizedImage = gc.createCompatibleImage(image.getWidth(null), image.getHeight(null), transparencyType);
-
-            // Draw into image the optimized image
-            Graphics g = optimizedImage.getGraphics();
-            g.drawImage(image, 0, 0, null);
-            g.dispose();
-
-            // Get image rastered to control all sprite sheet pixels by array
-            optimizedImage.getRGB(0, 0, image.getWidth(null), image.getHeight(null), pixels, 0, image.getWidth(null));
-        } catch (IOException e) {
-            Logger.logError(getClass(), "Error reading " + FILE_PATH + " sprite sheet.", e);
-        }
+        BufferedImage optimizedImage = FileReader.loadImageOptimized(FILE_PATH).get();
+        // Raster image to pixels to control all sprite sheet pixels by array
+        optimizedImage.getRGB(0, 0, optimizedImage.getWidth(null), optimizedImage.getHeight(null), pixels, 0, optimizedImage.getWidth(null));
     }
 
 }

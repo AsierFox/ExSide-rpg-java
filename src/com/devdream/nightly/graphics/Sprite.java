@@ -1,5 +1,7 @@
 package com.devdream.nightly.graphics;
 
+import java.awt.Rectangle;
+
 import com.devdream.nightly.maths.Vector2D;
 import com.devdream.nightly.utils.MathUtils;
 
@@ -138,6 +140,10 @@ public class Sprite {
     		return SpriteSheet.NO_SUPRESS_COLOR;
     	}
 		return fromSheet.supressedColor;
+    }
+
+    public Rectangle getLimits() {
+        return new Rectangle(xLocation, yLocation, WIDTH, HEIGHT);
     }
 
 }
