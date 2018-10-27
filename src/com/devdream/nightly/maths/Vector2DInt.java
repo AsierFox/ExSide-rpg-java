@@ -2,6 +2,10 @@ package com.devdream.nightly.maths;
 
 public class Vector2DInt<T> extends Vector2D<Integer> {
 
+	public Vector2DInt() {
+		super(0, 0);
+	}
+
 	public Vector2DInt(Integer x, Integer y) {
 		super(x, y);
 	}

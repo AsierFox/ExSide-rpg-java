@@ -1,10 +1,10 @@
 package com.devdream.nightly.tiled;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-
 import com.devdream.nightly.graphics.Renderer;
+import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.properties.GameProperties;
+
+import java.util.ArrayList;
 
 public class TiledMap {
 
@@ -14,7 +14,7 @@ public class TiledMap {
     public final int mapTilesHeight;
 
     public ArrayList<TileLayer> tileLayers;
-    public ArrayList<Rectangle> mergedColliders;
+    public ArrayList<Rect> mergedColliders;
     public TiledTile[] tileSprites;
 
 
@@ -57,7 +57,7 @@ public class TiledMap {
     	}
 
     	if (GameProperties.instance().isDebug()) {
-    		for (Rectangle rect : mergedColliders) {
+    		for (Rect rect : mergedColliders) {
         		renderer.renderRect(rect);
         	}
     	}

@@ -1,20 +1,18 @@
 package com.devdream.nightly.graphics;
 
-import java.awt.Canvas;
-
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-
 import com.devdream.nightly.Game;
 import com.devdream.nightly.io.Mouse;
 import com.devdream.nightly.properties.GameProperties;
+
+import javax.swing.*;
+import java.awt.*;
 
 public class GameWindow extends JFrame {
 	private static final long serialVersionUID = 1745759043772177195L;
 
 	public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 16 * 9; // Aspect ratio
-    public static final int SCALE = 1;
+    public static final int SCALE = 3;
 
 
     public GameWindow(final Canvas gameCanvas) {

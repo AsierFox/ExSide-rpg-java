@@ -1,9 +1,8 @@
 package com.devdream.nightly.entities;
 
-import java.awt.Rectangle;
-
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.levels.BaseLevel;
+import com.devdream.nightly.maths.Rect;
 
 public class Enemy extends Entity {
 
@@ -13,16 +12,13 @@ public class Enemy extends Entity {
 
 
     public Enemy() {
-		super(G.Sprites.enemyDefault);
-
-		pos.x = 0.0f;
-		pos.y = 0.0f;
+		super(.0f, .0f, G.Sprites.enemyDefault);
 
 		colliderTopPadding = 5;
         colliderLeftPadding = 6;
         colliderRightPadding = 12;
 
-        collider = new Rectangle(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
+        collider = new Rect(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
 	}
 	
 	@Override
@@ -33,7 +29,6 @@ public class Enemy extends Entity {
 
 	@Override
 	public void update() {
-
     	// Update collider
 		collider.x = (pos.x.intValue() - (sprite.WIDTH  >> 1));
 		collider.y = (pos.y.intValue() - (sprite.HEIGHT >> 1));

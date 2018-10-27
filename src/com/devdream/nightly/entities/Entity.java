@@ -1,16 +1,18 @@
 package com.devdream.nightly.entities;
 
-import java.awt.Rectangle;
-import java.util.Random;
-
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.levels.BaseLevel;
+import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.maths.Vector2DFloat;
+import com.devdream.nightly.maths.Vector2DInt;
 import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 import com.devdream.nightly.utils.MathUtils;
+
+import java.awt.*;
+import java.util.Random;
 
 /**
  * Abstract Entity class for all game entities.
@@ -19,7 +21,7 @@ public abstract class Entity {
 
     public Vector2DFloat<Float> pos;
     public Sprite sprite;
-    public Rectangle collider;
+    public Rect collider;
 
     protected EntityState state;
     protected Direction direction;
@@ -28,23 +30,21 @@ public abstract class Entity {
 
     protected Random rand;
     
-    protected int time;
-    protected float xMove;
-    protected float yMove;
-    protected float speed;
+    public int time;
+    public Vector2DInt<Integer> moveAmount;
+    protected Integer speed;
 
     private boolean isRemoved;
 
 
-    public Entity(final Sprite sprite) {
-    	pos = new Vector2DFloat<>(.0f, .0f);
+    public Entity(final float xPosition, final float yPostion, final Sprite sprite) {
+    	pos = new Vector2DFloat<>(xPosition, yPostion);
     	this.sprite = sprite;
 
     	rand = new Random();
     	
     	time = 0;
-    	xMove = 0;
-    	yMove = 0;
+    	moveAmount = new Vector2DInt<>();
         speed = 1;
         isRemoved = false;
 
@@ -66,26 +66,27 @@ public abstract class Entity {
         }
     }
 
-    protected final void move(float xMove, float yMove) {
+    protected final void move(Vector2DInt<Integer> moveAmount) {
+
         state = EntityState.MOVING;
 
-        if (yMove < 0) {
-            direction = Direction.NORTH;
-        }
-        else if (yMove > 0) {
-            direction = Direction.SOUTH;
-        }
-        if (xMove < 0) {
+        if (moveAmount.x < 0) {
             direction = Direction.WEST;
         }
-        else if (xMove > 0) {
+        else if (moveAmount.x > 0) {
             direction = Direction.EAST;
+        }
+        if (moveAmount.y < 0) {
+            direction = Direction.NORTH;
+        }
+        else if (moveAmount.y > 0) {
+            direction = Direction.SOUTH;
         }
 
         Direction collisionDirection = Direction.NONE;
 
         // Check collisions
-        for (Rectangle mapCollider : belongsToLevel.tiledMap.mergedColliders) {
+        for (Rect mapCollider : belongsToLevel.tiledMap.mergedColliders) {
             // TODO Check only rectangles that are near the player
             if (collider.intersects(mapCollider)) {
             	collisionDirection = MathUtils.getRectangleDepthSideCollision(collider, mapCollider);
@@ -93,20 +94,20 @@ public abstract class Entity {
             }
         }
 
-        xMove *= speed;
-        yMove *= speed;
+        moveAmount.x *= speed;
+        moveAmount.y *= speed;
 
         if (direction == Direction.NORTH && collisionDirection == Direction.NORTH
         		|| direction == Direction.SOUTH && collisionDirection == Direction.SOUTH) {
-        	pos.x += xMove;
+        	pos.x += moveAmount.x;
         }
         else if (direction == Direction.WEST && collisionDirection == Direction.WEST
         		|| direction == Direction.EAST && collisionDirection == Direction.EAST) {
-        	pos.y += yMove;
+        	pos.y += moveAmount.y;
         }
         else {
-        	pos.x += xMove;
-        	pos.y += yMove;
+        	pos.x += moveAmount.x;
+        	pos.y += moveAmount.y;
         }
     }
 

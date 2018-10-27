@@ -1,11 +1,11 @@
 package com.devdream.nightly.graphics;
 
-import java.awt.Color;
-import java.awt.Rectangle;
-
 import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.items.Item;
+import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.tiled.TiledTile;
+
+import java.awt.*;
 
 /**
  * Class that renders the pixels to the screen.
@@ -120,7 +120,7 @@ public class Renderer {
      * Renders a rectangle.
      * @param rect
      */
-	public void renderRect(Rectangle rect) {
+	public void renderRect(Rect rect) {
         final int xPosition = rect.x - xOffset;
         final int yPosition = rect.y - yOffset;
 

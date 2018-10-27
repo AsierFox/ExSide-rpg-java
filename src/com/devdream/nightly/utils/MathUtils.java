@@ -1,8 +1,7 @@
 package com.devdream.nightly.utils;
 
-import java.awt.Rectangle;
-
 import com.devdream.nightly.entities.Entity;
+import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.maths.Vector2D;
 import com.devdream.nightly.types.Direction;
 
@@ -26,7 +25,7 @@ public class MathUtils {
 	 * @param obstacle
 	 * @return
 	 */
-	public static Direction getRectangleDepthSideCollision(final Rectangle collider, final Rectangle obstacle) {
+	public static Direction getRectangleDepthSideCollision(final Rect collider, final Rect obstacle) {
 		int dx = (collider.x + (collider.width >> 1)) - (obstacle.x + (obstacle.width >> 1));
     	int dy = (collider.y + (collider.height >> 1)) - (obstacle.y + (obstacle.height >> 1));
     	int width = (collider.width + obstacle.width) >> 1;

@@ -1,14 +1,13 @@
 package com.devdream.nightly.tiled;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-
+import com.devdream.nightly.graphics.Sprite;
+import com.devdream.nightly.graphics.SpriteSheet;
+import com.devdream.nightly.maths.Rect;
+import com.devdream.nightly.utils.FileReader;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.devdream.nightly.graphics.Sprite;
-import com.devdream.nightly.graphics.SpriteSheet;
-import com.devdream.nightly.utils.FileReader;
+import java.util.ArrayList;
 
 /**
  * Class that loads Tiled map.
@@ -43,7 +42,7 @@ public class TiledMapSpawner {
 
     protected ArrayList<TileLayer> tileLayers;
     protected ArrayList<ColliderLayer> colliderLayers;
-    protected ArrayList<Rectangle> mergedColliders;
+    protected ArrayList<Rect> mergedColliders;
     protected TiledTile[] tileSprites;
     // TODO Manage map items & enemies
 
@@ -101,7 +100,7 @@ public class TiledMapSpawner {
             }
             else if (OBJECTGROUP_TYPE.equals(layerType)) {
                 JSONArray objects = layer.getJSONArray("objects");
-                Rectangle[] rects = new Rectangle[objects.length()];
+                Rect[] rects = new Rect[objects.length()];
 
                 for (int j = 0, jlen = objects.length(); j < jlen; j++) {
                     JSONObject object = objects.getJSONObject(j);
@@ -118,7 +117,7 @@ public class TiledMapSpawner {
                     if (rectWidth == 0) rectWidth = 1;
                     if (rectHeight == 0) rectHeight = 1;
 
-                    rects[j] = new Rectangle(rectX, rectY, rectWidth, rectHeight);
+                    rects[j] = new Rect(rectX, rectY, rectWidth, rectHeight);
                 }
                 colliderLayers.add(new ColliderLayer(rects, mapTilesWidth, mapTilesHeight));
             }
@@ -130,7 +129,7 @@ public class TiledMapSpawner {
 	 */
     private void mergeCollisionLayers() {
         for (int i = 0, ilen = colliderLayers.size(); i < ilen; i++) {
-            Rectangle[] rects = colliderLayers.get(i).colliders;
+            Rect[] rects = colliderLayers.get(i).colliders;
 
             for (int j = 0, jlen = rects.length; j < jlen; j++) {
                 mergedColliders.add(rects[j]);

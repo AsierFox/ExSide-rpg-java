@@ -1,12 +1,12 @@
 package com.devdream.nightly.tiled;
 
-import java.awt.Rectangle;
+import com.devdream.nightly.maths.Rect;
 
 public class ColliderLayer extends TiledLayer {
 
-    public Rectangle[] colliders;
+    public Rect[] colliders;
 
-    public ColliderLayer(final Rectangle[] colliders, final int width, final int height) {
+    public ColliderLayer(final Rect[] colliders, final int width, final int height) {
         super(width, height);
         this.colliders = colliders;
     }

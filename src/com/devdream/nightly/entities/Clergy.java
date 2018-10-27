@@ -1,10 +1,10 @@
 package com.devdream.nightly.entities;
 
-import java.awt.Rectangle;
-
+import com.devdream.nightly.ai.EntityMoveStrategy;
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.SpriteAnimation;
 import com.devdream.nightly.levels.BaseLevel;
+import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 import com.devdream.nightly.utils.MathUtils;
@@ -22,17 +22,14 @@ public class Clergy extends Entity {
 
 
 	public Clergy() {
-		super(G.Sprites.civilianDefault);
-
-		pos.x = 140.0f;
-		pos.y = -110.0f;
+		super(140.0f, -110.0f, G.Sprites.civilianDefault);
 
 		southAnimation = new SpriteAnimation(G.SpriteSheets.civilian, G.Sprites.civilianWidth, G.Sprites.civilianHeight, 0, 3);
 		westAnimation = new SpriteAnimation(G.SpriteSheets.civilian, G.Sprites.civilianWidth, G.Sprites.civilianHeight, 4, 7);
 		eastAnimation = new SpriteAnimation(G.SpriteSheets.civilian, G.Sprites.civilianWidth, G.Sprites.civilianHeight, 8, 11);
 		northAnimation = new SpriteAnimation(G.SpriteSheets.civilian, G.Sprites.civilianWidth, G.Sprites.civilianHeight, 12, 15);
 
-		collider = new Rectangle(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH, sprite.HEIGHT);
+		collider = new Rect(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH, sprite.HEIGHT);
 	}
 
 	@Override
@@ -48,25 +45,10 @@ public class Clergy extends Entity {
 
 		if (MathUtils.isEntityInRadius(this, levelPlayer, VISIBILITY_RADIUS)) {
 
-			if (pos.x < levelPlayer.pos.x) {
-				xMove = 1;
-			}
-			else if (pos.x > levelPlayer.pos.x) {
-				xMove = -1;
-			}
-			else if (pos.y < levelPlayer.pos.y) {
-				yMove = 1;
-			}
-			else if (pos.y > levelPlayer.pos.y) {
-				yMove = -1;
-			}
-			else {
-				xMove = 0;
-				yMove = 0;
-			}
+			EntityMoveStrategy.basicFollowPlayer(this, levelPlayer);
 
-			if (xMove != 0 || yMove != 0) {
-				move(xMove, yMove);
+			if (moveAmount.x != 0 || moveAmount.y != 0) {
+				move(moveAmount);
 			}
 		}
 

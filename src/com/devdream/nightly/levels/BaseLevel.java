@@ -1,10 +1,5 @@
 package com.devdream.nightly.levels;
 
-import java.awt.Rectangle;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ListIterator;
-
 import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.entities.Player;
 import com.devdream.nightly.graphics.Renderer;
@@ -12,10 +7,15 @@ import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.items.Item;
 import com.devdream.nightly.items.particles.Particle;
 import com.devdream.nightly.items.particles.ParticleSpawner;
+import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.tiled.TiledMap;
 import com.devdream.nightly.types.ParticleType;
 import com.devdream.nightly.ui.HUD;
 import com.devdream.nightly.utils.MathUtils;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
 
 public abstract class BaseLevel {
 
@@ -106,7 +106,7 @@ public abstract class BaseLevel {
         while (itemsIterator.hasNext()) {
         	Item item = itemsIterator.next();
 
-        	for (Rectangle mapCollider : tiledMap.mergedColliders) {
+        	for (Rect mapCollider : tiledMap.mergedColliders) {
                 if (item.collider.intersects(mapCollider)) {
                 	item.dispose();
                 	ParticleSpawner.generateParticles(item.pos.x, item.pos.y, ParticleType.TEST, MathUtils.getRectangleDepthSideCollision(item.collider, mapCollider));

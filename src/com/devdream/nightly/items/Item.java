@@ -1,11 +1,11 @@
 package com.devdream.nightly.items;
 
-import java.awt.Rectangle;
-import java.util.Random;
-
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
+import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.maths.Vector2D;
+
+import java.util.Random;
 
 /**
  * Item class.
@@ -13,7 +13,7 @@ import com.devdream.nightly.maths.Vector2D;
 public abstract class Item {
 
     public Vector2D<Double> pos;
-    public Rectangle collider;
+    public Rect collider;
     public Sprite sprite;
 
     protected Random rand;
@@ -30,7 +30,7 @@ public abstract class Item {
     public Item(final Sprite sprite) {
     	this();
     	this.sprite = sprite;
-        collider = new Rectangle(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH, sprite.HEIGHT);
+        collider = new Rect(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH, sprite.HEIGHT);
     }
 
     public abstract void update();

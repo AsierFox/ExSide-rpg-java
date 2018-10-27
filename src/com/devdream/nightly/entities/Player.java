@@ -1,13 +1,12 @@
 package com.devdream.nightly.entities;
 
-import java.awt.Rectangle;
-
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.graphics.GameWindow;
 import com.devdream.nightly.graphics.SpriteAnimation;
 import com.devdream.nightly.io.Keyboard;
 import com.devdream.nightly.io.Mouse;
 import com.devdream.nightly.items.projectiles.TestProjectile;
+import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 
@@ -43,7 +42,7 @@ public class Player extends Entity {
 	}
 
     private Player() {
-    	super(G.Sprites.playerDefault);
+    	super(172.0f, 100.0f, G.Sprites.playerDefault);
 
         colliderTopPadding = 5;
         colliderLeftPadding = 6;
@@ -56,20 +55,18 @@ public class Player extends Entity {
         eastAnimation = new SpriteAnimation(G.SpriteSheets.player, G.Sprites.playerWidth, G.Sprites.playerHeight, 8, 11);
         northAnimation = new SpriteAnimation(G.SpriteSheets.player, G.Sprites.playerWidth, G.Sprites.playerHeight, 12, 15);
 
-        collider = new Rectangle(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
+        collider = new Rect(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
     }
 
     public void init(final Keyboard keyboard) {
         this.keyboard = keyboard;
-        pos.x = 172.0f;
-        pos.y = 100.0f;
     }
 
     @Override
     public void update() {
-        xMove = 0;
-        yMove = 0;
-        
+        moveAmount.x = 0;
+        moveAmount.y = 0;
+
         // Read keyboard events
         if (keyboard.shift) {
            	speed = 2;
@@ -78,16 +75,16 @@ public class Player extends Entity {
         }
 
         if (keyboard.up) {
-            yMove -= speed;
+            moveAmount.y -= speed;
         }
         else if (keyboard.down) {
-            yMove += speed;
+            moveAmount.y += speed;
         }
         else if (keyboard.left) {
-            xMove -= speed;
+            moveAmount.x -= speed;
         }
         else if (keyboard.right) {
-            xMove += speed;
+            moveAmount.x += speed;
         }
 
         // Read mouse events
@@ -103,8 +100,8 @@ public class Player extends Entity {
 
         // Check diagonal movement for some reason
         //(xMove != 0 && yMove != 0)
-        if (xMove != 0 || yMove != 0) {
-            move(xMove, yMove);
+        if (moveAmount.x != 0 || moveAmount.y != 0) {
+            move(moveAmount);
         }
         else {
             state = EntityState.IDLE;
