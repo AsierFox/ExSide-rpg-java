@@ -1,13 +1,14 @@
 package com.devdream.nightly.tiled;
 
+import java.util.ArrayList;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.graphics.SpriteSheet;
 import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.utils.FileReader;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 /**
  * Class that loads Tiled map.

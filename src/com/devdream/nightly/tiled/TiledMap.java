@@ -1,10 +1,10 @@
 package com.devdream.nightly.tiled;
 
+import java.util.ArrayList;
+
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.properties.GameProperties;
-
-import java.util.ArrayList;
 
 public class TiledMap {
 

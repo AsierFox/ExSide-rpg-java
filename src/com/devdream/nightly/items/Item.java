@@ -1,11 +1,11 @@
 package com.devdream.nightly.items;
 
+import java.util.Random;
+
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.maths.Vector2D;
-
-import java.util.Random;
 
 /**
  * Item class.

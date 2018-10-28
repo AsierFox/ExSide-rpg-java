@@ -1,5 +1,7 @@
 package com.devdream.nightly.entities;
 
+import java.util.Random;
+
 import com.devdream.nightly.graphics.Renderer;
 import com.devdream.nightly.graphics.Sprite;
 import com.devdream.nightly.levels.BaseLevel;
@@ -10,9 +12,6 @@ import com.devdream.nightly.properties.GameProperties;
 import com.devdream.nightly.types.Direction;
 import com.devdream.nightly.types.EntityState;
 import com.devdream.nightly.utils.MathUtils;
-
-import java.awt.*;
-import java.util.Random;
 
 /**
  * Abstract Entity class for all game entities.

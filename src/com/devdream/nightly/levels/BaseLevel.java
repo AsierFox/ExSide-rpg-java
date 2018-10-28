@@ -1,5 +1,9 @@
 package com.devdream.nightly.levels;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.ListIterator;
+
 import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.entities.Player;
 import com.devdream.nightly.graphics.Renderer;
@@ -12,10 +16,6 @@ import com.devdream.nightly.tiled.TiledMap;
 import com.devdream.nightly.types.ParticleType;
 import com.devdream.nightly.ui.HUD;
 import com.devdream.nightly.utils.MathUtils;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.ListIterator;
 
 public abstract class BaseLevel {
 
@@ -143,6 +143,14 @@ public abstract class BaseLevel {
 
     	playerHUD.render(renderer);
     }
+
+//    public List<Node> findPath(Vector2DInt<Integer> start, Vector2DInt<Integer> goal) {
+//        List<Node> openList = new ArrayList<>();
+//        List<Node> closeList = new ArrayList<>();
+//
+//        Node current = new Node(start, null, 0, MathUtils.getDistanceBetweenVectors(start, goal));
+//        openList.add(current);
+//    }
 
     public void addEntity(final Entity entity) {
     	entities.add(entity);

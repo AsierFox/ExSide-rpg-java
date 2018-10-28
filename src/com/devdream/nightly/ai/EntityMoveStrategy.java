@@ -1,9 +1,9 @@
 package com.devdream.nightly.ai;
 
+import java.util.Random;
+
 import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.entities.Player;
-
-import java.util.Random;
 
 /**
  * AI movement strategies for NPC entities.
