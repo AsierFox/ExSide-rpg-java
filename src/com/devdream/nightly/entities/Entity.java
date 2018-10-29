@@ -120,4 +120,8 @@ public abstract class Entity {
         return isRemoved;
     }
 
+    public Vector2DInt<Integer> getSpriteCenter() {
+    	return new Vector2DInt<>(sprite.WIDTH / 2, sprite.HEIGHT / 2);
+    }
+
 }

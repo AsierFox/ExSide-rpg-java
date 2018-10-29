@@ -1,11 +1,11 @@
 package com.devdream.nightly.graphics;
 
-import java.awt.Color;
-
 import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.items.Item;
 import com.devdream.nightly.maths.Rect;
 import com.devdream.nightly.tiled.TiledTile;
+
+import java.awt.*;
 
 /**
  * Class that renders the pixels to the screen.

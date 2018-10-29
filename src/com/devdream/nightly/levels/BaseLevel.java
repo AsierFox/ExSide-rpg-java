@@ -3,7 +3,10 @@ package com.devdream.nightly.levels;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ListIterator;
+import java.util.Optional;
 
+import com.devdream.nightly.ai.dijkstra.Dijkstra;
+import com.devdream.nightly.entities.Enemy;
 import com.devdream.nightly.entities.Entity;
 import com.devdream.nightly.entities.Player;
 import com.devdream.nightly.graphics.Renderer;
@@ -12,6 +15,7 @@ import com.devdream.nightly.items.Item;
 import com.devdream.nightly.items.particles.Particle;
 import com.devdream.nightly.items.particles.ParticleSpawner;
 import com.devdream.nightly.maths.Rect;
+import com.devdream.nightly.maths.Vector2DInt;
 import com.devdream.nightly.tiled.TiledMap;
 import com.devdream.nightly.types.ParticleType;
 import com.devdream.nightly.ui.HUD;
@@ -31,6 +35,9 @@ public abstract class BaseLevel {
     protected ArrayList<Entity> entities;
     protected ArrayList<Item> items;
     protected ArrayList<Particle> particles;
+    
+
+	Dijkstra dijkstra;
 
 
     public BaseLevel(final Keyboard keyboard, final int width, final int height) {
@@ -45,6 +52,8 @@ public abstract class BaseLevel {
         particles = new ArrayList<>();
 
         load();
+        
+		dijkstra = new Dijkstra(new Vector2DInt<>(10, 10), tiledMap.mapTilesWidth, tiledMap.mapTilesHeight, tiledMap.mergedColliders);
     }
 
     protected abstract void load();
@@ -57,6 +66,9 @@ public abstract class BaseLevel {
         Player.getInstance().update();
 
         for (Entity entity : entities) {
+        	if (entity instanceof Enemy) {
+        		((Enemy) entity).nextNode = dijkstra.findNextNodeToEntity(entity);
+        	}
         	entity.update();
         }
         for (Item item : items) {
@@ -69,6 +81,11 @@ public abstract class BaseLevel {
         playerHUD.update();
 
         checkCollisions();
+        
+        Optional<Vector2DInt<Integer>> playerTile = dijkstra.getPlayerTileLocation(new Vector2DInt<>(Player.getInstance().pos.x.intValue(), Player.getInstance().pos.y.intValue()));
+        if (playerTile.isPresent()) {
+        	dijkstra.calculateFromNodePosition(playerTile.get());
+        }
     }
 
     /**

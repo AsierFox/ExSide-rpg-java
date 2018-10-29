@@ -1,5 +1,6 @@
 package com.devdream.nightly.entities;
 
+import com.devdream.nightly.ai.dijkstra.DijkstraNode;
 import com.devdream.nightly.graphics.G;
 import com.devdream.nightly.levels.BaseLevel;
 import com.devdream.nightly.maths.Rect;
@@ -9,10 +10,12 @@ public class Enemy extends Entity {
 	private int colliderTopPadding;
     private int colliderLeftPadding;
     private int colliderRightPadding;
+    
+    public DijkstraNode nextNode;
 
 
     public Enemy() {
-		super(.0f, .0f, G.Sprites.enemyDefault);
+		super(80.0f, 80.0f, G.Sprites.enemyDefault);
 
 		colliderTopPadding = 5;
         colliderLeftPadding = 6;
@@ -30,8 +33,27 @@ public class Enemy extends Entity {
 	@Override
 	public void update() {
     	// Update collider
-		collider.x = (pos.x.intValue() - (sprite.WIDTH  >> 1));
-		collider.y = (pos.y.intValue() - (sprite.HEIGHT >> 1));
+        collider.x = (pos.x.intValue() - (sprite.WIDTH >> 1)) + colliderLeftPadding;
+        collider.y = pos.y.intValue() + colliderTopPadding;
+        
+        if (null != nextNode) {
+        	// TODO Make this dynamic
+        	int xNextNode = nextNode.position.x * 16;
+        	int yNextNode = nextNode.position.y * 16;
+
+        	if (pos.x < xNextNode) {
+        		pos.x += 1;
+        	}
+        	if (pos.x > xNextNode) {
+        		pos.x -= 1;
+        	}
+        	if (pos.y < yNextNode) {
+        		pos.y += 1;
+        	}
+        	if (pos.y > yNextNode) {
+        		pos.y -= 1;
+        	}
+        }
 	}
 
 }
