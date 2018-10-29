@@ -63,18 +63,15 @@ public class FileReader {
     	Optional<BufferedImage> bufferedImage = Optional.empty();
     	try {
             Image image = ImageIO.read(FileReader.class.getResource(filePath));
-
-            // TODO Check if this really improves performance
             // Improves performance of the image by checking if we can accelerate by hardware,
             // using graphics card ram instead of the default ram.
             GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
             BufferedImage optimizedImage = gc.createCompatibleImage(image.getWidth(null), image.getHeight(null), transparencyType);
-
             // Draw into image the optimized image
             Graphics g = optimizedImage.getGraphics();
             g.drawImage(image, 0, 0, null);
             g.dispose();
-            
+
             bufferedImage = Optional.of(optimizedImage);
         } catch (IOException e) {
             Logger.logError(FileReader.class, "Error reading " + filePath, e);

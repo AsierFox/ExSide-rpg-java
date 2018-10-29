@@ -149,6 +149,35 @@ public class Renderer {
 	}
 
 	/**
+     * Renders the rectangle filled.
+     * @param rect
+     */
+	public void renderFilledRect(Rect rect) {
+        final int xPosition = rect.x - xOffset;
+        final int yPosition = rect.y - yOffset;
+
+        for (int y = 0; y < rect.height; y++) {
+            // Absolute position will move specific tile position
+            int yAbsolute = y + yPosition;
+
+            for (int x = 0; x < rect.width; x++) {
+                int xAbsolute = x + xPosition;
+
+                // Only render that we can see on the screen
+                if (xAbsolute < -rect.width || xAbsolute >= GameWindow.WIDTH || yAbsolute < 0 || yAbsolute >= GameWindow.HEIGHT) {
+                    break;
+                }
+                // Fix left side with xAbsolute < -tile.sprite.SIZE, and avoiding index out of bounds
+                if (xAbsolute < 0) {
+                    xAbsolute = 0;
+                }
+
+                pixels[xAbsolute + yAbsolute * GameWindow.WIDTH] = Color.RED.getRGB();
+            }
+        }
+	}
+
+	/**
 	 * Set offset to adjust location of the tiles by the offset, to reverse the map movement position.
 	 * @param xOffset
 	 * @param yOffset
