@@ -1,5 +1,6 @@
 package com.devdream.exside.graphics;
 
+import java.awt.Font;
 import java.awt.Transparency;
 
 import com.devdream.exside.tiled.TiledMap;
@@ -53,8 +54,12 @@ public interface G {
 	    Sprite arrowParticle = new Sprite(0xff00e5ff, 2);
 	}
 
+	interface FontTypes {
+		Font verdana = new Font("Verdana", 12, 10);
+	}
+
 	interface Fonts {
-		Font wordFont = new Font(G.SpriteSheets.fonts, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0, 60, 60);
+		FontSprite wordFont = new FontSprite(G.SpriteSheets.fonts, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 0, 60, 60);
 	}
 
 }

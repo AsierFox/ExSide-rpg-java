@@ -2,7 +2,7 @@ package com.devdream.exside.graphics;
 
 import com.devdream.exside.utils.Logger;
 
-public class Font {
+public class FontSprite {
 
 	private String wordPattern;
 	private char[] patternWords;
@@ -21,7 +21,7 @@ public class Font {
 	 * @param wordWidth
 	 * @param wordHeight
 	 */
-	public Font(final SpriteSheet fromSheet, final String wordPattern, final int spriteSheetStartIndex, final int wordWidth, final int wordHeight) {
+	public FontSprite(final SpriteSheet fromSheet, final String wordPattern, final int spriteSheetStartIndex, final int wordWidth, final int wordHeight) {
 		this.wordPattern = wordPattern;
 		patternWords = wordPattern.toCharArray();
 
