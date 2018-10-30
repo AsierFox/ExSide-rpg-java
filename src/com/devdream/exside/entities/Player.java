@@ -1,7 +1,10 @@
 package com.devdream.exside.entities;
 
+import java.awt.Font;
+
 import com.devdream.exside.graphics.G;
 import com.devdream.exside.graphics.GameWindow;
+import com.devdream.exside.graphics.Renderer;
 import com.devdream.exside.graphics.SpriteAnimation;
 import com.devdream.exside.io.Keyboard;
 import com.devdream.exside.io.Mouse;
@@ -124,6 +127,12 @@ public class Player extends Entity {
     	//shootDirection *= 180/ Math.PI;
     	// TODO Check current weapon of the player
         belongsToLevel.addItem(new TestProjectile(pos.x.intValue(), pos.y.intValue(), shootDirection));
+    }
+
+    @Override
+    public void render(final Renderer renderer) {
+    	super.render(renderer);
+    	renderer.renderText("Player -> x: " + pos.x + ", y: " + pos.y, 5, 20, G.FontTypes.verdada, Font.BOLD, 0xffffff, 12);
     }
 
     private void updateCollider() {

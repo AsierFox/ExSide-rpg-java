@@ -1,6 +1,8 @@
 package com.devdream.exside.graphics;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
 
 import com.devdream.exside.entities.Entity;
 import com.devdream.exside.items.Item;
@@ -17,6 +19,8 @@ public class Renderer {
 
     private int xOffset;
     private int yOffset;
+    
+    private Graphics graphics;
 
 
     public Renderer() {
@@ -178,6 +182,42 @@ public class Renderer {
 	}
 
 	/**
+	 * Render a text using graphics.
+	 * @param fontType
+	 * @param text
+	 * @param xPosition
+	 * @param yPosition
+	 * @param color
+	 */
+	public void renderText(final String text, int xPosition, int yPosition, final String font, final int style, final int color, final int size) {
+        final int r = (color & 0xff0000) >> 16;
+		final int g = (color & 0xff00) >> 8;
+        final int b = (color & 0xff);
+        final Color fontColor = new Color(r, g, b);
+        final Font fontType = new Font(font, style, size);
+        graphics.setColor(fontColor);
+        graphics.setFont(fontType);
+        graphics.drawString(text, xPosition, yPosition);
+	}
+
+	/**
+	 * Clears all pixels of the screen.
+	 */
+	public void clear() {
+		for (int i = 0; i < pixelsAmount; i++) {
+			pixels[i] = 0;
+		}
+	}
+
+    /**
+     * Set game graphics.
+     * @param graphics
+     */
+    public void setGraphics(final Graphics graphics) {
+    	this.graphics = graphics;
+    }
+
+    /**
 	 * Set offset to adjust location of the tiles by the offset, to reverse the map movement position.
 	 * @param xOffset
 	 * @param yOffset
@@ -185,15 +225,6 @@ public class Renderer {
     public void setOffset(final int xOffset, final int yOffset) {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
-    }
-
-    /**
-     * Clears all pixels of the screen.
-     */
-	public void clear() {
-        for (int i = 0; i < pixelsAmount; i++) {
-            pixels[i] = 0;
-        }
     }
 
 }

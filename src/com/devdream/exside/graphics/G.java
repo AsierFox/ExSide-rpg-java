@@ -1,6 +1,5 @@
 package com.devdream.exside.graphics;
 
-import java.awt.Font;
 import java.awt.Transparency;
 
 import com.devdream.exside.tiled.TiledMap;
@@ -55,7 +54,7 @@ public interface G {
 	}
 
 	interface FontTypes {
-		Font verdana = new Font("Verdana", 12, 10);
+		String verdada = "Verdana";
 	}
 
 	interface Fonts {
