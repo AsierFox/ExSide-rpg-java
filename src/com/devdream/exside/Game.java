@@ -1,16 +1,18 @@
 package com.devdream.exside;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
 import com.devdream.exside.entities.Player;
+import com.devdream.exside.graphics.G;
 import com.devdream.exside.graphics.GameWindow;
 import com.devdream.exside.graphics.Renderer;
+import com.devdream.exside.io.GameFocus;
 import com.devdream.exside.io.Keyboard;
 import com.devdream.exside.io.Mouse;
 import com.devdream.exside.levels.BaseLevel;
@@ -29,6 +31,7 @@ public class Game extends Canvas implements Runnable {
     private Thread thread;
 
     private Keyboard keyboard;
+    private GameFocus focus;
     private Renderer renderer;
     private BaseLevel currentLevel;
 
@@ -40,10 +43,12 @@ public class Game extends Canvas implements Runnable {
 
     public Game() {
         keyboard = new Keyboard();
+        focus = new GameFocus();
 
         isRunning = false;
 
         addKeyListener(keyboard);
+        addFocusListener(focus);
 
         Mouse mouse = new Mouse();
         addMouseListener(mouse);
@@ -134,22 +139,26 @@ public class Game extends Canvas implements Runnable {
             return;
         }
 
-        // Set offset
-    	int xScroll = Player.getInstance().pos.x.intValue() - (GameWindow.WIDTH >> 1);
-        int yScroll = Player.getInstance().pos.y.intValue() - (GameWindow.HEIGHT >> 1);
-        renderer.setOffset(xScroll, yScroll);
-        renderer.clear();
-        currentLevel.render(renderer);
-
-        System.arraycopy(renderer.pixels, 0, pixels, 0, pixels.length);
-
         // Send data to the buffers
         Graphics graphics = bufferStrategy.getDrawGraphics();
 
+        // Set offsets for renderer
+    	int xScroll = Player.getInstance().pos.x.intValue() - (GameWindow.WIDTH >> 1);
+        int yScroll = Player.getInstance().pos.y.intValue() - (GameWindow.HEIGHT >> 1);
+        renderer.setOffset(xScroll, yScroll);
+        renderer.setGraphics(graphics);
+
+        System.arraycopy(renderer.pixels, 0, pixels, 0, pixels.length);
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
 
-        graphics.setColor(Color.WHITE);
-        graphics.drawString("Player -> x: " + Player.getInstance().pos.x + ", y: " + Player.getInstance().pos.y, 30, 30);
+        renderer.clear();
+
+        currentLevel.render(renderer);
+
+        if (!focus.isFocused) {
+        	renderer.renderText("Focus to resume the game :)", 100, getHeight() >> 1, G.FontTypes.verdada, Font.BOLD, 0xffffff, 40);
+        }
+
 
         // Swap buffers
         graphics.dispose();
