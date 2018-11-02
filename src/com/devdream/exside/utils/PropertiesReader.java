@@ -5,17 +5,17 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesReader {
-
+    
     private static final String PROPERTIES_EXTENSION = ".properties";
-
+    
     private Properties properties;
     private InputStream inputStream;
-
+    
     public PropertiesReader() {
         properties = new Properties();
         inputStream = null;
     }
-
+    
     public void loadPropertiesFile(final String propertiesFile) {
         try {
             inputStream = PropertiesReader.class.getResourceAsStream("/" + propertiesFile + PROPERTIES_EXTENSION);
@@ -32,9 +32,9 @@ public class PropertiesReader {
             }
         }
     }
-
+    
     public String getProperty(final String property) {
         return properties.getProperty(property);
     }
-
+    
 }

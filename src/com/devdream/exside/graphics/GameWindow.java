@@ -10,13 +10,12 @@ import com.devdream.exside.io.Mouse;
 import com.devdream.exside.properties.GameProperties;
 
 public class GameWindow extends JFrame {
-	private static final long serialVersionUID = 1745759043772177195L;
-
-	public static final int WIDTH = 300;
+    private static final long serialVersionUID = 1745759043772177195L;
+    
+    public static final int WIDTH = 300;
     public static final int HEIGHT = WIDTH / 16 * 9; // Aspect ratio
     public static final int SCALE = 3;
-
-
+    
     public GameWindow(final Canvas gameCanvas) {
         // Is important to set resizable at first instance to the frame
         setResizable(false);
@@ -34,13 +33,13 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
+    
     public static int getTotalWidth() {
         return WIDTH * SCALE;
     }
-
+    
     public static int getTotalHeight() {
         return HEIGHT * SCALE;
     }
-
+    
 }

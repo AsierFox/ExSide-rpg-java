@@ -9,31 +9,31 @@ import com.devdream.exside.io.Keyboard;
 import com.devdream.exside.tiled.TiledMap;
 
 public class TestLevel extends BaseLevel {
-
-    public TestLevel(final Keyboard keyboard, final int width, final int height) {
-        super(keyboard, width, height);
+    
+    public TestLevel(final Keyboard keyboard) {
+        super(keyboard);
     }
-
+    
     @Override
     protected void load() {
-    	tiledMap = new TiledMap("tiled-map");
-    	
-		Player.getInstance().init(keyboard);
-		Player.getInstance().attachToLevel(this);
-
-		new Civilian().attachToLevel(this);
-		new Enemy().attachToLevel(this);
-		new Clergy().attachToLevel(this);
+        tiledMap = new TiledMap("tiled-map");
+        
+        Player.getInstance().init(keyboard);
+        Player.getInstance().attachToLevel(this);
+        
+        new Civilian().attachToLevel(this);
+        new Enemy().attachToLevel(this);
+        new Clergy().attachToLevel(this);
     }
-
+    
     @Override
     public void update() {
-    	super.update();
+        super.update();
     }
-
+    
     @Override
     public void render(Renderer renderer) {
-    	super.render(renderer);
+        super.render(renderer);
     }
     
 }
