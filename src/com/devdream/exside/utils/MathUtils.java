@@ -60,10 +60,8 @@ public class MathUtils {
     /**
      * Gets the color brighter, specifying the amount of brightness.
      * 
-     * @param colour
-     *            The pixel colour or in RGBA (0xff...)
-     * @param amount
-     *            The amount of brightness <b>(Between 0 <-> 100)</b>.
+     * @param colour The pixel colour or in RGBA (0xff...)
+     * @param amount The amount of brightness <b>(Between 0 <-> 100)</b>.
      * @return Returns the brighter color
      */
     public static int changeBrightness(int colour, int amount) {
@@ -73,8 +71,7 @@ public class MathUtils {
         
         if (amount > 0) {
             amount = 0;
-        }
-        if (amount < -150) {
+        } else if (amount < -150) {
             amount = -150;
         }
         
@@ -82,22 +79,34 @@ public class MathUtils {
         g += amount;
         b += amount;
         
-        if (r < 0)
-            r = 0;
-        if (g < 0)
+        if (r < 0) {
+        	r = 0;
+        } else if (r > 255) {
+        	r = 255;
+        }
+        if (g < 0) {
             g = 0;
-        if (b < 0)
-            b = 0;
-        if (r > 255)
-            r = 255;
-        if (g > 255)
-            g = 255;
-        if (b > 255)
-            b = 255;
+        } else if (g > 255) {
+        	g = 255;
+        }
+        if (b < 0) {
+        	b = 0;
+        } else if (b > 255) {
+        	b = 255;
+        }
         
         return r << 16 | g << 8 | b;
     }
     
+    /**
+     * Merge the rgb color channels to a color, to tint it.
+     * 
+     * @param colour
+     * @param r
+     * @param g
+     * @param b
+     * @return
+     */
     public static int tint(int colour, double r, double g, double b) {
         int red = (colour & 0xff0000) >> 16;
         int green = (colour & 0xff00) >> 8;

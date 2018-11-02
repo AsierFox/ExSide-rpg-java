@@ -208,8 +208,7 @@ public class Renderer {
     }
     
     /**
-     * Render a text using graphics and a Font type <b>(requires TTF
-     * format)</b>.
+     * Render a text using graphics and a Font type <b>(requires TTF format)</b>.
      * 
      * @param text
      * @param xPosition
