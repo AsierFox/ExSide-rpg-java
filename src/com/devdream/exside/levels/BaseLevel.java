@@ -5,11 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.ListIterator;
-import java.util.Optional;
 
 import com.devdream.exside.ai.astar.AStarNode;
-import com.devdream.exside.ai.dijkstra.Dijkstra;
-import com.devdream.exside.entities.Enemy;
 import com.devdream.exside.entities.Entity;
 import com.devdream.exside.entities.Player;
 import com.devdream.exside.graphics.Renderer;
@@ -36,8 +33,6 @@ public abstract class BaseLevel {
     protected ArrayList<Item> items;
     protected ArrayList<Particle> particles;
     
-    Dijkstra dijkstra;
-    
     public BaseLevel(final Keyboard keyboard) {
         this.keyboard = keyboard;
         
@@ -48,8 +43,6 @@ public abstract class BaseLevel {
         particles = new ArrayList<>();
         
         load();
-        
-        dijkstra = new Dijkstra(new Vector2DInt<>(10, 10), tiledMap.mapTilesWidth, tiledMap.mapTilesHeight, tiledMap.mergedColliders);
     }
     
     protected abstract void load();
@@ -62,9 +55,6 @@ public abstract class BaseLevel {
         Player.getInstance().update();
         
         for (Entity entity : entities) {
-            if (entity instanceof Enemy) {
-                ((Enemy) entity).nextNode = dijkstra.findNextNodeToEntity(entity);
-            }
             entity.update();
         }
         for (Item item : items) {
@@ -77,11 +67,6 @@ public abstract class BaseLevel {
         playerHUD.update();
         
         checkCollisions();
-        
-        Optional<Vector2DInt<Integer>> playerTile = dijkstra.getPlayerTileLocation(new Vector2DInt<>(Player.getInstance().pos.x.intValue(), Player.getInstance().pos.y.intValue()));
-        if (playerTile.isPresent()) {
-            dijkstra.calculateFromNodePosition(playerTile.get());
-        }
     }
     
     /**
@@ -186,7 +171,7 @@ public abstract class BaseLevel {
     
     public ArrayList<AStarNode> findPath(Vector2DInt<Integer> start, Vector2DInt<Integer> goal) {
         
-        // Collect Tiles to a Rectangle
+        // Collect map tiles to a Rectangle
         for (int y = 0; y < tiledMap.mapTilesHeight; y++) {
             for (int x = 0; x < tiledMap.mapTilesWidth; x++) {
                 // TODO Dynamic this to map tile size
@@ -208,8 +193,16 @@ public abstract class BaseLevel {
             current = openList.get(0);
             
             // Goal reached
-            if (current.tileLocation.equals(goal)) {
-                // return;
+            if (current.tileLocation.x == goal.x && current.tileLocation.y == goal.y) {
+                ArrayList<AStarNode> resultPath = new ArrayList<>();
+                // The start node has null came from node
+                while (null != current.cameFrom) {
+                	resultPath.add(current);
+                	current = current.cameFrom;
+                }
+                openList.clear();
+                closedList.clear();
+                return resultPath;
             }
             
             // Move current from open to closed list
@@ -222,8 +215,8 @@ public abstract class BaseLevel {
                 if (i == 4) {
                     continue;
                 }
-                int x = current.tileLocation.x;
-                int y = current.tileLocation.y;
+                int x = current.tileLocation.x << 4;
+                int y = current.tileLocation.y << 4;
                 // Get the tile "direciton" position col/row index (-1=left,
                 // 0=center, 1=right)
                 int xIndex = (i % 3) - 1;
@@ -244,7 +237,7 @@ public abstract class BaseLevel {
                     continue;
                 }
                 
-                // TODO Check if the tile is solid
+                // TODO Check here if the tile is solid
                 // if (solid) continue;
                 
                 Vector2DInt<Integer> tileAtVector = new Vector2DInt<>(x + xIndex, y + yIndex);
@@ -257,12 +250,12 @@ public abstract class BaseLevel {
                 if (checkVector2InList(closedList, tileAtVector) && gCost >= newNode.gCost) {
                     continue;
                 }
-                if (!checkVector2InList(openList, tileAtVector) || gCost < current.gCost) {
+                if (!checkVector2InList(openList, tileAtVector) || gCost < newNode.gCost) {
                     openList.add(newNode);
                 }
             }
         }
-        
+        closedList.clear();
         return null;
     }
     
