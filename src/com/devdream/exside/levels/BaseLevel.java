@@ -3,13 +3,13 @@ package com.devdream.exside.levels;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.ListIterator;
 
 import com.devdream.exside.ai.astar.AStarNode;
 import com.devdream.exside.entities.Entity;
 import com.devdream.exside.entities.Player;
 import com.devdream.exside.graphics.Renderer;
+import com.devdream.exside.interfaces.Renderable;
 import com.devdream.exside.io.Keyboard;
 import com.devdream.exside.items.Item;
 import com.devdream.exside.items.particles.Particle;
@@ -29,20 +29,42 @@ public abstract class BaseLevel {
     
     protected HUD playerHUD;
     
+    private ArrayList<Rect> mapTilesUbicationRect = new ArrayList<>();
+    
+    protected ArrayList<Renderable> renderables;
     protected ArrayList<Entity> entities;
     protected ArrayList<Item> items;
     protected ArrayList<Particle> particles;
+    
+    private boolean areDeletedRenderables;
+    private boolean areDeletedEntities;
+    private boolean areDeletedItems;
+    private boolean areDeletedParticles;
     
     public BaseLevel(final Keyboard keyboard) {
         this.keyboard = keyboard;
         
         playerHUD = new HUD();
         
+        renderables = new ArrayList<>();
         entities = new ArrayList<>();
         items = new ArrayList<>();
         particles = new ArrayList<>();
         
+        areDeletedRenderables = false;
+        areDeletedEntities = false;
+        areDeletedItems = false;
+        areDeletedParticles = false;
+        
         load();
+        
+        // Collect all map tiles to rectangles
+        for (int y = 0; y < tiledMap.mapTilesHeight; y++) {
+            for (int x = 0; x < tiledMap.mapTilesWidth; x++) {
+                // TODO Dynamic this to map tile size
+                mapTilesUbicationRect.add(new Rect(x * 16, y * 16, 16, 16));
+            }
+        }
     }
     
     protected abstract void load();
@@ -74,28 +96,16 @@ public abstract class BaseLevel {
      * way to avoid ConcurrentModificationException.
      */
     private void checkDeletions() {
-        // With Java 8
-        // items.removeIf(Item::isRemoved);
-        // TODO Create a variable dirty to avoid checking all things every frame
-        Iterator<Entity> entitiesIterator = entities.iterator();
-        while (entitiesIterator.hasNext()) {
-            if (entitiesIterator.next().isRemoved()) {
-                entitiesIterator.remove();
-            }
+        if (areDeletedEntities) {
+            entities.removeIf(Entity::isRemoved);
         }
         
-        Iterator<Item> itemsIterator = items.iterator();
-        while (itemsIterator.hasNext()) {
-            if (itemsIterator.next().isRemoved()) {
-                itemsIterator.remove();
-            }
+        if (areDeletedItems) {
+            items.removeIf(Item::isRemoved);
         }
         
-        Iterator<Particle> particleIterator = ParticleSpawner.particles.iterator();
-        while (particleIterator.hasNext()) {
-            if (particleIterator.next().isRemoved()) {
-                particleIterator.remove();
-            }
+        if (areDeletedParticles) {
+            particles.removeIf(Particle::isRemoved);
         }
     }
     
@@ -158,8 +168,6 @@ public abstract class BaseLevel {
         }
     };
     
-    private ArrayList<Rect> mapTilesRect = new ArrayList<>();
-    
     private boolean checkVector2InList(final ArrayList<AStarNode> nodeList, Vector2DInt<Integer> vect) {
         for (AStarNode currentNode : nodeList) {
             if (vect.x == currentNode.tileLocation.x && vect.y == currentNode.tileLocation.y) {
@@ -171,15 +179,6 @@ public abstract class BaseLevel {
     
     public ArrayList<AStarNode> findPath(Vector2DInt<Integer> start, Vector2DInt<Integer> goal) {
         
-        // Collect map tiles to a Rectangle
-        for (int y = 0; y < tiledMap.mapTilesHeight; y++) {
-            for (int x = 0; x < tiledMap.mapTilesWidth; x++) {
-                // TODO Dynamic this to map tile size
-                mapTilesRect.add(new Rect(x * 16, y * 16, 16, 16));
-            }
-        }
-        
-        // Start A* path finding
         ArrayList<AStarNode> openList = new ArrayList<>();
         ArrayList<AStarNode> closedList = new ArrayList<>();
         
@@ -197,8 +196,8 @@ public abstract class BaseLevel {
                 ArrayList<AStarNode> resultPath = new ArrayList<>();
                 // The start node has null came from node
                 while (null != current.cameFrom) {
-                	resultPath.add(current);
-                	current = current.cameFrom;
+                    resultPath.add(current);
+                    current = current.cameFrom;
                 }
                 openList.clear();
                 closedList.clear();
@@ -215,19 +214,11 @@ public abstract class BaseLevel {
                 if (i == 4) {
                     continue;
                 }
-                int x = current.tileLocation.x << 4;
-                int y = current.tileLocation.y << 4;
-                // Get the tile "direciton" position col/row index (-1=left,
-                // 0=center, 1=right)
-                int xIndex = (i % 3) - 1;
-                int yIndex = (i / 3) - 1;
-                
-                // TODO Test This
-                Rect tileAt = null;
                 
                 // Search for current tile
-                for (Rect mapTile : mapTilesRect) {
-                    if (x == mapTile.x && y == mapTile.y) {
+                Rect tileAt = null;
+                for (Rect mapTile : mapTilesUbicationRect) {
+                    if (current.tileLocation.x == mapTile.x && current.tileLocation.y == mapTile.y) {
                         tileAt = mapTile;
                         break;
                     }
@@ -237,8 +228,18 @@ public abstract class BaseLevel {
                     continue;
                 }
                 
+                // Convert to pixel precision * 16
+                // TODO Dynamic tile size
+                int x = current.tileLocation.x << 4;
+                int y = current.tileLocation.y << 4;
+                
                 // TODO Check here if the tile is solid
                 // if (solid) continue;
+                
+                // Get the tile "direciton" position col/row index (-1=left,
+                // 0=center, 1=right)
+                int xIndex = (i % 3) - 1;
+                int yIndex = (i / 3) - 1;
                 
                 Vector2DInt<Integer> tileAtVector = new Vector2DInt<>(x + xIndex, y + yIndex);
                 double gCost = current.gCost + MathUtils.getDistanceBetweenVectors(current.tileLocation, tileAtVector);

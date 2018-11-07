@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.devdream.exside.graphics.Renderer;
 import com.devdream.exside.graphics.Sprite;
+import com.devdream.exside.interfaces.Renderable;
 import com.devdream.exside.levels.BaseLevel;
 import com.devdream.exside.maths.Rect;
 import com.devdream.exside.maths.Vector2DFloat;
@@ -16,7 +17,7 @@ import com.devdream.exside.utils.MathUtils;
 /**
  * Abstract Entity class for all game entities.
  */
-public abstract class Entity {
+public abstract class Entity implements Renderable {
     
     public Vector2DFloat<Float> pos;
     public Sprite sprite;
@@ -53,8 +54,6 @@ public abstract class Entity {
     public void attachToLevel(BaseLevel belongsToLevel) {
         this.belongsToLevel = belongsToLevel;
     }
-    
-    public abstract void update();
     
     public void render(final Renderer renderer) {
         renderer.renderEnity(pos.x.intValue(), pos.y.intValue(), this);

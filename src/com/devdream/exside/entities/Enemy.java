@@ -37,8 +37,8 @@ public class Enemy extends Entity {
     
     @Override
     public void update() {
-    	time++;
-    	
+        time++;
+        
         // Update collider
         collider.x = (pos.x.intValue() - (sprite.WIDTH >> 1)) + colliderLeftPadding;
         collider.y = pos.y.intValue() + colliderTopPadding;
@@ -51,28 +51,28 @@ public class Enemy extends Entity {
         
         // Update path once per second
         if (time % 60 == 0) {
-        	path = belongsToLevel.findPath(startPos, destinationPos);
-        	System.out.println(path);
+            path = belongsToLevel.findPath(startPos, destinationPos);
+            System.out.println(path);
         }
         
         if (null != path) {
-        	if (!path.isEmpty()) {
-        		Vector2DInt<Integer> nextStep = path.get(path.size() - 1).tileLocation;
-        		// nextStep.x * 16 for convert from tile to pixel precision
-        		// TODO Make tile size dynamic
-        		if (pos.x < nextStep.x << 4) {
-        			pos.x += speed;
-        		}
-        		if (pos.x > nextStep.x << 4) {
-        			pos.x += speed;
-        		}
-        		if (pos.y < nextStep.y << 4) {
-        			pos.y += speed;
-        		}
-        		if (pos.y > nextStep.y << 4) {
-        			pos.y += speed;
-        		}
-        	}
+            if (!path.isEmpty()) {
+                Vector2DInt<Integer> nextStep = path.get(path.size() - 1).tileLocation;
+                // nextStep.x * 16 for convert from tile to pixel precision
+                // TODO Make tile size dynamic
+                if (pos.x < nextStep.x << 4) {
+                    pos.x += speed;
+                }
+                if (pos.x > nextStep.x << 4) {
+                    pos.x += speed;
+                }
+                if (pos.y < nextStep.y << 4) {
+                    pos.y += speed;
+                }
+                if (pos.y > nextStep.y << 4) {
+                    pos.y += speed;
+                }
+            }
         }
     }
     
