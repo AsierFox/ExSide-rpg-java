@@ -9,7 +9,6 @@ import com.devdream.exside.ai.astar.AStarNode;
 import com.devdream.exside.entities.Entity;
 import com.devdream.exside.entities.Player;
 import com.devdream.exside.graphics.Renderer;
-import com.devdream.exside.interfaces.Renderable;
 import com.devdream.exside.io.Keyboard;
 import com.devdream.exside.items.Item;
 import com.devdream.exside.items.particles.Particle;
@@ -31,38 +30,35 @@ public abstract class BaseLevel {
     
     private ArrayList<Rect> mapTilesUbicationRect = new ArrayList<>();
     
-    protected ArrayList<Renderable> renderables;
     protected ArrayList<Entity> entities;
     protected ArrayList<Item> items;
     protected ArrayList<Particle> particles;
     
-    private boolean areDeletedRenderables;
-    private boolean areDeletedEntities;
-    private boolean areDeletedItems;
-    private boolean areDeletedParticles;
+    private boolean areEntitiesToRemove;
+    private boolean areItemsToRemove;
+    private boolean areParticlesToRemove;
     
     public BaseLevel(final Keyboard keyboard) {
         this.keyboard = keyboard;
         
         playerHUD = new HUD();
         
-        renderables = new ArrayList<>();
         entities = new ArrayList<>();
         items = new ArrayList<>();
         particles = new ArrayList<>();
         
-        areDeletedRenderables = false;
-        areDeletedEntities = false;
-        areDeletedItems = false;
-        areDeletedParticles = false;
+        areEntitiesToRemove = false;
+        areItemsToRemove = false;
+        areParticlesToRemove = false;
         
         load();
         
+        // TODO Generate this from Map Spawner
         // Collect all map tiles to rectangles
         for (int y = 0; y < tiledMap.mapTilesHeight; y++) {
             for (int x = 0; x < tiledMap.mapTilesWidth; x++) {
-                // TODO Dynamic this to map tile size
-                mapTilesUbicationRect.add(new Rect(x * 16, y * 16, 16, 16));
+                // TODO Make dynamic Tile size
+                mapTilesUbicationRect.add(new Rect(x << 4, y << 4, 16, 16));
             }
         }
     }
@@ -96,16 +92,19 @@ public abstract class BaseLevel {
      * way to avoid ConcurrentModificationException.
      */
     private void checkDeletions() {
-        if (areDeletedEntities) {
+        if (areEntitiesToRemove) {
             entities.removeIf(Entity::isRemoved);
+            areEntitiesToRemove = false;
         }
         
-        if (areDeletedItems) {
+        if (areItemsToRemove) {
             items.removeIf(Item::isRemoved);
+            areItemsToRemove = false;
         }
         
-        if (areDeletedParticles) {
+        if (areParticlesToRemove) {
             particles.removeIf(Particle::isRemoved);
+            areParticlesToRemove = false;
         }
     }
     
@@ -142,13 +141,25 @@ public abstract class BaseLevel {
         Player.getInstance().render(renderer);
         
         for (Entity entity : entities) {
-            entity.render(renderer);
+            if (!entity.isRemoved()) {
+                entity.render(renderer);
+            } else {
+                areEntitiesToRemove = true;
+            }
         }
         for (Item item : items) {
-            item.render(renderer);
+            if (!item.isRemoved()) {
+                item.render(renderer);
+            } else {
+                areItemsToRemove = true;
+            }
         }
         for (Particle particle : ParticleSpawner.particles) {
-            particle.render(renderer);
+            if (!particle.isRemoved()) {
+                particle.render(renderer);
+            } else {
+                areParticlesToRemove = true;
+            }
         }
         
         playerHUD.render(renderer);
@@ -215,10 +226,16 @@ public abstract class BaseLevel {
                     continue;
                 }
                 
-                // Search for current tile
+                // Convert to pixel precision * 16
+                // TODO Make dynamic Tile size
+                int x = current.tileLocation.x << 4;
+                int y = current.tileLocation.y << 4;
+                
                 Rect tileAt = null;
+                
+                // Search for current tile
                 for (Rect mapTile : mapTilesUbicationRect) {
-                    if (current.tileLocation.x == mapTile.x && current.tileLocation.y == mapTile.y) {
+                    if (x == mapTile.x && y == mapTile.y) {
                         tileAt = mapTile;
                         break;
                     }
@@ -228,20 +245,26 @@ public abstract class BaseLevel {
                     continue;
                 }
                 
-                // Convert to pixel precision * 16
-                // TODO Dynamic tile size
-                int x = current.tileLocation.x << 4;
-                int y = current.tileLocation.y << 4;
-                
+                boolean isSolid = false;
                 // TODO Check here if the tile is solid
-                // if (solid) continue;
+                for (Rect collider : tiledMap.mergedColliders) {
+                 // TODO Make dynamic Tile size
+                    if(collider.intersects(tileAt.x, tileAt.y, 16, 16)) {
+                        isSolid = true;
+                        break;
+                    }
+                }
+                if (isSolid) {
+                    continue;
+                }
                 
                 // Get the tile "direciton" position col/row index (-1=left,
                 // 0=center, 1=right)
                 int xIndex = (i % 3) - 1;
                 int yIndex = (i / 3) - 1;
                 
-                Vector2DInt<Integer> tileAtVector = new Vector2DInt<>(x + xIndex, y + yIndex);
+                // Calculating in tile precision
+                Vector2DInt<Integer> tileAtVector = new Vector2DInt<>(current.tileLocation.x + xIndex, current.tileLocation.y + yIndex);
                 double gCost = current.gCost + MathUtils.getDistanceBetweenVectors(current.tileLocation, tileAtVector);
                 double heuristicCost = MathUtils.getDistanceBetweenVectors(tileAtVector, goal);
                 

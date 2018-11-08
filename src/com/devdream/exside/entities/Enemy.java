@@ -45,7 +45,8 @@ public class Enemy extends Entity {
         
         int playerX = belongsToLevel.getPlayer().pos.x.intValue();
         int playerY = belongsToLevel.getPlayer().pos.y.intValue();
-        // TODO Make this dynamic, convert to tile precision by / 16
+        // Convert to tile precision by / 16
+        // TODO Make this dynamic
         Vector2DInt<Integer> startPos = new Vector2DInt<>(pos.x.intValue() >> 4, pos.y.intValue() >> 4);
         Vector2DInt<Integer> destinationPos = new Vector2DInt<>(playerX >> 4, playerY >> 4);
         
@@ -58,16 +59,16 @@ public class Enemy extends Entity {
         if (null != path) {
             if (!path.isEmpty()) {
                 Vector2DInt<Integer> nextStep = path.get(path.size() - 1).tileLocation;
-                // nextStep.x * 16 for convert from tile to pixel precision
-                // TODO Make tile size dynamic
+                // Convert from tile to pixel precision
+                // TODO Make dynamic Tile size
                 if (pos.x < nextStep.x << 4) {
-                    pos.x += speed;
+                    pos.x -= speed;
                 }
                 if (pos.x > nextStep.x << 4) {
                     pos.x += speed;
                 }
                 if (pos.y < nextStep.y << 4) {
-                    pos.y += speed;
+                    pos.y -= speed;
                 }
                 if (pos.y > nextStep.y << 4) {
                     pos.y += speed;

@@ -15,6 +15,7 @@ public class TiledMap {
     
     public ArrayList<TileLayer> tileLayers;
     public ArrayList<Rect> mergedColliders;
+    public ArrayList<Rect> mapTilesUbicationRect;
     public TiledTile[] tileSprites;
     
     public TiledMap(final String mapName) {
@@ -25,6 +26,7 @@ public class TiledMap {
         mapTilesWidth = spawner.mapTilesWidth;
         mapTilesHeight = spawner.mapTilesHeight;
         mergedColliders = spawner.mergedColliders;
+        mapTilesUbicationRect = spawner.mapTilesUbicationRect;
         tileLayers = spawner.tileLayers;
         tileSprites = spawner.tileSprites;
     }

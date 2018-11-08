@@ -45,6 +45,7 @@ public class TiledMapSpawner {
     protected ArrayList<ColliderLayer> colliderLayers;
     protected ArrayList<Rect> mergedColliders;
     protected TiledTile[] tileSprites;
+    protected ArrayList<Rect> mapTilesUbicationRect;
     // TODO Manage map items & enemies
     
     public TiledMapSpawner(final String mapName) {
@@ -63,6 +64,7 @@ public class TiledMapSpawner {
         tileLayers = new ArrayList<>();
         colliderLayers = new ArrayList<>();
         mergedColliders = new ArrayList<>();
+        mapTilesUbicationRect = new ArrayList<>();
     }
     
     public void load() {

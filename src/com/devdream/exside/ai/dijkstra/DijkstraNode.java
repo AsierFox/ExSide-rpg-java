@@ -14,13 +14,13 @@ public class DijkstraNode {
     }
     
     public Rect getArea() {
-        // TODO Make this dynamic
+        // TODO Make dynamic Tile size
         return new Rect(position.x, position.y, 16, 16);
     }
     
     public Rect getAreaInPixels() {
-        // TODO Make this dynamic
-        return new Rect(position.x * 16, position.y * 16, 16, 16);
+        // TODO Make dynamic Tile size
+        return new Rect(position.x << 4, position.y << 4, 16, 16);
     }
     
 }

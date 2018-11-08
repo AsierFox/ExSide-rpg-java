@@ -73,7 +73,7 @@ public class Dijkstra {
     private void getTransitableNodes(final ArrayList<Rect> mapColliders) {
         for (int y = 0; y < mapTilesHeight; y++) {
             for (int x = 0; x < mapTilesWidth; x++) {
-                // TODO Dynamic this to map tile size
+                // TODO Make dynamic Tile size
                 final Rect nodeUbication = new Rect(x * 16, y * 16, 16, 16);
                 
                 boolean isCollider = false;
