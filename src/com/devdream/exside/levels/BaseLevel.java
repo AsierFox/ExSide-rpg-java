@@ -265,7 +265,13 @@ public abstract class BaseLevel {
                 
                 // Calculating in tile precision
                 Vector2DInt<Integer> tileAtVector = new Vector2DInt<>(current.tileLocation.x + xIndex, current.tileLocation.y + yIndex);
-                double gCost = current.gCost + MathUtils.getDistanceBetweenVectors(current.tileLocation, tileAtVector);
+                // If the movement is diagonal, less cost. This will provoke to move anticipate diagonals
+                double gCostMovement = .95;
+                // If the movement is not diagonal
+                if (1 == MathUtils.getDistanceBetweenVectors(current.tileLocation, tileAtVector)) {
+                	gCostMovement = 1;
+                }
+                double gCost = current.gCost + gCostMovement;
                 double heuristicCost = MathUtils.getDistanceBetweenVectors(tileAtVector, goal);
                 
                 AStarNode newNode = new AStarNode(tileAtVector, current, gCost, heuristicCost);
