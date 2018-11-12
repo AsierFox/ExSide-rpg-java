@@ -118,7 +118,6 @@ public class Player extends Entity {
         final double shootDirection = Math.atan2(shootY, shootX);
         // Convert angle to degrees
         // shootDirection *= 180/ Math.PI;
-        // TODO Check current weapon of the player
         belongsToLevel.addItem(new TestProjectile(pos.x.intValue(), pos.y.intValue(), shootDirection));
     }
     

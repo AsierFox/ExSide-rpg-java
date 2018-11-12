@@ -3,6 +3,7 @@ package com.devdream.exside.entities;
 import com.devdream.exside.ai.EntityMoveStrategy;
 import com.devdream.exside.graphics.G;
 import com.devdream.exside.graphics.SpriteAnimation;
+import com.devdream.exside.items.projectiles.TestProjectile;
 import com.devdream.exside.levels.BaseLevel;
 import com.devdream.exside.maths.Rect;
 import com.devdream.exside.types.Direction;
@@ -43,7 +44,10 @@ public class Clergy extends Entity {
     public void update() {
         
         if (MathUtils.isEntityInRadius(this, levelPlayer, VISIBILITY_RADIUS)) {
-            
+
+            final double shootDirection = Math.atan2(levelPlayer.pos.y - pos.y, levelPlayer.pos.x - pos.x);
+            belongsToLevel.addItem(new TestProjectile(pos.x.intValue(), pos.y.intValue(), shootDirection));
+
             EntityMoveStrategy.basicFollowPlayer(this, levelPlayer);
             
             if (moveAmount.x != 0 || moveAmount.y != 0) {
