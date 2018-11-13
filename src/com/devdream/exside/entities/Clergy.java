@@ -58,6 +58,7 @@ public class Clergy extends Entity {
             }
 
             if (cadenceCounter > TestProjectile.CADENCE) {
+                // TODO Can get here a list of players and random the target based on distance for example
                 final double shootDirection = Math.atan2(levelPlayer.pos.y - pos.y, levelPlayer.pos.x - pos.x);
                 belongsToLevel.addItem(new TestProjectile(pos.x.intValue(), pos.y.intValue(), shootDirection));
 
