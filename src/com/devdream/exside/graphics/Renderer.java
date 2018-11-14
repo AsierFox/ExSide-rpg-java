@@ -1,8 +1,6 @@
 package com.devdream.exside.graphics;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+import java.awt.*;
 
 import com.devdream.exside.entities.Entity;
 import com.devdream.exside.items.Item;
@@ -21,6 +19,8 @@ public class Renderer {
     private int yOffset;
     
     private Graphics graphics;
+    private Graphics2D graphics2D;
+
     
     public Renderer() {
         pixelsAmount = GameWindow.WIDTH * GameWindow.HEIGHT;
@@ -193,15 +193,17 @@ public class Renderer {
             }
         }
     }
-    
+
     /**
      * Render a text using graphics.
-     * 
-     * @param fontType
+     *
      * @param text
      * @param xPosition
      * @param yPosition
+     * @param font
+     * @param style
      * @param color
+     * @param size
      */
     public void renderText(final String text, int xPosition, int yPosition, final String font, final int style, final int color, final int size) {
         renderText(text, xPosition, yPosition, new Font(font, style, size), color);
@@ -243,7 +245,11 @@ public class Renderer {
     public void setGraphics(final Graphics graphics) {
         this.graphics = graphics;
     }
-    
+
+    public void setGraphics2D(final Graphics2D graphics2D) {
+        this.graphics2D = graphics2D;
+    }
+
     /**
      * Set offset to adjust location of the tiles by the offset, to reverse the
      * map movement position.
@@ -255,5 +261,5 @@ public class Renderer {
         this.xOffset = xOffset;
         this.yOffset = yOffset;
     }
-    
+
 }
