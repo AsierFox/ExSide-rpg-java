@@ -18,12 +18,22 @@ public class TestLevel extends BaseLevel {
     protected void load() {
         tiledMap = new TiledMap("tiled-map");
         
-        Player.getInstance().init(keyboard);
-        Player.getInstance().attachToLevel(this);
+        Player clientPlayer = new Player();
+        clientPlayer.init(keyboard);
+        clientPlayer.attachToLevel(this);
+        addPlayer(clientPlayer);
         
-        new Civilian().attachToLevel(this);
-        new Enemy().attachToLevel(this);
-        new Clergy().attachToLevel(this);
+        Civilian ci = new Civilian();
+        ci.attachToLevel(this);
+        addEntity(ci);
+        
+        Enemy e = new Enemy();
+        e.attachToLevel(this);
+        addEntity(e);
+        
+        Clergy cl = new Clergy();
+        cl.attachToLevel(this);
+        addEntity(cl);
     }
     
     @Override

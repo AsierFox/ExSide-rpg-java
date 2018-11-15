@@ -2,19 +2,17 @@ package com.devdream.exside.scenes;
 
 import com.devdream.exside.Game;
 import com.devdream.exside.graphics.Renderer;
-import com.devdream.exside.levels.BaseLevel;
 import com.devdream.exside.levels.TestLevel;
 
 public class GameScene extends BaseScene {
     
     private static final String ID = "GAME_SCENE";
     
-    BaseLevel level;
-    
     public GameScene() {
         super(ID);
     }
     
+    @Override
     public void init(final Game game) {
         super.init(game);
         

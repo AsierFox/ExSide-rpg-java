@@ -229,6 +229,20 @@ public class Renderer {
     }
     
     /**
+     * Renders the light effect.
+     * 
+     * @param x
+     * @param y
+     * @param lightEffect
+     */
+    public void renderLight(final LightEffect lightEffect) {
+        graphics2D.setPaint(new RadialGradientPaint(lightEffect.pos, lightEffect.radius, lightEffect.luminosity, lightEffect.colors));
+        // Set blend mode
+        graphics2D.setComposite(lightEffect.alphaEffect);
+        graphics2D.fillRect(0, 0, GameWindow.getTotalWidth(), GameWindow.getTotalHeight());
+    }
+    
+    /**
      * Clears all pixels of the screen.
      */
     public void clear() {

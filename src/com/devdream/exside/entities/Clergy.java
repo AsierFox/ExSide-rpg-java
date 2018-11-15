@@ -3,7 +3,6 @@ package com.devdream.exside.entities;
 import com.devdream.exside.ai.EntityMoveStrategy;
 import com.devdream.exside.graphics.G;
 import com.devdream.exside.graphics.SpriteAnimation;
-import com.devdream.exside.io.Mouse;
 import com.devdream.exside.items.projectiles.TestProjectile;
 import com.devdream.exside.levels.BaseLevel;
 import com.devdream.exside.maths.Rect;
@@ -41,9 +40,7 @@ public class Clergy extends Entity {
     @Override
     public void attachToLevel(BaseLevel belongsToLevel) {
         super.attachToLevel(belongsToLevel);
-        levelPlayer = belongsToLevel.getPlayer();
-        
-        belongsToLevel.addEntity(this);
+        levelPlayer = belongsToLevel.getClientPlayer();
     }
     
     @Override

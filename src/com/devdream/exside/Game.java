@@ -1,18 +1,20 @@
 package com.devdream.exside;
 
-import java.awt.*;
+import java.awt.Canvas;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
 
-import com.devdream.exside.entities.Player;
 import com.devdream.exside.graphics.G;
 import com.devdream.exside.graphics.GameWindow;
 import com.devdream.exside.graphics.Renderer;
 import com.devdream.exside.io.GameFocus;
 import com.devdream.exside.io.Keyboard;
 import com.devdream.exside.io.Mouse;
-import com.devdream.exside.maths.Vector2DInt;
 import com.devdream.exside.scenes.BaseScene;
 import com.devdream.exside.scenes.GameScene;
 import com.devdream.exside.utils.Logger;
@@ -140,13 +142,14 @@ public class Game extends Canvas implements Runnable {
         
         // Send data to the buffers
         Graphics graphics = bufferStrategy.getDrawGraphics();
-
+        Graphics2D graphics2D = (Graphics2D) graphics;
+        
         // Set offsets for renderer
-        int xScroll = Player.getInstance().pos.x.intValue() - (GameWindow.WIDTH >> 1);
-        int yScroll = Player.getInstance().pos.y.intValue() - (GameWindow.HEIGHT >> 1);
+        int xScroll = currentScene.getClientPlayer().pos.x.intValue() - (GameWindow.WIDTH >> 1);
+        int yScroll = currentScene.getClientPlayer().pos.y.intValue() - (GameWindow.HEIGHT >> 1);
         renderer.setOffset(xScroll, yScroll);
         renderer.setGraphics(graphics);
-        renderer.setGraphics2D((Graphics2D) graphics);
+        renderer.setGraphics2D(graphics2D);
         
         System.arraycopy(renderer.pixels, 0, pixels, 0, pixels.length);
         graphics.drawImage(image, 0, 0, getWidth(), getHeight(), null);
@@ -158,18 +161,6 @@ public class Game extends Canvas implements Runnable {
         if (!focus.isFocused) {
             renderer.renderText("Focus to resume the game :)", 100, getHeight() >> 1, G.FontTypes.verdada, Font.BOLD, 0xffffff, 40);
         }
-
-        Graphics2D graphics2D = (Graphics2D) graphics;
-        int x = (GameWindow.getTotalWidth() >> 1) - (250 >> 1);
-        int y = (GameWindow.getTotalHeight() >> 1) - (250 >> 1);
-        Point c = new Point(x + 125, y + 125);
-        int radius = 300;
-        float[] luminosity = {.0f, .6f};
-        Color[] colors = {new Color(.0f, .0f, .0f, .0f), Color.white};
-        graphics2D.setPaint(new RadialGradientPaint(c, radius, luminosity, colors));
-        // Set blend mode
-        graphics2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, .95f));
-        graphics2D.fillOval(x, y, 250, 250);
 
         // Swap buffers
         graphics2D.dispose();

@@ -1,7 +1,12 @@
 package com.devdream.exside.entities;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Point;
+
 import com.devdream.exside.graphics.G;
 import com.devdream.exside.graphics.GameWindow;
+import com.devdream.exside.graphics.LightEffect;
 import com.devdream.exside.graphics.Renderer;
 import com.devdream.exside.graphics.SpriteAnimation;
 import com.devdream.exside.io.Keyboard;
@@ -11,14 +16,7 @@ import com.devdream.exside.maths.Rect;
 import com.devdream.exside.types.Direction;
 import com.devdream.exside.types.EntityState;
 
-/**
- * Singleton class player. TODO Remove singleton
- */
 public class Player extends Entity {
-    
-    private static Player instance;
-    
-    private static final float MAX_SPEED = 2.0f;
     
     private Keyboard keyboard;
     
@@ -28,19 +26,16 @@ public class Player extends Entity {
     private int colliderLeftPadding;
     private int colliderRightPadding;
     
+    private LightEffect lightEffect;
+    private int lightRadiusSum;
+    
     private SpriteAnimation southAnimation;
     private SpriteAnimation westAnimation;
     private SpriteAnimation eastAnimation;
     private SpriteAnimation northAnimation;
     
-    public static Player getInstance() {
-        if (null == instance) {
-            instance = new Player();
-        }
-        return instance;
-    }
     
-    private Player() {
+    public Player() {
         super(172.0f, 100.0f, G.Sprites.playerDefault);
         
         colliderTopPadding = 5;
@@ -56,6 +51,12 @@ public class Player extends Entity {
         
         collider = new Rect(pos.x.intValue(), pos.y.intValue(), sprite.WIDTH
                 - colliderRightPadding, (sprite.HEIGHT >> 1) - colliderTopPadding);
+        
+        int x = (GameWindow.getTotalWidth() >> 1) - (250 >> 1);
+        int y = (GameWindow.getTotalHeight() >> 1) - (250 >> 1);
+        lightEffect = new LightEffect(new Point(x + 125, y + 125), 200, new float[] {.0f, .6f},
+        		new Color[] {new Color(.0f, .0f, .0f, .0f), Color.white}, AlphaComposite.getInstance(AlphaComposite.DST_OUT, .95f));
+        lightRadiusSum = 1;
     }
     
     public void init(final Keyboard keyboard) {
@@ -106,6 +107,13 @@ public class Player extends Entity {
         updateCollider();
         
         updateSprite();
+        
+        lightEffect.update();
+        
+        if (lightEffect.radius <= 150 || lightEffect.radius >= 300) {
+        	lightRadiusSum *= -1;
+        }
+    	lightEffect.radius += lightRadiusSum;
     }
     
     private boolean canShoot() {
@@ -117,13 +125,14 @@ public class Player extends Entity {
         int shootY = Mouse.getY() - (GameWindow.getTotalHeight() >> 1);
         final double shootDirection = Math.atan2(shootY, shootX);
         // Convert angle to degrees
-        // shootDirection *= 180/ Math.PI;
+        // shootDirection *= 180 / Math.PI;
         belongsToLevel.addItem(new TestProjectile(pos.x.intValue(), pos.y.intValue(), shootDirection));
     }
     
     @Override
     public void render(final Renderer renderer) {
         super.render(renderer);
+        lightEffect.render(renderer);
         renderer.renderText("Player -> x: " + pos.x + ", y: " + pos.y, 5, 20, G.FontTypes.kirangFont, 0xffffff);
     }
     

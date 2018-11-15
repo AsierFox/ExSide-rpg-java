@@ -3,6 +3,7 @@ package com.devdream.exside.levels;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.ListIterator;
 
 import com.devdream.exside.ai.astar.AStarNode;
@@ -30,9 +31,10 @@ public abstract class BaseLevel {
     
     private ArrayList<Rect> mapTilesUbicationRect = new ArrayList<>();
     
-    protected ArrayList<Entity> entities;
-    protected ArrayList<Item> items;
-    protected ArrayList<Particle> particles;
+    protected List<Player> players;
+    protected List<Entity> entities;
+    protected List<Item> items;
+    protected List<Particle> particles;
     
     private boolean areEntitiesToRemove;
     private boolean areItemsToRemove;
@@ -43,6 +45,7 @@ public abstract class BaseLevel {
         
         playerHUD = new HUD();
         
+        players = new ArrayList<>();
         entities = new ArrayList<>();
         items = new ArrayList<>();
         particles = new ArrayList<>();
@@ -70,7 +73,9 @@ public abstract class BaseLevel {
         
         tiledMap.update();
         
-        Player.getInstance().update();
+        for (Player player : players) {
+        	player.update();
+        }
         
         for (Entity entity : entities) {
             entity.update();
@@ -138,7 +143,9 @@ public abstract class BaseLevel {
     public void render(final Renderer renderer) {
         tiledMap.render(renderer);
         
-        Player.getInstance().render(renderer);
+        for (Player player : players) {
+        	player.render(renderer);
+        }
         
         for (Entity entity : entities) {
             if (!entity.isRemoved()) {
@@ -188,7 +195,7 @@ public abstract class BaseLevel {
         return false;
     }
     
-    public ArrayList<AStarNode> findPath(Vector2DInt<Integer> start, Vector2DInt<Integer> goal) {
+    public List<AStarNode> findPath(Vector2DInt<Integer> start, Vector2DInt<Integer> goal) {
         
         ArrayList<AStarNode> openList = new ArrayList<>();
         ArrayList<AStarNode> closedList = new ArrayList<>();
@@ -289,6 +296,10 @@ public abstract class BaseLevel {
         return null;
     }
     
+    public void addPlayer(final Player player) {
+    	players.add(player);
+    }
+    
     public void addEntity(final Entity entity) {
         entities.add(entity);
     }
@@ -305,8 +316,8 @@ public abstract class BaseLevel {
         items.remove(item);
     }
     
-    public Player getPlayer() {
-        return Player.getInstance();
-    }
+	public Player getClientPlayer() {
+		return players.get(0);
+	}
     
 }

@@ -1,6 +1,6 @@
 package com.devdream.exside.entities;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import com.devdream.exside.ai.astar.AStarNode;
 import com.devdream.exside.graphics.G;
@@ -14,7 +14,8 @@ public class Enemy extends Entity {
     private int colliderLeftPadding;
     private int colliderRightPadding;
     
-    private ArrayList<AStarNode> path;
+    private List<AStarNode> path;
+    
     
     public Enemy() {
         super(80.0f, 80.0f, G.Sprites.enemyDefault);
@@ -43,8 +44,8 @@ public class Enemy extends Entity {
         collider.x = (pos.x.intValue() - (sprite.WIDTH >> 1)) + colliderLeftPadding;
         collider.y = pos.y.intValue() + colliderTopPadding;
         
-        int playerX = belongsToLevel.getPlayer().pos.x.intValue();
-        int playerY = belongsToLevel.getPlayer().pos.y.intValue();
+        int playerX = belongsToLevel.getClientPlayer().pos.x.intValue();
+        int playerY = belongsToLevel.getClientPlayer().pos.y.intValue();
         // Convert to tile precision by / 16
         // TODO Make this dynamic
         Vector2DInt<Integer> startPos = new Vector2DInt<>(pos.x.intValue() >> 4, pos.y.intValue() >> 4);
