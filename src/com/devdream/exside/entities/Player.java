@@ -54,7 +54,7 @@ public class Player extends Entity {
         
         int x = (GameWindow.getTotalWidth() >> 1) - (250 >> 1);
         int y = (GameWindow.getTotalHeight() >> 1) - (250 >> 1);
-        lightEffect = new LightEffect(new Point(x + 125, y + 125), 200, new float[] {.0f, .6f},
+        lightEffect = new LightEffect(new Point(x + 125, y + 125), 375, new float[] {.0f, .6f},
         		new Color[] {new Color(.0f, .0f, .0f, .0f), Color.white}, AlphaComposite.getInstance(AlphaComposite.DST_OUT, .95f));
         lightRadiusSum = 1;
     }
@@ -110,7 +110,7 @@ public class Player extends Entity {
         
         lightEffect.update();
         
-        if (lightEffect.radius <= 150 || lightEffect.radius >= 300) {
+        if (lightEffect.radius <= 350 || lightEffect.radius >= 450) {
         	lightRadiusSum *= -1;
         }
     	lightEffect.radius += lightRadiusSum;

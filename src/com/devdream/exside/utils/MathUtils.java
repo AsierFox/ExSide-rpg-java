@@ -12,8 +12,7 @@ public class MathUtils {
      * <b>(starting from 1)</b>.
      * 
      * @param index
-     * @param totalColumns
-     *            Total of columns, starting from 1
+     * @param totalColumns Total of columns, starting from 1
      * @return {@link Vector2D} The coord in a 2D Vector
      */
     public static Vector2D<Integer> getCoordsByIndex(final int index, final int totalColumns) {
@@ -97,10 +96,10 @@ public class MathUtils {
         
         return r << 16 | g << 8 | b;
     }
-    
+
     /**
      * Merge the rgb color channels to a color, to tint it.
-     * 
+     *
      * @param colour
      * @param r
      * @param g
@@ -164,12 +163,9 @@ public class MathUtils {
     /**
      * Check if entity against is inside entity radius.
      * 
-     * @param entity
-     *            Entity current position
-     * @param againstEntity
-     *            Entity to check against using radius
-     * @param radius
-     *            The radius established
+     * @param entity Entity current position
+     * @param againstEntity Entity to check against using radius
+     * @param radius The radius established
      * @return If the entity against is inside the radius of the entity
      */
     public static boolean isEntityInRadius(final Entity entity, final Entity againstEntity, final int radius) {

@@ -92,6 +92,7 @@ public class Renderer {
     public void renderStickySprite(int xPosition, int yPosition, final Sprite sprite) {
         processSpriteRender(xPosition, yPosition, sprite);
     }
+
     
     /**
      * Process to render an sprite image to the screen.
@@ -230,9 +231,7 @@ public class Renderer {
     
     /**
      * Renders the light effect.
-     * 
-     * @param x
-     * @param y
+     *
      * @param lightEffect
      */
     public void renderLight(final LightEffect lightEffect) {
